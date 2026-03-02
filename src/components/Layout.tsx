@@ -173,7 +173,7 @@ export const Layout: React.FC = () => {
             {/* Main Content */}
             <main className="flex-1 flex overflow-hidden">
                 {/* Sidebar */}
-                <aside className="w-80 bg-white border-r border-gray-200 flex flex-col overflow-hidden shrink-0">
+                <aside className="w-80 bg-white border-r border-gray-200 flex flex-col overflow-y-auto shrink-0">
                     <Sidebar validation={validation} rules={rules} />
                 </aside>
 
