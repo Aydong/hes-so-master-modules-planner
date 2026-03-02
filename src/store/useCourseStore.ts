@@ -3,6 +3,14 @@ import { persist } from 'zustand/middleware';
 import type { Course, SelectedCourse } from '../types';
 import { getProgramById } from '../data/programs';
 
+export interface ScheduleExport {
+    version: string;
+    exportedAt: string;
+    programId: string;
+    programName: string;
+    selectedCourses: SelectedCourse[];
+}
+
 interface CourseStore {
     currentProgramId: string | null;
     selectedCoursesByProgram: Record<string, SelectedCourse[]>;
@@ -13,6 +21,8 @@ interface CourseStore {
     removeCourse: (moduleCode: string) => void;
     isCourseSelected: (moduleCode: string) => boolean;
     refreshData: () => void;
+    exportSchedule: () => void;
+    importSchedule: (jsonData: string) => { success: boolean; error?: string };
 
     // Getters (computed)
     getAllCourses: () => Course[];
@@ -90,6 +100,53 @@ export const useCourseStore = create<CourseStore>()(
 
                     return { selectedCoursesByProgram: newSelectionsByProgram };
                 }),
+
+            exportSchedule: () => {
+                const state = get();
+                const programId = state.currentProgramId;
+                if (!programId) return;
+
+                const program = getProgramById(programId);
+                const selectedCourses = state.selectedCoursesByProgram[programId] || [];
+
+                const exportData: ScheduleExport = {
+                    version: '1.0',
+                    exportedAt: new Date().toISOString(),
+                    programId,
+                    programName: program?.name || programId,
+                    selectedCourses,
+                };
+
+                const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `mse-schedule-${programId}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+            },
+
+            importSchedule: (jsonData: string) => {
+                try {
+                    const data = JSON.parse(jsonData) as Partial<ScheduleExport>;
+
+                    if (!data.programId || !Array.isArray(data.selectedCourses)) {
+                        return { success: false, error: 'Invalid schedule data (programId or selectedCourses missing)' };
+                    }
+
+                    set((state) => ({
+                        currentProgramId: data.programId,
+                        selectedCoursesByProgram: {
+                            ...state.selectedCoursesByProgram,
+                            [data.programId!]: data.selectedCourses!,
+                        },
+                    }));
+
+                    return { success: true };
+                } catch (e) {
+                    return { success: false, error: 'Failed to import schedule data' };
+                }
+            },
 
             getAllCourses: () => {
                 const state = get();
