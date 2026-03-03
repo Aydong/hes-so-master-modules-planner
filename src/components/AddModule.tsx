@@ -25,7 +25,7 @@ export const AddModule: React.FC = () => {
     }, [allCourses, search, semesterFilter, typeFilter, dayFilter, isCourseSelected]);
 
     return (
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col h-full min-h-0">
             <h2 className="text-sm font-bold text-gray-800 uppercase tracking-wider mb-4 flex items-center gap-2">
                 <span className="bg-blue-600 text-white p-1 rounded-full">
                     <Plus size={14} />
@@ -114,7 +114,7 @@ export const AddModule: React.FC = () => {
                 </div>
             </div>
 
-            <div className="flex-1 overflow-y-auto border border-gray-100 rounded-xl bg-gray-50 p-2 space-y-2 max-h-[300px]">
+            <div className="flex-1 min-h-0 overflow-y-auto border border-gray-100 rounded-xl bg-gray-50 p-2 space-y-2">
                 {filteredCourses.length === 0 ? (
                     <div className="text-center py-8 text-gray-400 text-sm">No modules found</div>
                 ) : (

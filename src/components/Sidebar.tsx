@@ -57,7 +57,7 @@ const ConstraintItem = ({
 
 export const Sidebar: React.FC<SidebarProps> = ({ validation, rules }) => {
     return (
-        <div className="p-6 flex flex-col gap-8">
+        <div className="p-6 flex flex-col gap-8 min-h-full">
             {/* Constraints Check */}
             <section>
                 <h2 className="text-sm font-bold text-gray-800 uppercase tracking-wider mb-4 flex items-center gap-2">
@@ -134,7 +134,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ validation, rules }) => {
             </section>
 
             {/* Add Module */}
-            <section className="flex-1">
+            <section className="flex-1 min-h-[500px]">
                 <AddModule />
             </section>
         </div>
