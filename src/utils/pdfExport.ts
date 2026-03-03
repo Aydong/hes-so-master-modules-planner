@@ -295,7 +295,7 @@ export const exportToPDF = (
 ) => {
     const planStatus: 'valid' | 'warning' | 'invalid' = !validation.isValid
         ? 'invalid'
-        : (hasCollisions || validation.bonus.count > 0)
+        : hasCollisions
             ? 'warning'
             : 'valid';
     const doc = new jsPDF({ orientation: 'landscape' });

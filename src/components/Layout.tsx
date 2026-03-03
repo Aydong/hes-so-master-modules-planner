@@ -35,7 +35,7 @@ export const Layout: React.FC = () => {
     type PlanStatus = 'valid' | 'warning' | 'invalid';
     const planStatus: PlanStatus = !validation.isValid
         ? 'invalid'
-        : (hasCollisions || validation.bonus.count > 0)
+        : hasCollisions
             ? 'warning'
             : 'valid';
 
@@ -146,7 +146,7 @@ export const Layout: React.FC = () => {
                         <div className="h-6 w-px bg-gray-200 mx-1"></div>
 
                         <a
-                            href="https://github.com/NoeBerdoz/hes-so-master-modules-planner"
+                            href="https://github.com/Aydong/hes-so-master-modules-planner"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
