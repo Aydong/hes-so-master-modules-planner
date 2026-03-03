@@ -188,8 +188,6 @@ export const ScheduleGrid: React.FC = () => {
                                 const coursesInSlot = getCourseForSlot(day, block.id);
                                 const isCollision = coursesInSlot.length > 1;
                                 const isEmpty = coursesInSlot.length === 0;
-                                const hasAvailable = getAvailableForSlot(day, block.id).length > 0;
-
                                 return (
                                     <div
                                         key={`${day}-${block.id}`}
