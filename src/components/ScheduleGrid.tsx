@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useCourseStore } from '../store/useCourseStore';
 import { cn } from '../utils/cn';
+import { courseHasTimeBlock } from '../utils/timeBlockUtils';
 import { X, ExternalLink, AlertTriangle, Plus, Lock } from 'lucide-react';
 import type { Course } from '../types';
 import { buildTravelWarningModules } from '../utils/travelWarning';
@@ -126,7 +127,7 @@ export const ScheduleGrid: React.FC = () => {
 
     const getCourseForSlot = (day: string, block: string) =>
         semesterCourses.filter(
-            (c) => c.WeekDay === day && c.TimeBlock === block
+            (c) => c.WeekDay === day && courseHasTimeBlock(c, block)
         );
 
     // S1/S3 = Autumn courses, S2/S4 = Spring courses
@@ -134,7 +135,7 @@ export const ScheduleGrid: React.FC = () => {
 
     const getAvailableForSlot = (day: string, block: string) =>
         allCourses.filter(
-            (c) => c.WeekDay === day && c.TimeBlock === block && !isCourseSelected(c.module) && c.Semester === semesterType && c.type !== 'C'
+            (c) => c.WeekDay === day && courseHasTimeBlock(c, block) && !isCourseSelected(c.module) && c.Semester === semesterType && c.type !== 'C'
         );
 
     const semesterECTS = selectedCourses

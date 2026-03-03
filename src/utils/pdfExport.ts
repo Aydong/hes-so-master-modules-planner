@@ -1,6 +1,7 @@
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import type { SelectedCourse, ValidationResult, ValidationRules } from '../types';
+import { courseHasTimeBlock, getTimeBlockLabel, getTimeBlockTimeRange } from './timeBlockUtils';
 
 //  Constants 
 
@@ -121,7 +122,7 @@ const drawCalendar = (doc: jsPDF, semCourses: SelectedCourse[], startY: number) 
 
         const dayCells = WEEK_DAYS.map((day) => {
             const slot = semCourses.filter(
-                (c) => c.WeekDay === day && c.TimeBlock === block.id
+                (c) => c.WeekDay === day && courseHasTimeBlock(c, block.id)
             );
 
             if (slot.length === 0) {
@@ -193,7 +194,7 @@ const drawCalendar = (doc: jsPDF, semCourses: SelectedCourse[], startY: number) 
                 const block = TIME_BLOCKS[data.row.index];
                 const day = WEEK_DAYS[data.column.index - 1];
                 const matched = semCourses.filter(
-                    (c) => c.WeekDay === day && c.TimeBlock === block.id
+                    (c) => c.WeekDay === day && courseHasTimeBlock(c, block.id)
                 );
                 if (matched.length === 1 && matched[0].link) {
                     doc.link(
@@ -217,7 +218,6 @@ const drawDetailList = (doc: jsPDF, semCourses: SelectedCourse[], startY: number
         head: [['Module', 'Title', 'Cat.', 'ECTS', 'Type', 'Day', 'Block', 'Schedule', 'Location', 'Link']],
         body: semCourses.map((c) => {
             const cat = getCategory(c.module);
-            const block = TIME_BLOCKS.find((b) => b.id === c.TimeBlock);
             return [
                 {
                     content: c.module,
@@ -247,8 +247,8 @@ const drawDetailList = (doc: jsPDF, semCourses: SelectedCourse[], startY: number
                     styles: { textColor: c.type === 'R' ? GREEN : GRAY, halign: 'center' as const },
                 },
                 c.WeekDay,
-                { content: block ? block.label : c.TimeBlock, styles: { halign: 'center' as const } },
-                block ? block.time : '–',
+                { content: getTimeBlockLabel(c.TimeBlock), styles: { halign: 'center' as const } },
+                getTimeBlockTimeRange(c.TimeBlock),
                 c.location || '–',
                 { content: 'View', styles: { textColor: BLUE, halign: 'left' as const } },
             ];

@@ -1,15 +1,12 @@
-import dataScienceCourses from '../../hes-so-master-ds-courses.json';
-import softwareEngineeringCourses from '../../hes-so-master-cs-s-courses.json';
-import cyberSecurityCourses from '../../hes-so-master-cs-cy-courses.json';
-import embeddedSystemsCourses from '../../hes-so-master-cs-e-courses.json';
-import communicationSystemsCourses from '../../hes-so-master-cs-c-courses.json';
-import informationAndCybersecurityCourses from '../../hes-so-master-ics-courses.json';
 import type { Course, ValidationRules } from '../types';
+import { getMastersData, getCoursesBySpecialization, getProgramIdFromLegacy } from './dataLoader';
 
 export interface Program {
     id: string;
     name: string;
     description: string;
+    masterCode: string;
+    specializationCode: string | null;
     courses: Course[];
     validationRules: ValidationRules;
 }
@@ -30,51 +27,75 @@ const icsRules: ValidationRules = {
     BONUS: 3,
 };
 
-export const PROGRAMS: Program[] = [
-    {
-        id: 'ds',
-        name: 'Data Science',
-        description: 'Master of Science in Engineering - Data Science',
-        courses: dataScienceCourses as Course[],
-        validationRules: defaultRules,
-    },
-    {
-        id: 'cs-s',
-        name: 'Computer Science - Software Engineering',
-        description: 'Master of Science in Engineering - Computer Science (Software Engineering)',
-        courses: softwareEngineeringCourses as Course[],
-        validationRules: defaultRules,
-    },
-    {
-        id: 'cs-cy',
-        name: 'Computer Science - Cybersecurity',
-        description: 'Master of Science in Engineering - Computer Science (Cybersecurity)',
-        courses: cyberSecurityCourses as Course[],
-        validationRules: defaultRules,
-    },
-    {
-        id: 'cs-e',
-        name: 'Computer Science - Embedded Systems',
-        description: 'Master of Science in Engineering - Computer Science (Embedded Systems)',
-        courses: embeddedSystemsCourses as Course[],
-        validationRules: defaultRules,
-    },
-    {
-        id: 'cs-c',
-        name: 'Computer Science - Communication Systems',
-        description: 'Master of Science in Engineering - Computer Science (Communication Systems)',
-        courses: communicationSystemsCourses as Course[],
-        validationRules: defaultRules,
-    },
-    {
-        id: 'ics',
-        name: 'Information and Cybersecurity',
-        description: 'Master of Science in Engineering - Information and Cybersecurity',
-        courses: informationAndCybersecurityCourses as Course[],
-        validationRules: icsRules,
-    },
-];
+let programsCache: Program[] | null = null;
+let loadingPromise: Promise<Program[]> | null = null;
+
+/**
+ * Load all programs from the data folder dynamically
+ */
+async function loadProgramsAsync(): Promise<Program[]> {
+    if (programsCache) {
+        return programsCache;
+    }
+
+    if (loadingPromise) {
+        return loadingPromise;
+    }
+
+    loadingPromise = (async () => {
+        const mastersData = await getMastersData();
+        const programs: Program[] = [];
+
+        for (const master of mastersData.masters) {
+            for (const specialization of master.specializations) {
+                const masterCode = master.code;
+                const specializationCode = specialization.code;
+                const programId = `${masterCode}-${specializationCode || masterCode}`;
+                
+                const courses = await getCoursesBySpecialization(masterCode, specializationCode);
+                const rules = masterCode === 'ICS' ? icsRules : defaultRules;
+
+                const name = master.specializations.length > 1 && specialization.code
+                    ? `${master.name} - ${specialization.name}`
+                    : master.name;
+
+                const description = `Master of Science in Engineering - ${name}`;
+
+                programs.push({
+                    id: programId,
+                    name,
+                    description,
+                    masterCode,
+                    specializationCode: specializationCode,
+                    courses,
+                    validationRules: rules,
+                });
+            }
+        }
+
+        programsCache = programs;
+        return programs;
+    })();
+
+    return loadingPromise;
+}
+
+export let PROGRAMS: Program[] = [];
+
+// Initialize programs asynchronously
+export async function initializePrograms(): Promise<void> {
+    PROGRAMS = await loadProgramsAsync();
+}
 
 export const getProgramById = (id: string): Program | undefined => {
-    return PROGRAMS.find(p => p.id === id);
+    // Support legacy IDs
+    const normalizedId = getProgramIdFromLegacy(id);
+    return PROGRAMS.find(p => p.id === normalizedId);
+};
+
+export const getAllPrograms = async (): Promise<Program[]> => {
+    if (PROGRAMS.length === 0) {
+        await initializePrograms();
+    }
+    return PROGRAMS;
 };

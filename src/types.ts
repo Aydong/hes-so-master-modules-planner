@@ -1,7 +1,7 @@
 export type CourseType = 'R' | 'O' | 'C';
 export type Semester = '1' | '2';
 export type WeekDay = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday';
-export type TimeBlock = 'TB1' | 'TB2' | 'TB3' | 'TB4';
+export type TimeBlock = string; // Can be 'TB1', 'TB2', 'TB1+TB2', 'TB3+TB4', etc.
 
 export interface Course {
     module: string;

@@ -4,7 +4,7 @@ const TB_ORDER = ['TB1', 'TB2', 'TB3', 'TB4'];
 const WEEK_DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
 const isRemote = (location?: string) =>
-    !location || location.toLowerCase() === 'remote';
+    !location || location.toLowerCase() === 'remote' || location.toLowerCase() === 'online' || location.toLowerCase() === 'distance';
 
 /**
  * Returns a Set of module codes whose location differs from the immediately
