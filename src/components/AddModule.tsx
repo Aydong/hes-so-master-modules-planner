@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useCourseStore } from '../store/useCourseStore';
-import { Plus, Search } from 'lucide-react';
+import { Plus, Search, ExternalLink } from 'lucide-react';
 import { cn } from '../utils/cn';
 
 export const AddModule: React.FC = () => {
@@ -125,12 +125,24 @@ export const AddModule: React.FC = () => {
                         >
                             <div className="flex justify-between items-start mb-1">
                                 <span className="font-bold text-gray-800 text-sm">{course.module}</span>
-                                <span className={cn(
-                                    "text-[10px] px-1.5 py-0.5 rounded font-bold uppercase",
-                                    course.type === 'R' ? "bg-emerald-100 text-emerald-700" : "bg-gray-100 text-gray-600"
-                                )}>
-                                    {course.type === 'R' ? 'Rec' : 'Opt'}
-                                </span>
+                                <div className="flex items-center gap-1.5">
+                                    <span className={cn(
+                                        "text-[10px] px-1.5 py-0.5 rounded font-bold uppercase",
+                                        course.type === 'R' ? "bg-emerald-100 text-emerald-700" : "bg-gray-100 text-gray-600"
+                                    )}>
+                                        {course.type === 'R' ? 'Rec' : 'Opt'}
+                                    </span>
+                                    <a
+                                        href={course.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        title="Open course details"
+                                        className="text-gray-300 hover:text-blue-600 transition-colors"
+                                        onClick={(e) => e.stopPropagation()}
+                                    >
+                                        <ExternalLink size={12} />
+                                    </a>
+                                </div>
                             </div>
                             <p className="text-xs text-gray-500 line-clamp-2 mb-2">{course.title}</p>
                             <div className="flex justify-between items-center text-[10px] text-gray-400 mb-2">

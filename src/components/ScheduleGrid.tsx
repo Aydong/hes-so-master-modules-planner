@@ -87,13 +87,25 @@ const SlotPicker: React.FC<SlotPickerProps> = ({ day, block, semester, courses, 
                                 </div>
                                 <p className="text-sm text-gray-700 truncate">{course.title}</p>
                             </div>
-                            <button
-                                onClick={() => onAdd(course)}
-                                className="shrink-0 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg transition-colors flex items-center gap-1"
-                            >
-                                <Plus size={12} />
-                                Add
-                            </button>
+                            <div className="shrink-0 flex items-center gap-1.5">
+                                <a
+                                    href={course.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    title="Open course details"
+                                    className="p-1.5 text-gray-400 hover:text-blue-600 transition-colors"
+                                    onClick={(e) => e.stopPropagation()}
+                                >
+                                    <ExternalLink size={14} />
+                                </a>
+                                <button
+                                    onClick={() => onAdd(course)}
+                                    className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg transition-colors flex items-center gap-1"
+                                >
+                                    <Plus size={12} />
+                                    Add
+                                </button>
+                            </div>
                         </div>
                     ))
                 )}
