@@ -214,11 +214,11 @@ export const Layout: React.FC = () => {
                         {/* Credit indicators */}
                         <div className="flex items-center gap-4 flex-1">
                             {([
-                                { label: 'TSM', current: validation.tsm.count, max: rules.TSM.max, minRec: rules.TSM.minRec, valid: validation.tsm.valid, barClass: 'bg-blue-500', labelClass: 'text-blue-600' },
-                                { label: 'FTP', current: validation.ftp.count, max: rules.FTP.max, minRec: rules.FTP.minRec, valid: validation.ftp.valid, barClass: 'bg-purple-500', labelClass: 'text-purple-600' },
-                                { label: 'MA',  current: validation.ma.count,  max: rules.MA.max,  minRec: rules.MA.minRec,  valid: validation.ma.valid,  barClass: 'bg-emerald-500', labelClass: 'text-emerald-600' },
-                                { label: 'CM',  current: validation.cm.count,  max: rules.CM.max,  minRec: rules.CM.minRec,  valid: validation.cm.valid,  barClass: 'bg-amber-500', labelClass: 'text-amber-600' },
-                            ] as const).map(({ label, current, max, minRec, valid, barClass, labelClass }) => (
+                                { label: 'TSM', current: validation.tsm.count, rec: validation.tsm.rec, max: rules.TSM.max, minRec: rules.TSM.minRec, valid: validation.tsm.valid, barClass: 'bg-blue-500', labelClass: 'text-blue-600' },
+                                { label: 'FTP', current: validation.ftp.count, rec: validation.ftp.rec, max: rules.FTP.max, minRec: rules.FTP.minRec, valid: validation.ftp.valid, barClass: 'bg-purple-500', labelClass: 'text-purple-600' },
+                                { label: 'MA',  current: validation.ma.count,  rec: validation.ma.rec,  max: rules.MA.max,  minRec: rules.MA.minRec,  valid: validation.ma.valid,  barClass: 'bg-emerald-500', labelClass: 'text-emerald-600' },
+                                { label: 'CM',  current: validation.cm.count,  rec: 0,                  max: rules.CM.max,  minRec: rules.CM.minRec,  valid: validation.cm.valid,  barClass: 'bg-amber-500', labelClass: 'text-amber-600' },
+                            ] as const).map(({ label, current, rec, max, minRec, valid, barClass, labelClass }) => (
                                 <div key={label} className="flex flex-col min-w-[72px]">
                                     <div className="flex justify-between items-baseline mb-1">
                                         <span className={cn('text-xs font-bold', labelClass)}>{label}</span>
@@ -232,9 +232,13 @@ export const Layout: React.FC = () => {
                                             style={{ width: `${Math.min(100, (current / max) * 100)}%` }}
                                         />
                                     </div>
-                                    <span className="text-[10px] text-gray-400 mt-0.5">
-                                        {minRec > 0 ? `Rec. min: ${minRec}` : '\u00A0'}
-                                    </span>
+                                    {minRec > 0 ? (
+                                        <span className={cn('text-[10px] mt-0.5 font-medium', rec >= minRec ? 'text-green-600' : 'text-red-500')}>
+                                            Rec: {rec}/{minRec}
+                                        </span>
+                                    ) : (
+                                        <span className="text-[10px] mt-0.5">&nbsp;</span>
+                                    )}
                                 </div>
                             ))}
 
@@ -245,7 +249,11 @@ export const Layout: React.FC = () => {
                                     {Array.from({ length: rules.BONUS }).map((_, i) => (
                                         <div
                                             key={i}
-                                            className={cn('w-2 h-2 rounded-full transition-colors', i < validation.bonus.count ? 'bg-emerald-400' : 'bg-gray-200')}
+                                            className={cn('w-2 h-2 rounded-full transition-colors',
+                                                i < validation.bonus.count
+                                                    ? validation.bonus.count > rules.BONUS ? 'bg-red-500' : 'bg-emerald-400'
+                                                    : 'bg-gray-200'
+                                            )}
                                         />
                                     ))}
                                 </div>
