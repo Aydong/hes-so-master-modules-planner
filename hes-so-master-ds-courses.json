@@ -451,25 +451,25 @@
         "credits": 3
     },
     {
-        "module": "PI",
+        "module": "PI_x",
         "title": "Interdisciplinary project",
-        "link": "https://www.hes-so.ch/fileadmin/documents/HES-SO/Documents_HES-SO/pdf/ingenierie_architecture/master/Engineering_MSE/Descriptifs_Modules/MSE_-_Descriptif_de_module_-_Projet_Approfondissement__PA_.pdf",
-        "type": "R",
+        "link": "https://www.hes-so.ch/fileadmin/documents/HES-SO/Documents_HES-SO/pdf/ingenierie_architecture/master/Engineering_MSE/MSE_-_Descriptif_de_module_-_Projet_Interdisciplinaire__PI_.pdf",
+        "type": "C",
         "Semester": "2",
         "WeekDay": "Thursday",
         "TimeBlock": "TB3",
         "location": "Lausanne",
-        "credits": 3
+        "credits": 6
     },
     {
-        "module": "PI2",
-        "title": "Interdisciplinary project (2)",
-        "link": "https://www.hes-so.ch/fileadmin/documents/HES-SO/Documents_HES-SO/pdf/ingenierie_architecture/master/Engineering_MSE/Descriptifs_Modules/MSE_-_Descriptif_de_module_-_Projet_Approfondissement__PA_.pdf",
-        "type": "R",
+        "module": "PI_x",
+        "title": "Interdisciplinary project",
+        "link": "https://www.hes-so.ch/fileadmin/documents/HES-SO/Documents_HES-SO/pdf/ingenierie_architecture/master/Engineering_MSE/MSE_-_Descriptif_de_module_-_Projet_Interdisciplinaire__PI_.pdf",
+        "type": "C",
         "Semester": "2",
         "WeekDay": "Thursday",
         "TimeBlock": "TB4",
         "location": "Lausanne",
-        "credits": 3
-    }
+        "credits": 6
+    }    
 ]
