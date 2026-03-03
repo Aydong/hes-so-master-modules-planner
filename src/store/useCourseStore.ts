@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Course, SelectedCourse } from '../types';
 import { getProgramById } from '../data/programs';
+import { getProgramIdFromLegacy } from '../data/dataLoader';
 
 export interface ScheduleExport {
     version: string;
@@ -39,6 +40,14 @@ const getMandatoryCourses = (programId: string): SelectedCourse[] => {
     return program.courses
         .filter((c) => c.type === 'C')
         .map((c) => ({ ...c, assignedSemester: (c.Semester === '1' ? '1' : '2') as '1' | '2' | '3' | '4' }));
+};
+
+/**
+ * Migrate old program IDs to new format
+ */
+const migrateOldProgramId = (oldId: string): string => {
+    const newId = getProgramIdFromLegacy(oldId);
+    return newId;
 };
 
 export const useCourseStore = create<CourseStore>()(
@@ -146,14 +155,23 @@ export const useCourseStore = create<CourseStore>()(
                         return { success: false, error: 'Invalid schedule data (programId or selectedCourses missing)' };
                     }
 
+                    // Migrate old program IDs to new format
+                    const migratedProgramId = migrateOldProgramId(data.programId);
+
+                    // Validate that the program exists
+                    const program = getProgramById(migratedProgramId);
+                    if (!program) {
+                        return { success: false, error: `Program not found: ${migratedProgramId}` };
+                    }
+
                     // Strip any mandatory courses from the import — they are always computed
                     const nonMandatory = data.selectedCourses.filter((c) => c.type !== 'C');
 
                     set((state) => ({
-                        currentProgramId: data.programId,
+                        currentProgramId: migratedProgramId,
                         selectedCoursesByProgram: {
                             ...state.selectedCoursesByProgram,
-                            [data.programId!]: nonMandatory,
+                            [migratedProgramId]: nonMandatory,
                         },
                     }));
 
@@ -183,6 +201,26 @@ export const useCourseStore = create<CourseStore>()(
                 currentProgramId: state.currentProgramId,
                 selectedCoursesByProgram: state.selectedCoursesByProgram,
             }),
+            onRehydrateStorage: () => (state) => {
+                if (!state) return;
+                
+                // Migrate old program IDs to new format
+                const migratedProgramId = state.currentProgramId 
+                    ? migrateOldProgramId(state.currentProgramId)
+                    : null;
+                
+                if (migratedProgramId !== state.currentProgramId && migratedProgramId) {
+                    state.currentProgramId = migratedProgramId;
+                }
+
+                // Migrate keys in selectedCoursesByProgram
+                const migratedSelections: Record<string, SelectedCourse[]> = {};
+                Object.entries(state.selectedCoursesByProgram).forEach(([oldId, courses]) => {
+                    const newId = migrateOldProgramId(oldId);
+                    migratedSelections[newId] = courses;
+                });
+                state.selectedCoursesByProgram = migratedSelections;
+            },
         }
     )
 );

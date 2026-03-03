@@ -1,4 +1,5 @@
 import type { SelectedCourse, ValidationResult, Collision, ValidationRules } from '../types';
+import { timeBlocksOverlap } from './timeBlockUtils';
 
 export const validateConstraints = (courses: SelectedCourse[], rules: ValidationRules): ValidationResult => {
     const stats = {
@@ -97,7 +98,7 @@ export const checkCollisions = (courses: SelectedCourse[]): Collision[] => {
             if (
                 c1.assignedSemester === c2.assignedSemester &&
                 c1.WeekDay === c2.WeekDay &&
-                c1.TimeBlock === c2.TimeBlock
+                timeBlocksOverlap(c1.TimeBlock, c2.TimeBlock)
             ) {
                 collisions.push({ course1: c1, course2: c2 });
             }

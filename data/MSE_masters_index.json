@@ -1,0 +1,141 @@
+{
+  "program": "Master of Science in Engineering",
+  "masters": [
+    {
+      "code": "CE",
+      "name": "Civil Engineering",
+      "specializations": [
+        {
+          "code": "S",
+          "name": "Structures"
+        },
+        {
+          "code": "G",
+          "name": "Geotechnical Engineering"
+        },
+        {
+          "code": "H",
+          "name": "Hydraulics"
+        },
+        {
+          "code": "T",
+          "name": "Transport and Mobility"
+        }
+      ],
+      "has_specializations": true,
+      "specialization_count": 4
+    },
+    {
+      "code": "CS",
+      "name": "Computer Science",
+      "specializations": [
+        {
+          "code": "S",
+          "name": "Software Engineering"
+        },
+        {
+          "code": "E",
+          "name": "Embedded Systems"
+        },
+        {
+          "code": "Cy",
+          "name": "Cybersecurity"
+        },
+        {
+          "code": "C",
+          "name": "Communication Systems"
+        }
+      ],
+      "has_specializations": true,
+      "specialization_count": 4
+    },
+    {
+      "code": "DS",
+      "name": "Data Science",
+      "specializations": [
+        {
+          "code": null,
+          "name": "Data Science"
+        }
+      ],
+      "has_specializations": false,
+      "specialization_count": 1
+    },
+    {
+      "code": "ElE",
+      "name": "Electrical Engineering",
+      "specializations": [
+        {
+          "code": "S",
+          "name": "Signal"
+        },
+        {
+          "code": "P",
+          "name": "Power"
+        }
+      ],
+      "has_specializations": true,
+      "specialization_count": 2
+    },
+    {
+      "code": "EnEn",
+      "name": "Energy and Environment",
+      "specializations": [
+        {
+          "code": null,
+          "name": "Energy and Environment"
+        }
+      ],
+      "has_specializations": false,
+      "specialization_count": 1
+    },
+    {
+      "code": "ICS",
+      "name": "Information and Cyber Security",
+      "specializations": [
+        {
+          "code": null,
+          "name": "Information and Cyber Security"
+        }
+      ],
+      "has_specializations": false,
+      "specialization_count": 1
+    },
+    {
+      "code": "ME",
+      "name": "Mechanical Engineering",
+      "specializations": [
+        {
+          "code": null,
+          "name": "Mechanical Engineering"
+        }
+      ],
+      "has_specializations": false,
+      "specialization_count": 1
+    },
+    {
+      "code": "Mic",
+      "name": "Microengineering",
+      "specializations": [
+        {
+          "code": "B",
+          "name": "Biomedical Engineering"
+        },
+        {
+          "code": "H",
+          "name": "Watchmaking Engineering"
+        },
+        {
+          "code": "D",
+          "name": "Development of Microsystems"
+        },
+        {
+          "code": "P",
+          "name": "Microtechnology Production and Manufacturing"
+        }
+      ],
+      "has_specializations": true,
+      "specialization_count": 4
+    }
+  ]
+}

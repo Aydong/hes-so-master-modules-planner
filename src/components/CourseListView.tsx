@@ -4,19 +4,14 @@ import { useCourseStore } from '../store/useCourseStore';
 import type { SelectedCourse } from '../types';
 import { cn } from '../utils/cn';
 import { buildTravelWarningModules } from '../utils/travelWarning';
+import { checkCollisions } from '../utils/validation';
+import { extractTimeBlocks, getTimeBlockLabel } from '../utils/timeBlockUtils';
 
 const SEMESTER_LABELS: Record<string, string> = {
     '1': 'Semester 1 – Autumn Year 1',
     '2': 'Semester 2 – Spring Year 1',
     '3': 'Semester 3 – Autumn Year 2',
     '4': 'Semester 4 – Spring Year 2',
-};
-
-const TIME_BLOCK_LABELS: Record<string, string> = {
-    TB1: '08:55–11:10',
-    TB2: '11:15–13:40',
-    TB3: '15:00–17:25',
-    TB4: '17:30–19:55',
 };
 
 // Sort helpers
@@ -29,20 +24,21 @@ const TB_ORDER: Record<string, number> = {
 
 const sortBySchedule = (a: SelectedCourse, b: SelectedCourse) => {
     const dayDiff = (DAY_ORDER[a.WeekDay] ?? 0) - (DAY_ORDER[b.WeekDay] ?? 0);
-    return dayDiff !== 0 ? dayDiff : (TB_ORDER[a.TimeBlock] ?? 0) - (TB_ORDER[b.TimeBlock] ?? 0);
+    // Extract the first block for sorting purposes
+    const aFirstBlock = extractTimeBlocks(a.TimeBlock)[0] ?? '';
+    const bFirstBlock = extractTimeBlocks(b.TimeBlock)[0] ?? '';
+    return dayDiff !== 0 ? dayDiff : (TB_ORDER[aFirstBlock] ?? 0) - (TB_ORDER[bFirstBlock] ?? 0);
 };
 
-/** Returns a Set of "WeekDay-TimeBlock" keys that have at least 2 courses in the same slot */
-const buildCollisionKeys = (courses: SelectedCourse[]): Set<string> => {
-    const keys = new Set<string>();
-    for (let i = 0; i < courses.length; i++) {
-        for (let j = i + 1; j < courses.length; j++) {
-            if (courses[i].WeekDay === courses[j].WeekDay && courses[i].TimeBlock === courses[j].TimeBlock) {
-                keys.add(`${courses[i].WeekDay}-${courses[i].TimeBlock}`);
-            }
-        }
-    }
-    return keys;
+/** Returns a Set of collision module codes */
+const buildCollisionModules = (courses: SelectedCourse[]): Set<string> => {
+    const collisions = checkCollisions(courses);
+    const collisionModules = new Set<string>();
+    collisions.forEach(collision => {
+        collisionModules.add(collision.course1.module);
+        collisionModules.add(collision.course2.module);
+    });
+    return collisionModules;
 };
 
 const getCategoryStyle = (moduleCode: string) => {
@@ -100,15 +96,15 @@ export const CourseListView: React.FC = () => {
                         // Sort by day then time block
                         const sorted = [...semCourses].sort(sortBySchedule);
 
-                        // Detect which slots have collisions
-                        const collisionKeys = buildCollisionKeys(semCourses);
+                        // Detect which courses have collisions
+                        const collisionModules = buildCollisionModules(semCourses);
                         const isColliding = (c: SelectedCourse) =>
-                            collisionKeys.has(`${c.WeekDay}-${c.TimeBlock}`);
+                            collisionModules.has(c.module);
 
                         const travelWarnings = buildTravelWarningModules(semCourses);
 
                         const semECTS = semCourses.reduce((sum, c) => sum + (c.credits || 3), 0);
-                        const collisionCount = collisionKeys.size;
+                        const collisionCount = collisionModules.size;
 
                         return (
                             <div key={sem}>
@@ -209,7 +205,7 @@ export const CourseListView: React.FC = () => {
                                                                 ? 'font-bold text-orange-500'
                                                                 : 'text-gray-500'
                                                         )}>
-                                                            {TIME_BLOCK_LABELS[course.TimeBlock] || course.TimeBlock}
+                                                            {getTimeBlockLabel(course.TimeBlock)}
                                                         </td>
 
                                                         <td className={cn(
