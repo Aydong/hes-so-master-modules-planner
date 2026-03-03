@@ -526,5 +526,27 @@
         "TimeBlock": "TB3",
         "location": "Fribourg",
         "credits": 3
+    },
+    {
+        "module": "PI_x",
+        "title": "Interdisciplinary project",
+        "link": "https://www.hes-so.ch/fileadmin/documents/HES-SO/Documents_HES-SO/pdf/ingenierie_architecture/master/Engineering_MSE/MSE_-_Descriptif_de_module_-_Projet_Interdisciplinaire__PI_.pdf",
+        "type": "C",
+        "Semester": "2",
+        "WeekDay": "Thursday",
+        "TimeBlock": "TB3",
+        "location": "Lausanne",
+        "credits": 6
+    },
+    {
+        "module": "PI_x",
+        "title": "Interdisciplinary project",
+        "link": "https://www.hes-so.ch/fileadmin/documents/HES-SO/Documents_HES-SO/pdf/ingenierie_architecture/master/Engineering_MSE/MSE_-_Descriptif_de_module_-_Projet_Interdisciplinaire__PI_.pdf",
+        "type": "C",
+        "Semester": "2",
+        "WeekDay": "Thursday",
+        "TimeBlock": "TB4",
+        "location": "Lausanne",
+        "credits": 6
     }
 ]

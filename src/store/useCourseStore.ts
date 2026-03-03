@@ -29,13 +29,25 @@ interface CourseStore {
     getSelectedCourses: () => SelectedCourse[];
 }
 
+/**
+ * Returns the mandatory (type 'C') courses for a program as SelectedCourses.
+ * These are never stored in state — always computed on-the-fly to avoid duplicates.
+ */
+const getMandatoryCourses = (programId: string): SelectedCourse[] => {
+    const program = getProgramById(programId);
+    if (!program) return [];
+    return program.courses
+        .filter((c) => c.type === 'C')
+        .map((c) => ({ ...c, assignedSemester: (c.Semester === '1' ? '1' : '2') as '1' | '2' | '3' | '4' }));
+};
+
 export const useCourseStore = create<CourseStore>()(
     persist(
         (set, get) => ({
             currentProgramId: null,
             selectedCoursesByProgram: {},
 
-            setProgram: (programId) => set({ currentProgramId: programId }),
+            setProgram: (programId) => set({ currentProgramId: programId || null }),
 
             addCourse: (course, assignedSemester) =>
                 set((state) => {
@@ -134,11 +146,14 @@ export const useCourseStore = create<CourseStore>()(
                         return { success: false, error: 'Invalid schedule data (programId or selectedCourses missing)' };
                     }
 
+                    // Strip any mandatory courses from the import — they are always computed
+                    const nonMandatory = data.selectedCourses.filter((c) => c.type !== 'C');
+
                     set((state) => ({
                         currentProgramId: data.programId,
                         selectedCoursesByProgram: {
                             ...state.selectedCoursesByProgram,
-                            [data.programId!]: data.selectedCourses!,
+                            [data.programId!]: nonMandatory,
                         },
                     }));
 
@@ -157,14 +172,16 @@ export const useCourseStore = create<CourseStore>()(
             getSelectedCourses: () => {
                 const state = get();
                 if (!state.currentProgramId) return [];
-                return state.selectedCoursesByProgram[state.currentProgramId] || [];
+                const stored = state.selectedCoursesByProgram[state.currentProgramId] || [];
+                // Mandatory courses are never stored — always injected here to avoid duplicates
+                return [...stored, ...getMandatoryCourses(state.currentProgramId)];
             }
         }),
         {
-            name: 'course-planner-storage-v2', // Changed name to avoid conflicts with old structure
+            name: 'course-planner-storage-v2',
             partialize: (state) => ({
                 currentProgramId: state.currentProgramId,
-                selectedCoursesByProgram: state.selectedCoursesByProgram
+                selectedCoursesByProgram: state.selectedCoursesByProgram,
             }),
         }
     )

@@ -1,4 +1,4 @@
-export type CourseType = 'R' | 'O';
+export type CourseType = 'R' | 'O' | 'C';
 export type Semester = '1' | '2';
 export type WeekDay = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday';
 export type TimeBlock = 'TB1' | 'TB2' | 'TB3' | 'TB4';

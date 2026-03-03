@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useCourseStore } from '../store/useCourseStore';
 import { cn } from '../utils/cn';
-import { X, ExternalLink, AlertTriangle, Plus } from 'lucide-react';
+import { X, ExternalLink, AlertTriangle, Plus, Lock } from 'lucide-react';
 import type { Course } from '../types';
 import { buildTravelWarningModules } from '../utils/travelWarning';
 
@@ -134,7 +134,7 @@ export const ScheduleGrid: React.FC = () => {
 
     const getAvailableForSlot = (day: string, block: string) =>
         allCourses.filter(
-            (c) => c.WeekDay === day && c.TimeBlock === block && !isCourseSelected(c.module) && c.Semester === semesterType
+            (c) => c.WeekDay === day && c.TimeBlock === block && !isCourseSelected(c.module) && c.Semester === semesterType && c.type !== 'C'
         );
 
     const semesterECTS = selectedCourses
@@ -229,7 +229,7 @@ export const ScheduleGrid: React.FC = () => {
 
                                         {coursesInSlot.map((course) => (
                                             <div
-                                                key={course.module}
+                                                key={`${course.module}-${course.TimeBlock}`}
                                                 className={cn(
                                                     'w-full h-full rounded-lg p-3 border shadow-sm relative flex flex-col justify-between transition-transform hover:scale-[1.02]',
                                                     getCategoryColor(course.module),
@@ -245,12 +245,16 @@ export const ScheduleGrid: React.FC = () => {
                                                 <div>
                                                     <div className="flex justify-between items-start">
                                                         <span className="font-bold text-xs">{course.module}</span>
-                                                        <button
-                                                            onClick={(e) => { e.stopPropagation(); removeCourse(course.module); }}
-                                                            className="text-current opacity-40 hover:opacity-100 transition-opacity"
-                                                        >
-                                                            <X size={14} />
-                                                        </button>
+                                                        {course.type === 'C' ? (
+                                                            <Lock size={12} className="opacity-40 shrink-0" />
+                                                        ) : (
+                                                            <button
+                                                                onClick={(e) => { e.stopPropagation(); removeCourse(course.module); }}
+                                                                className="text-current opacity-40 hover:opacity-100 transition-opacity"
+                                                            >
+                                                                <X size={14} />
+                                                            </button>
+                                                        )}
                                                     </div>
                                                     <p className="text-[10px] font-medium leading-tight mt-1 line-clamp-3 opacity-80">
                                                         {course.title}
@@ -258,7 +262,9 @@ export const ScheduleGrid: React.FC = () => {
                                                 </div>
 
                                                 <div className="flex justify-between items-center mt-2">
-                                                    <span className="text-[10px] font-bold opacity-60">{course.type === 'R' ? 'Recommended' : 'Optional'}</span>
+                                                    <span className="text-[10px] font-bold opacity-60">
+                                                        {course.type === 'C' ? 'Required' : course.type === 'R' ? 'Recommended' : 'Optional'}
+                                                    </span>
                                                     <a
                                                         href={course.link}
                                                         target="_blank"

@@ -20,7 +20,7 @@ export const AddModule: React.FC = () => {
             const matchesType = typeFilter ? course.type === typeFilter : true;
             const matchesDay = dayFilter ? course.WeekDay === dayFilter : true;
             const notSelected = !isCourseSelected(course.module);
-            return matchesSearch && matchesSemester && matchesType && matchesDay && notSelected;
+            return matchesSearch && matchesSemester && matchesType && matchesDay && notSelected && course.type !== 'C';
         });
     }, [allCourses, search, semesterFilter, typeFilter, dayFilter, isCourseSelected]);
 
