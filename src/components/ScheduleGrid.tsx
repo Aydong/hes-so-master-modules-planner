@@ -3,6 +3,7 @@ import { useCourseStore } from '../store/useCourseStore';
 import { cn } from '../utils/cn';
 import { X, ExternalLink, AlertTriangle, Plus } from 'lucide-react';
 import type { Course } from '../types';
+import { buildTravelWarningModules } from '../utils/travelWarning';
 
 const TIME_BLOCKS = [
     { id: 'TB1', label: 'Block 1', time: '08:55 - 11:10' },
@@ -108,14 +109,20 @@ export const ScheduleGrid: React.FC = () => {
     const [semester, setSemester] = useState<'1' | '2' | '3' | '4'>('1');
     const [selectedSlot, setSelectedSlot] = useState<{ day: string; block: string } | null>(null);
 
+    const semesterCourses = selectedCourses.filter((c) => c.assignedSemester === semester);
+    const travelWarnings = buildTravelWarningModules(semesterCourses);
+
     const getCourseForSlot = (day: string, block: string) =>
-        selectedCourses.filter(
-            (c) => c.WeekDay === day && c.TimeBlock === block && c.assignedSemester === semester
+        semesterCourses.filter(
+            (c) => c.WeekDay === day && c.TimeBlock === block
         );
+
+    // S1/S3 = Autumn courses, S2/S4 = Spring courses
+    const semesterType = (semester === '1' || semester === '3') ? '1' : '2';
 
     const getAvailableForSlot = (day: string, block: string) =>
         allCourses.filter(
-            (c) => c.WeekDay === day && c.TimeBlock === block && !isCourseSelected(c.module)
+            (c) => c.WeekDay === day && c.TimeBlock === block && !isCourseSelected(c.module) && c.Semester === semesterType
         );
 
     const semesterECTS = selectedCourses
@@ -251,7 +258,12 @@ export const ScheduleGrid: React.FC = () => {
                                                     </a>
                                                 </div>
                                                 {course.location && (
-                                                    <div className="mt-1 flex items-center gap-1 text-[9px] opacity-60 font-medium uppercase tracking-wider">
+                                                    <div className={cn(
+                                                        "mt-1 flex items-center gap-1 text-[9px] font-medium uppercase tracking-wider",
+                                                        travelWarnings.has(course.module)
+                                                            ? "font-bold text-orange-500 opacity-100"
+                                                            : "opacity-60"
+                                                    )}>
                                                         <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                                             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                                                             <circle cx="12" cy="10" r="3"></circle>

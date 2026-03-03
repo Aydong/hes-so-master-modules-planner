@@ -3,6 +3,7 @@ import { ExternalLink, AlertTriangle } from 'lucide-react';
 import { useCourseStore } from '../store/useCourseStore';
 import type { SelectedCourse } from '../types';
 import { cn } from '../utils/cn';
+import { buildTravelWarningModules } from '../utils/travelWarning';
 
 const SEMESTER_LABELS: Record<string, string> = {
     '1': 'Semester 1 – Autumn Year 1',
@@ -103,6 +104,8 @@ export const CourseListView: React.FC = () => {
                         const collisionKeys = buildCollisionKeys(semCourses);
                         const isColliding = (c: SelectedCourse) =>
                             collisionKeys.has(`${c.WeekDay}-${c.TimeBlock}`);
+
+                        const travelWarnings = buildTravelWarningModules(semCourses);
 
                         const semECTS = semCourses.reduce((sum, c) => sum + (c.credits || 3), 0);
                         const collisionCount = collisionKeys.size;
@@ -207,7 +210,15 @@ export const CourseListView: React.FC = () => {
                                                             {TIME_BLOCK_LABELS[course.TimeBlock] || course.TimeBlock}
                                                         </td>
 
-                                                        <td className="px-3 py-2.5 text-center text-gray-500 text-xs">
+                                                        <td className={cn(
+                                                            'px-3 py-2.5 text-center text-xs',
+                                                            travelWarnings.has(course.module)
+                                                                ? 'font-bold text-orange-500'
+                                                                : 'text-gray-500'
+                                                        )}>
+                                                            {travelWarnings.has(course.module) && (
+                                                                <AlertTriangle size={10} className="inline mr-1 mb-0.5" />
+                                                            )}
                                                             {course.location || '–'}
                                                         </td>
                                                         <td className="px-3 py-2.5 text-center">
