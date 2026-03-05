@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { useCourseStore } from '../store/useCourseStore';
 import { cn } from '../utils/cn';
 import { courseHasTimeBlock } from '../utils/timeBlockUtils';
-import { X, ExternalLink, AlertTriangle, Plus, Lock } from 'lucide-react';
+import { X, ExternalLink, AlertTriangle, Plus } from 'lucide-react';
 import type { Course } from '../types';
 import { buildTravelWarningModules } from '../utils/travelWarning';
+import { getProgramById } from '../data/programs';
 
 const TIME_BLOCKS = [
     { id: 'TB1', label: 'Block 1', time: '08:55 - 11:10' },
@@ -20,6 +21,9 @@ const getCategoryColor = (moduleCode: string) => {
     if (moduleCode.startsWith('FTP')) return 'bg-purple-100 border-purple-200 text-purple-800';
     if (moduleCode.startsWith('MA')) return 'bg-emerald-100 border-emerald-200 text-emerald-800';
     if (moduleCode.startsWith('CM')) return 'bg-amber-100 border-amber-200 text-amber-800';
+    if (moduleCode.startsWith('PI')) return 'bg-gray-100 border-gray-200 text-gray-800';
+    if (moduleCode.startsWith('MAP')) return 'bg-indigo-100 border-indigo-200 text-indigo-800';
+    if (moduleCode.startsWith('CSI')) return 'bg-purple-100 border-purple-200 text-purple-800';
     return 'bg-gray-100 border-gray-200 text-gray-800';
 };
 
@@ -28,6 +32,9 @@ const getCategoryBadge = (moduleCode: string) => {
     if (moduleCode.startsWith('FTP')) return 'bg-purple-100 text-purple-700';
     if (moduleCode.startsWith('MA')) return 'bg-emerald-100 text-emerald-700';
     if (moduleCode.startsWith('CM')) return 'bg-amber-100 text-amber-700';
+    if (moduleCode.startsWith('PI')) return 'bg-gray-100 text-gray-700';
+    if (moduleCode.startsWith('MAP')) return 'bg-indigo-100 text-indigo-700';
+    if (moduleCode.startsWith('CSI')) return 'bg-purple-100 text-purple-700';
     return 'bg-gray-100 text-gray-700';
 };
 
@@ -77,9 +84,10 @@ const SlotPicker: React.FC<SlotPickerProps> = ({ day, block, semester, courses, 
                                     </span>
                                     <span className={cn(
                                         'text-[10px] font-bold px-1.5 py-0.5 rounded',
-                                        course.type === 'R' ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-500'
+                                        course.type === 'R' ? 'bg-emerald-100 text-emerald-700' :
+                                        course.type === 'C' ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-500'
                                     )}>
-                                        {course.type === 'R' ? 'Rec' : 'Opt'}
+                                        {course.type === 'R' ? 'Rec' : course.type === 'C' ? 'Com' : 'Opt'}
                                     </span>
                                     <span className="text-xs text-gray-400">{course.credits ?? 3} ECTS</span>
                                     {course.location && (
@@ -116,11 +124,23 @@ const SlotPicker: React.FC<SlotPickerProps> = ({ day, block, semester, courses, 
 );
 
 export const ScheduleGrid: React.FC = () => {
-    const { removeCourse, getSelectedCourses, getAllCourses, addCourse, isCourseSelected } = useCourseStore();
+    const { removeCourse, getSelectedCourses, getAllCourses, addCourse, isCourseSelected, currentProgramId } = useCourseStore();
     const selectedCourses = getSelectedCourses();
     const allCourses = getAllCourses();
     const [semester, setSemester] = useState<'1' | '2' | '3' | '4'>('1');
     const [selectedSlot, setSelectedSlot] = useState<{ day: string; block: string } | null>(null);
+
+    const currentProgram = currentProgramId ? getProgramById(currentProgramId) : null;
+    const rules = currentProgram ? currentProgram.validationRules : {
+        TSM: { max: 0, minRec: 0 },
+        FTP: { max: 0, minRec: 0 },
+        MA: { max: 0, minRec: 0 },
+        CM: { max: 0, minRec: 0 },
+        PI: { max: 0, minRec: 0 },
+        MAP: { max: 0, minRec: 0 },
+        CSI: { max: 0, minRec: 0 },
+        BONUS: 0,
+    };
 
     const semesterCourses = selectedCourses.filter((c) => c.assignedSemester === semester);
     const travelWarnings = buildTravelWarningModules(semesterCourses);
@@ -135,7 +155,7 @@ export const ScheduleGrid: React.FC = () => {
 
     const getAvailableForSlot = (day: string, block: string) =>
         allCourses.filter(
-            (c) => c.WeekDay === day && courseHasTimeBlock(c, block) && !isCourseSelected(c.module) && c.Semester === semesterType && c.type !== 'C'
+            (c) => c.WeekDay === day && courseHasTimeBlock(c, block) && !isCourseSelected(c.module) && c.Semester === semesterType
         );
 
     const semesterECTS = selectedCourses
@@ -173,10 +193,13 @@ export const ScheduleGrid: React.FC = () => {
                 </div>
 
                 <div className="flex gap-4 text-xs font-medium text-gray-500">
-                    <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-blue-500"></span> TSM</div>
-                    <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-purple-500"></span> FTP</div>
-                    <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-500"></span> MA</div>
-                    <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-amber-500"></span> CM</div>
+                    {rules.TSM.max > 0 && <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-blue-500"></span> TSM</div>}
+                    {rules.FTP.max > 0 && <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-purple-500"></span> FTP</div>}
+                    {rules.MA.max > 0 && <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-500"></span> MA</div>}
+                    {rules.CM.max > 0 && <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-amber-500"></span> CM</div>}
+                    {rules.PI.max > 0 && <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-gray-500"></span> PI</div>}
+                    {rules.MAP.max > 0 && <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-indigo-500"></span> MAP</div>}
+                    {rules.CSI.max > 0 && <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-purple-500"></span>CSI</div>}
                 </div>
             </div>
 
@@ -208,6 +231,8 @@ export const ScheduleGrid: React.FC = () => {
                                 const coursesInSlot = getCourseForSlot(day, block.id);
                                 const isCollision = coursesInSlot.length > 1;
                                 const isEmpty = coursesInSlot.length === 0;
+
+                                const hasAvailable = isEmpty && getAvailableForSlot(day, block.id).length > 0;
                                 return (
                                     <div
                                         key={`${day}-${block.id}`}
@@ -221,9 +246,17 @@ export const ScheduleGrid: React.FC = () => {
                                     >
                                         {/* Empty slot hint */}
                                         {isEmpty && (
-                                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                                                <div className="bg-blue-100 text-blue-500 rounded-full p-2">
-                                                    <Plus size={18} />
+                                            <div className="absolute inset-0 flex items-center justify-center transition-opacity pointer-events-none">
+                                                {/* show icon only if there's something available, or when hovering */}
+                                                <div
+                                                    className={cn(
+                                                        'bg-gray-100 text-gray-500 rounded-full p-2 transition-colors pointer-events-auto',
+                                                        hasAvailable ? 'opacity-40' : 'opacity-0',
+                                                        'group-hover:opacity-40',
+                                                        'group-hover:bg-blue-100 group-hover:text-blue-500'
+                                                    )}
+                                                >
+                                                    <Plus size={16} />
                                                 </div>
                                             </div>
                                         )}
@@ -246,16 +279,13 @@ export const ScheduleGrid: React.FC = () => {
                                                 <div>
                                                     <div className="flex justify-between items-start">
                                                         <span className="font-bold text-xs">{course.module}</span>
-                                                        {course.type === 'C' ? (
-                                                            <Lock size={12} className="opacity-40 shrink-0" />
-                                                        ) : (
-                                                            <button
-                                                                onClick={(e) => { e.stopPropagation(); removeCourse(course.module); }}
-                                                                className="text-current opacity-40 hover:opacity-100 transition-opacity"
-                                                            >
-                                                                <X size={14} />
-                                                            </button>
-                                                        )}
+                                                        <button
+                                                            onClick={(e) => { e.stopPropagation(); removeCourse(course.module); }}
+                                                            className="text-current opacity-40 hover:opacity-100 transition-opacity"
+                                                            title={course.type === 'C' ? 'Remove required course' : 'Remove course'}
+                                                        >
+                                                            <X size={14} />
+                                                        </button>
                                                     </div>
                                                     <p className="text-[10px] font-medium leading-tight mt-1 line-clamp-3 opacity-80">
                                                         {course.title}
@@ -264,7 +294,7 @@ export const ScheduleGrid: React.FC = () => {
 
                                                 <div className="flex justify-between items-center mt-2">
                                                     <span className="text-[10px] font-bold opacity-60">
-                                                        {course.type === 'C' ? 'Required' : course.type === 'R' ? 'Recommended' : 'Optional'}
+                                                        {course.type === 'C' ? 'Compulsory' : course.type === 'R' ? 'Recommended' : 'Optional'}
                                                     </span>
                                                     <a
                                                         href={course.link}

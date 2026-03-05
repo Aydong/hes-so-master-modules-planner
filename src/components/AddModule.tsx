@@ -8,7 +8,7 @@ export const AddModule: React.FC = () => {
     const allCourses = getAllCourses();
     const [search, setSearch] = useState('');
     const [semesterFilter, setSemesterFilter] = useState<'1' | '2' | null>(null);
-    const [typeFilter, setTypeFilter] = useState<'R' | 'O' | null>(null);
+    const [typeFilter, setTypeFilter] = useState<'R' | 'O' | 'C' | null>(null);
     const [dayFilter, setDayFilter] = useState<string | null>(null);
 
     const filteredCourses = useMemo(() => {
@@ -20,7 +20,7 @@ export const AddModule: React.FC = () => {
             const matchesType = typeFilter ? course.type === typeFilter : true;
             const matchesDay = dayFilter ? course.WeekDay === dayFilter : true;
             const notSelected = !isCourseSelected(course.module);
-            return matchesSearch && matchesSemester && matchesType && matchesDay && notSelected && course.type !== 'C';
+            return matchesSearch && matchesSemester && matchesType && matchesDay && notSelected;
         });
     }, [allCourses, search, semesterFilter, typeFilter, dayFilter, isCourseSelected]);
 
@@ -93,6 +93,15 @@ export const AddModule: React.FC = () => {
                             >
                                 Opt.
                             </button>
+                            <button
+                                className={cn(
+                                    "flex-1 py-1 text-xs font-bold rounded transition-colors",
+                                    typeFilter === 'C' ? "bg-red-500 text-white" : "text-gray-600 hover:bg-gray-50"
+                                )}
+                                onClick={() => setTypeFilter(typeFilter === 'C' ? null : 'C')}
+                            >
+                                Comp.
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -128,9 +137,10 @@ export const AddModule: React.FC = () => {
                                 <div className="flex items-center gap-1.5">
                                     <span className={cn(
                                         "text-[10px] px-1.5 py-0.5 rounded font-bold uppercase",
-                                        course.type === 'R' ? "bg-emerald-100 text-emerald-700" : "bg-gray-100 text-gray-600"
+                                        course.type === 'R' ? "bg-emerald-100 text-emerald-700" :
+                                        course.type === 'C' ? "bg-red-100 text-red-700" : "bg-gray-100 text-gray-600"
                                     )}>
-                                        {course.type === 'R' ? 'Rec' : 'Opt'}
+                                        {course.type === 'R' ? 'Rec' : course.type === 'C' ? 'Com' : 'Opt'}
                                     </span>
                                     <a
                                         href={course.link}

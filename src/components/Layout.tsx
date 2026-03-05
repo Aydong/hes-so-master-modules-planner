@@ -11,6 +11,7 @@ import { getProgramById } from '../data/programs';
 import { exportToPDF } from '../utils/pdfExport';
 import { cn } from '../utils/cn';
 
+
 type View = 'schedule' | 'list';
 
 export const Layout: React.FC = () => {
@@ -26,6 +27,9 @@ export const Layout: React.FC = () => {
         FTP: { max: 9, minRec: 3 },
         MA: { max: 18, minRec: 12 },
         CM: { max: 6, minRec: 0 },
+        PI: { max: 6, minRec: 6 },
+        MAP: { max: 0, minRec: 0 },
+        CSI: { max: 18, minRec: 0 },
         BONUS: 3,
     };
 
@@ -59,6 +63,7 @@ export const Layout: React.FC = () => {
     const handleExportPDF = () => {
         exportToPDF(selectedCourses, currentProgram?.name || 'MSE Program', validation, rules, hasCollisions);
     };
+
 
     return (
         <div className="h-screen bg-gray-50 flex flex-col font-sans overflow-hidden">
@@ -213,38 +218,51 @@ export const Layout: React.FC = () => {
 
                         {/* Credit indicators */}
                         <div className="flex items-center gap-4 flex-1">
-                            {([
-                                { label: 'TSM', current: validation.tsm.count, rec: validation.tsm.rec, max: rules.TSM.max, minRec: rules.TSM.minRec, valid: validation.tsm.valid, barClass: 'bg-blue-500', labelClass: 'text-blue-600' },
-                                { label: 'FTP', current: validation.ftp.count, rec: validation.ftp.rec, max: rules.FTP.max, minRec: rules.FTP.minRec, valid: validation.ftp.valid, barClass: 'bg-purple-500', labelClass: 'text-purple-600' },
-                                { label: 'MA',  current: validation.ma.count,  rec: validation.ma.rec,  max: rules.MA.max,  minRec: rules.MA.minRec,  valid: validation.ma.valid,  barClass: 'bg-emerald-500', labelClass: 'text-emerald-600' },
-                                { label: 'CM',  current: validation.cm.count,  rec: 0,                  max: rules.CM.max,  minRec: rules.CM.minRec,  valid: validation.cm.valid,  barClass: 'bg-amber-500', labelClass: 'text-amber-600' },
-                            ] as const).map(({ label, current, rec, max, minRec, valid, barClass, labelClass }) => (
-                                <div key={label} className="flex flex-col min-w-[72px]">
-                                    <div className="flex justify-between items-baseline mb-1">
-                                        <span className={cn('text-xs font-bold', labelClass)}>{label}</span>
-                                        <span className={cn('text-xs font-semibold', valid ? 'text-green-600' : 'text-red-500')}>
-                                            {current}/{max}
-                                        </span>
-                                    </div>
-                                    <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-                                        <div
-                                            className={cn('h-full rounded-full transition-all duration-500', barClass)}
-                                            style={{ width: `${Math.min(100, (current / max) * 100)}%` }}
-                                        />
-                                    </div>
-                                    {minRec > 0 ? (
-                                        <span className={cn('text-[10px] mt-0.5 font-medium', rec >= minRec ? 'text-green-600' : 'text-red-500')}>
-                                            Rec: {rec}/{minRec}
-                                        </span>
-                                    ) : (
-                                        <span className="text-[10px] mt-0.5">&nbsp;</span>
-                                    )}
-                                </div>
-                            ))}
+                            {(() => {
+                                const indicators = [];
+                                if (rules.TSM.max > 0) indicators.push({ label: 'TSM', current: validation.tsm.count, rec: validation.tsm.rec, max: rules.TSM.max, minRec: rules.TSM.minRec, barClass: 'bg-blue-500', labelClass: 'text-blue-600' });
+                                if (rules.FTP.max > 0) indicators.push({ label: 'FTP', current: validation.ftp.count, rec: validation.ftp.rec, max: rules.FTP.max, minRec: rules.FTP.minRec, barClass: 'bg-purple-500', labelClass: 'text-purple-600' });
+                                if (rules.MA.max > 0)  indicators.push({ label: 'MA',  current: validation.ma.count,  rec: validation.ma.rec,  max: rules.MA.max,  minRec: rules.MA.minRec,  barClass: 'bg-emerald-500', labelClass: 'text-emerald-600' });
+                                if (rules.CM.max > 0)  indicators.push({ label: 'CM',  current: validation.cm.count,  rec: 0,                  max: rules.CM.max,  minRec: rules.CM.minRec,  barClass: 'bg-amber-500', labelClass: 'text-amber-600' });
+                                if (rules.PI.max > 0)  indicators.push({ label: 'PI',  current: validation.pi.count,  rec: validation.pi.rec,  max: rules.PI.max,  minRec: rules.PI.minRec,  barClass: 'bg-gray-500', labelClass: 'text-gray-600' });
+                                if (rules.MAP.max > 0) indicators.push({ label: 'MAP', current: validation.map.count, rec: validation.map.rec, max: rules.MAP.max, minRec: rules.MAP.minRec, barClass: 'bg-indigo-500', labelClass: 'text-indigo-600' });
+                                if (rules.CSI.max > 0) indicators.push({ label: 'CSI', current: validation.csi.count, rec: validation.csi.rec, max: rules.CSI.max, minRec: rules.CSI.minRec, barClass: 'bg-purple-500', labelClass: 'text-purple-600' });
+                                return indicators;
+                            })().map(({ label, current, rec, max, minRec, barClass, labelClass }) => {
+                                const getTextColor = () => {
+                                    if (rec < minRec) return 'text-red-500';
+                                    if (current === max) return 'text-green-600';
+                                    if (current <= max+3) return 'text-orange-600';
+                                    return 'text-red-500';
+                                };
 
+                                return (
+                                    <div key={label} className="flex flex-col min-w-[72px]">
+                                        <div className="flex justify-between items-baseline mb-1">
+                                            <span className={cn('text-xs font-bold', labelClass)}>{label}</span>
+                                            <span className={cn('text-xs font-semibold', getTextColor())}>
+                                                {current}/{max}
+                                            </span>
+                                        </div>
+                                        <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                                            <div
+                                                className={cn('h-full rounded-full transition-all duration-500', barClass)}
+                                                style={{ width: `${Math.min(100, (current / max) * 100)}%` }}
+                                            />
+                                        </div>
+                                        {minRec > 0 ? (
+                                            <span className={cn('text-[10px] mt-0.5 font-medium', rec >= minRec ? 'text-green-600' : 'text-red-500')}>
+                                                Rec: {rec}/{minRec}
+                                            </span>
+                                        ) : (
+                                            <span className="text-[10px] mt-0.5">&nbsp;</span>
+                                        )}
+                                    </div>
+                                );
+                            })}
                             {/* Bonus dots */}
                             <div className="flex flex-col items-start">
-                                <span className="text-xs font-bold text-gray-400 mb-1">Bonus</span>
+                                <span className="text-xs font-bold text-gray-700 mb-1">BONUS {validation.bonus.count}/3</span>
                                 <div className="flex items-center gap-1 h-2">
                                     {Array.from({ length: rules.BONUS }).map((_, i) => (
                                         <div
@@ -252,7 +270,7 @@ export const Layout: React.FC = () => {
                                             className={cn('w-2 h-2 rounded-full transition-colors',
                                                 i < validation.bonus.count
                                                     ? validation.bonus.count > rules.BONUS ? 'bg-red-500' : 'bg-emerald-400'
-                                                    : 'bg-gray-200'
+                                                    : 'bg-gray-400'
                                             )}
                                         />
                                     ))}
@@ -263,7 +281,7 @@ export const Layout: React.FC = () => {
                     </div>
 
                     <div className="flex-1 overflow-y-auto">
-                        {view === 'schedule' ? <ScheduleGrid /> : <CourseListView />}
+                        {view === 'schedule' ? <ScheduleGrid /> : <CourseListView rules={rules} />}
                     </div>
 
                     {/* Footer / Module List */}
