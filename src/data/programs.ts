@@ -16,6 +16,9 @@ const defaultRules: ValidationRules = {
     FTP: { max: 9, minRec: 3 },
     MA: { max: 18, minRec: 12 },
     CM: { max: 6, minRec: 0 },
+    CSI: { max: 0, minRec: 0 },
+    PI: { max: 6, minRec: 6 },
+    MAP: { max: 0, minRec: 0 },
     BONUS: 3,
 };
 
@@ -24,6 +27,20 @@ const icsRules: ValidationRules = {
     FTP: { max: 9, minRec: 3 },
     MA: { max: 12, minRec: 9 },
     CM: { max: 6, minRec: 0 },
+    PI: { max: 0, minRec: 0 },
+    MAP: { max: 0, minRec: 0 },
+    CSI: { max: 18, minRec: 0 },
+    BONUS: 3,
+};
+
+const ceRules: ValidationRules = {
+    TSM: { max: 12, minRec: 6 },
+    FTP: { max: 9, minRec: 3 },
+    MA: { max: 3, minRec: 0 },
+    MAP: { max: 27, minRec: 0 },
+    PI: { max: 0, minRec: 0 },
+    CM: { max: 6, minRec: 0 },
+    CSI: { max: 0, minRec: 0 },
     BONUS: 3,
 };
 
@@ -53,7 +70,10 @@ async function loadProgramsAsync(): Promise<Program[]> {
                 const programId = `${masterCode}-${specializationCode || masterCode}`;
                 
                 const courses = await getCoursesBySpecialization(masterCode, specializationCode);
-                const rules = masterCode === 'ICS' ? icsRules : defaultRules;
+                // print mastercode, specializationCode, and number of courses
+                console.log(`Loaded ${courses.length} courses for program ${programId}`);
+
+                const rules = masterCode === 'ICS' ? icsRules : masterCode === 'CE' ? ceRules : defaultRules;
 
                 const name = master.specializations.length > 1 && specialization.code
                     ? `${master.name} - ${specialization.name}`

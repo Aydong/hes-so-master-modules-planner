@@ -6,6 +6,7 @@ import { cn } from '../utils/cn';
 import { buildTravelWarningModules } from '../utils/travelWarning';
 import { checkCollisions } from '../utils/validation';
 import { extractTimeBlocks, getTimeBlockLabel } from '../utils/timeBlockUtils';
+import type { ValidationRules } from '../types';
 
 const SEMESTER_LABELS: Record<string, string> = {
     '1': 'Semester 1 – Autumn Year 1',
@@ -46,10 +47,13 @@ const getCategoryStyle = (moduleCode: string) => {
     if (moduleCode.startsWith('FTP')) return 'bg-purple-100 text-purple-800 border-purple-200';
     if (moduleCode.startsWith('MA')) return 'bg-emerald-100 text-emerald-800 border-emerald-200';
     if (moduleCode.startsWith('CM')) return 'bg-amber-100 text-amber-800 border-amber-200';
+    if (moduleCode.startsWith('PI')) return 'bg-red-100 text-red-800 border-red-200';
+    if (moduleCode.startsWith('MAP')) return 'bg-indigo-100 text-indigo-800 border-indigo-200';
+    if (moduleCode.startsWith('CSI')) return 'bg-purple-100 text-purple-800 border-purple-200';
     return 'bg-gray-100 text-gray-800 border-gray-200';
 };
 
-export const CourseListView: React.FC = () => {
+export const CourseListView: React.FC<{ rules: ValidationRules }> = ({ rules }) => {
     const { getSelectedCourses } = useCourseStore();
     const selectedCourses = getSelectedCourses();
 
@@ -69,10 +73,13 @@ export const CourseListView: React.FC = () => {
                 {/* Legends */}
                 <div className="flex items-center gap-4 text-xs font-medium text-gray-500">
                     <div className="flex gap-3">
-                        <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-blue-500"></span>TSM</div>
-                        <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-purple-500"></span>FTP</div>
-                        <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-500"></span>MA</div>
-                        <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-amber-500"></span>CM</div>
+                        {rules.TSM.max > 0 && <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-blue-500"></span>TSM</div>}
+                        {rules.FTP.max > 0 && <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-purple-500"></span>FTP</div>}
+                        {rules.MA.max > 0 && <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-500"></span>MA</div>}
+                        {rules.CM.max > 0 && <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-amber-500"></span>CM</div>}
+                        {rules.PI.max > 0 && <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-red-500"></span>PI</div>}
+                        {rules.MAP.max > 0 && <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-indigo-500"></span>MAP</div>}
+                        {rules.CSI.max > 0 && <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-purple-500"></span>ICS</div>}
                     </div>
                     <div className="h-4 w-px bg-gray-200"></div>
                     <div className="flex items-center gap-1.5 text-orange-500 font-bold">
@@ -181,7 +188,7 @@ export const CourseListView: React.FC = () => {
                                                                         ? 'bg-green-100 text-green-700'
                                                                         : 'bg-gray-100 text-gray-500'
                                                             )}>
-                                                                {course.type === 'C' ? 'Req.' : course.type === 'R' ? 'Rec.' : 'Opt.'}
+                                                                {course.type === 'C' ? 'Com.' : course.type === 'R' ? 'Rec.' : 'Opt.'}
                                                             </span>
                                                         </td>
 

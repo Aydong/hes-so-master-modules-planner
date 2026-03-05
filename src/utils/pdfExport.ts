@@ -243,8 +243,8 @@ const drawDetailList = (doc: jsPDF, semCourses: SelectedCourse[], startY: number
                     styles: { halign: 'center' as const, fontStyle: 'bold' as const },
                 },
                 {
-                    content: c.type === 'R' ? 'Rec.' : 'Opt.',
-                    styles: { textColor: c.type === 'R' ? GREEN : GRAY, halign: 'center' as const },
+                    content: c.type === 'R' ? 'Rec.' : (c.type === 'C' ? 'Mand.' : 'Opt.'),
+                    styles: { textColor: c.type === 'R' ? GREEN : (c.type === 'C' ? RED : GRAY), halign: 'center' as const },
                 },
                 c.WeekDay,
                 { content: getTimeBlockLabel(c.TimeBlock), styles: { halign: 'center' as const } },
@@ -317,27 +317,41 @@ export const exportToPDF = (
     doc.setFont('helvetica', 'bold');
     doc.text('Validation Summary', 14, 32);
 
+    const default_ECTS = ' + 6 (PA) + 30 (TM)';
+    const ICS_ECTS = ' + 30 (TM) + 30 (Brasov)';
+    const CE_ECTS = ' + 30 (TM)';
+
+    const add_ETCS_default = 36;
+    const add_ETCS_ICS = 60;
+    const add_ETCS_CE = 30;
+
+    const programECTS = programName.includes('ICS') ? ICS_ECTS : programName.includes('CE') ? CE_ECTS : default_ECTS;
+    const addECTS = programName.includes('ICS') ? add_ETCS_ICS : programName.includes('CE') ? add_ETCS_CE : add_ETCS_default;
+
     autoTable(doc, {
         startY: 36,
         head: [['Category', 'ECTS', 'Recommended (min)', 'Max ECTS', 'Status']],
         body: [
-            ['TSM', String(validation.tsm.count), `${validation.tsm.rec} / ${rules.TSM.minRec}`, String(rules.TSM.max), statusCell(validation.tsm.message || '', validation.tsm.valid)],
-            ['FTP', String(validation.ftp.count), `${validation.ftp.rec} / ${rules.FTP.minRec}`, String(rules.FTP.max), statusCell(validation.ftp.message || '', validation.ftp.valid)],
-            ['MA',  String(validation.ma.count),  `${validation.ma.rec} / ${rules.MA.minRec}`,   String(rules.MA.max),  statusCell(validation.ma.message  || '', validation.ma.valid)],
-            ['CM',  String(validation.cm.count),  '–', String(rules.CM.max), statusCell(validation.cm.message  || '', validation.cm.valid)],
+            rules.TSM.max > 0 ? ['TSM', String(validation.tsm.count), `${validation.tsm.rec} / ${rules.TSM.minRec}`, String(rules.TSM.max), statusCell(validation.tsm.message || '', validation.tsm.valid)] : null,
+            rules.FTP.max > 0 ? ['FTP', String(validation.ftp.count), `${validation.ftp.rec} / ${rules.FTP.minRec}`, String(rules.FTP.max), statusCell(validation.ftp.message || '', validation.ftp.valid)] : null,
+            rules.MA.max > 0 ? ['MA',  String(validation.ma.count),  `${validation.ma.rec} / ${rules.MA.minRec}`,   String(rules.MA.max),  statusCell(validation.ma.message  || '', validation.ma.valid)] : null,
+            rules.CM.max > 0 ? ['CM',  String(validation.cm.count),  '–', String(rules.CM.max), statusCell(validation.cm.message  || '', validation.cm.valid)] : null,
+            rules.PI.max > 0 ? ['PI',  String(validation.pi.count),  `${validation.pi.rec} / ${rules.PI.minRec}`,   String(rules.PI.max),  statusCell(validation.pi.message  || '', validation.pi.valid)] : null,
+            rules.MAP.max > 0 ? ['MAP', String(validation.map.count), `${validation.map.rec} / ${rules.MAP.minRec}`, String(rules.MAP.max), statusCell(validation.map.message || '', validation.map.valid)] : null,
+            rules.CSI.max > 0 ? ['ICS', String(validation.csi.count), `${validation.csi.rec} / ${rules.CSI.minRec}`, String(rules.CSI.max), statusCell(validation.csi.message || '', validation.csi.valid)] : null,
             [
                 { content: 'TOTAL', styles: { fontStyle: 'bold' as const } },
-                { content: String(validation.totalEcts), styles: { fontStyle: 'bold' as const, halign: 'center' as const } },
+                { content: String(validation.totalEcts) + programECTS + ' = ' + String(validation.totalEcts + addECTS), styles: { fontStyle: 'bold' as const, halign: 'center' as const } },
                 '–', '–',
                 planStatusCell(planStatus),
             ],
-        ],
+        ].filter(row => row !== null),
         theme: 'striped',
         headStyles: { fillColor: BLUE, textColor: WHITE, fontStyle: 'bold' },
         styles: { fontSize: 9 },
         columnStyles: {
             0: { fontStyle: 'bold', cellWidth: 24 },
-            1: { halign: 'center', cellWidth: 20 },
+            1: { halign: 'center', cellWidth: 48 },
             2: { halign: 'center', cellWidth: 48 },
             3: { halign: 'center', cellWidth: 20 },
             4: { halign: 'center' },

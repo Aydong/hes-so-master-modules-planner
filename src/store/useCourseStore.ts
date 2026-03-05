@@ -31,16 +31,9 @@ interface CourseStore {
 }
 
 /**
- * Returns the mandatory (type 'C') courses for a program as SelectedCourses.
- * These are never stored in state — always computed on-the-fly to avoid duplicates.
+ * Courses of type 'C' are now optional — users can choose to add them and select their year.
+ * This function is kept for backward compatibility but returns an empty array.
  */
-const getMandatoryCourses = (programId: string): SelectedCourse[] => {
-    const program = getProgramById(programId);
-    if (!program) return [];
-    return program.courses
-        .filter((c) => c.type === 'C')
-        .map((c) => ({ ...c, assignedSemester: (c.Semester === '1' ? '1' : '2') as '1' | '2' | '3' | '4' }));
-};
 
 /**
  * Migrate old program IDs to new format
@@ -164,16 +157,20 @@ export const useCourseStore = create<CourseStore>()(
                         return { success: false, error: `Program not found: ${migratedProgramId}` };
                     }
 
-                    // Strip any mandatory courses from the import — they are always computed
-                    const nonMandatory = data.selectedCourses.filter((c) => c.type !== 'C');
-
-                    set((state) => ({
-                        currentProgramId: migratedProgramId,
-                        selectedCoursesByProgram: {
-                            ...state.selectedCoursesByProgram,
-                            [migratedProgramId]: nonMandatory,
-                        },
-                    }));
+                    // All courses including type 'C' can now be imported
+                    set((state) => {
+                        const newSelections: Record<string, SelectedCourse[]> = {};
+                        Object.entries(state.selectedCoursesByProgram).forEach(([key, value]) => {
+                            if (value) newSelections[key] = value;
+                        });
+                        return {
+                            currentProgramId: migratedProgramId,
+                            selectedCoursesByProgram: {
+                                ...newSelections,
+                                [migratedProgramId]: data.selectedCourses,
+                            },
+                        } as CourseStore;
+                    });
 
                     return { success: true };
                 } catch (e) {
@@ -190,9 +187,7 @@ export const useCourseStore = create<CourseStore>()(
             getSelectedCourses: () => {
                 const state = get();
                 if (!state.currentProgramId) return [];
-                const stored = state.selectedCoursesByProgram[state.currentProgramId] || [];
-                // Mandatory courses are never stored — always injected here to avoid duplicates
-                return [...stored, ...getMandatoryCourses(state.currentProgramId)];
+                return state.selectedCoursesByProgram[state.currentProgramId] || [];
             }
         }),
         {
@@ -216,8 +211,10 @@ export const useCourseStore = create<CourseStore>()(
                 // Migrate keys in selectedCoursesByProgram
                 const migratedSelections: Record<string, SelectedCourse[]> = {};
                 Object.entries(state.selectedCoursesByProgram).forEach(([oldId, courses]) => {
-                    const newId = migrateOldProgramId(oldId);
-                    migratedSelections[newId] = courses;
+                    if (courses) {
+                        const newId = migrateOldProgramId(oldId);
+                        migratedSelections[newId] = courses;
+                    }
                 });
                 state.selectedCoursesByProgram = migratedSelections;
             },
