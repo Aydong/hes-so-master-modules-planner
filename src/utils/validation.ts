@@ -63,13 +63,6 @@ export const validateConstraints = (courses: SelectedCourse[], rules: Validation
         (rules.MAP.max > 0 ? mapStatus.overflow : 0) +
         (rules.CSI.max > 0 ? icsStatus.overflow : 0);
 
-    // A module is locally valid if: rec requirement met AND (no overflow OR overflow is within global bonus budget)
-    // The global budget check is done at the top level — individual modules with overflow are warnings, not hard failures.
-    const moduleValid = (
-        status: { validRec: boolean; overflow: number },
-        hasRecRequirement: boolean,
-    ) => (!hasRecRequirement || status.validRec) && status.overflow === 0;
-
     const isValid =
         (rules.TSM.max === 0 || (tsmStatus.validRec)) &&
         (rules.FTP.max === 0 || (ftpStatus.validRec)) &&
