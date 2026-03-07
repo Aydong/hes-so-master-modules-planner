@@ -130,8 +130,6 @@ export const validateConstraints = (courses: SelectedCourse[], rules: Validation
     };
 };
 
-// --- Collision detection (unchanged) ---
-
 export const checkCollisions = (courses: SelectedCourse[]): Collision[] => {
     const collisions: Collision[] = [];
     for (let i = 0; i < courses.length; i++) {

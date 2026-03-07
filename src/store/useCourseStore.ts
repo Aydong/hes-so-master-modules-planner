@@ -31,11 +31,6 @@ interface CourseStore {
 }
 
 /**
- * Courses of type 'C' are now optional — users can choose to add them and select their year.
- * This function is kept for backward compatibility but returns an empty array.
- */
-
-/**
  * Migrate old program IDs to new format
  */
 const migrateOldProgramId = (oldId: string): string => {
