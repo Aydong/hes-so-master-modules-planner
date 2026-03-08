@@ -5,6 +5,8 @@ import type { StartingSemester } from '../utils/semesterUtils';
 import { courseToAssignedSemester } from '../utils/semesterUtils';
 import { getProgramById } from '../data/programs';
 import { getProgramIdFromLegacy } from '../data/dataLoader';
+import { extractTimeBlocks } from '../utils/timeBlockUtils';
+import { getBlockTime, formatMinutes } from '../utils/timeBlockData';
 
 export interface ScheduleExport {
     version: string;
@@ -144,13 +146,26 @@ export const useCourseStore = create<CourseStore>()(
                 const program = getProgramById(programId);
                 const selectedCourses = state.selectedCoursesByProgram[programId] || [];
 
+                const enrichedCourses = selectedCourses.map(c => {
+                    const blockNums = extractTimeBlocks(c.TimeBlock)
+                        .map(b => parseInt(b.replace('TB', '')))
+                        .filter(n => !isNaN(n));
+                    const first = blockNums.length > 0 ? getBlockTime(c.location, Math.min(...blockNums)) : null;
+                    const last  = blockNums.length > 0 ? getBlockTime(c.location, Math.max(...blockNums)) : null;
+                    return {
+                        ...c,
+                        ...(first ? { time_start: formatMinutes(first.startMin) } : {}),
+                        ...(last  ? { time_end:   formatMinutes(last.endMin)    } : {}),
+                    };
+                });
+
                 const exportData: ScheduleExport = {
                     version: '1.0',
                     exportedAt: new Date().toISOString(),
                     programId,
                     programName: program?.name || programId,
                     startingSemester: state.startingSemester,
-                    selectedCourses,
+                    selectedCourses: enrichedCourses,
                 };
 
                 const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
