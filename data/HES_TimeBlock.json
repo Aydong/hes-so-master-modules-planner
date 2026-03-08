@@ -1,0 +1,188 @@
+{
+    "time_block": [
+        {
+            "code": "L",
+            "name": "Lausanne",
+            "site": "HES-SO Master",
+            "block": [
+                {
+                    "id": 1,
+                    "time_start": "8h45",
+                    "time_stop": "11h10"
+                },
+                {
+                    "id": 2,
+                    "time_start": "11h15",
+                    "time_stop": "13h40"
+                },
+                {
+                    "id": 3,
+                    "time_start": "15h00",
+                    "time_stop": "17h25"
+                },
+                {
+                    "id": 4,
+                    "time_start": "17h30",
+                    "time_stop": "19h55"
+                }
+            ]
+        },
+        {
+            "code": "F",
+            "name": "Fribourg",
+            "site": "HEIA-FR",
+            "block": [
+                {
+                    "id": 1,
+                    "time_start": "8h45",
+                    "time_stop": "11h10"
+                },
+                {
+                    "id": 2,
+                    "time_start": "12h00",
+                    "time_stop": "14h25"
+                },
+                {
+                    "id": 3,
+                    "time_start": "14h35",
+                    "time_stop": "17h00"
+                },
+                {
+                    "id": 4,
+                    "time_start": "17h15",
+                    "time_stop": "19h40"
+                }
+            ]
+        },
+        {
+            "code": "N",
+            "name": "Neuchâtel",
+            "site": "HEIA-Arc",
+            "block": [
+                {
+                    "id": 1,
+                    "time_start": "8h40",
+                    "time_stop": "11h05"
+                },
+                {
+                    "id": 2,
+                    "time_start": "11h40",
+                    "time_stop": "14h05"
+                },
+                {
+                    "id": 3,
+                    "time_start": "14h40",
+                    "time_stop": "17h05"
+                },
+                {
+                    "id": 4,
+                    "time_start": "17h40",
+                    "time_stop": "20h05"
+                }
+            ]
+        },
+        {
+            "code": "G",
+            "name": "Genève",
+            "site": "HEPIA",
+            "block": [
+                {
+                    "id": 1,
+                    "time_start": "8h55",
+                    "time_stop": "11h20"
+                },
+                {
+                    "id": 2,
+                    "time_start": "12h00",
+                    "time_stop": "14h25"
+                },
+                {
+                    "id": 3,
+                    "time_start": "14h40",
+                    "time_stop": "17h05"
+                },
+                {
+                    "id": 4,
+                    "time_start": "17h15",
+                    "time_stop": "19h45"
+                }
+            ]
+        },
+        {
+            "code": "S",
+            "name": "Sion",
+            "site": "HEI-VS",
+            "block": [
+                {
+                    "id": 1,
+                    "time_start": "8h45",
+                    "time_stop": "11h10"
+                },
+                {
+                    "id": 2,
+                    "time_start": "11h15",
+                    "time_stop": "13h40"
+                },
+                {
+                    "id": 3,
+                    "time_start": "14h15",
+                    "time_stop": "16h40"
+                },
+                {
+                    "id": 4,
+                    "time_start": "16h50",
+                    "time_stop": "19h15"
+                }
+            ]
+        },
+        {
+            "code": "Y",
+            "name": "Yverdon",
+            "site": "HEIG-VD",
+            "block": [
+                {
+                    "id": 1,
+                    "time_start": "8h30",
+                    "time_stop": "10h55"
+                },
+                {
+                    "id": 2,
+                    "time_start": "11h10",
+                    "time_stop": "13h35"
+                },
+                {
+                    "id": 3,
+                    "time_start": "14h30",
+                    "time_stop": "16h55"
+                },
+                {
+                    "id": 4,
+                    "time_start": "17h25",
+                    "time_stop": "19h50"
+                }
+            ]
+        },
+        {
+            "code": "ZH",
+            "name": "Zürich",
+            "site": "Zürich",
+            "block": [
+                {
+                    "id": 1,
+                    "time_start": "9h10",
+                    "time_stop": "12h40"
+                },
+                {
+                    "id": 2,
+                    "time_start": "13h10",
+                    "time_stop": "16h40"
+                },
+                {
+                    "id": 3,
+                    "time_start": "17h10",
+                    "time_stop": "20h40"
+                }
+            ]
+        }
+    ]
+}
