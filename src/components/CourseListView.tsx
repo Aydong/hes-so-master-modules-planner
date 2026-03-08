@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ExternalLink, AlertTriangle } from 'lucide-react';
 import { useCourseStore } from '../store/useCourseStore';
 import type { SelectedCourse } from '../types';
 import { cn } from '../utils/cn';
 import { buildTravelWarningModules } from '../utils/travelWarning';
 import { checkCollisions } from '../utils/validation';
-import { extractTimeBlocks, getTimeBlockLabel } from '../utils/timeBlockUtils';
+import { extractTimeBlocks } from '../utils/timeBlockUtils';
 import type { ValidationRules } from '../types';
 import { getSemesterLabels } from '../utils/semesterUtils';
 import type { StartingSemester } from '../utils/semesterUtils';
+import { getBlockTime, formatMinutes, timeBlockDataReady } from '../utils/timeBlockData';
 
 // Sort helpers
 const DAY_ORDER: Record<string, number> = {
@@ -48,10 +49,22 @@ const getCategoryStyle = (moduleCode: string) => {
     return 'bg-gray-100 text-gray-800 border-gray-200';
 };
 
+function getRealTimeStr(course: SelectedCourse): string {
+    const blocks    = extractTimeBlocks(course.TimeBlock);
+    const blockNums = blocks.map(b => parseInt(b.replace('TB', ''))).filter(n => !isNaN(n));
+    if (blockNums.length === 0) return '–';
+    const first = getBlockTime(course.location, Math.min(...blockNums));
+    const last  = getBlockTime(course.location, Math.max(...blockNums));
+    if (!first || !last) return '–';
+    return `${formatMinutes(first.startMin)}–${formatMinutes(last.endMin)}`;
+}
+
 export const CourseListView: React.FC<{ rules: ValidationRules; startingSemester: StartingSemester }> = ({ rules, startingSemester }) => {
     const { getSelectedCourses } = useCourseStore();
     const selectedCourses = getSelectedCourses();
     const SEMESTER_LABELS = getSemesterLabels(startingSemester);
+    const [timeBlockReady, setTimeBlockReady] = useState(false);
+    useEffect(() => { timeBlockDataReady.then(() => setTimeBlockReady(true)); }, []);
 
     const totalECTS = selectedCourses.reduce((sum, c) => sum + (c.credits || 3), 0);
 
@@ -140,6 +153,7 @@ export const CourseListView: React.FC<{ rules: ValidationRules; startingSemester
                                                 <th className="text-center px-3 py-2.5">ECTS</th>
                                                 <th className="text-center px-3 py-2.5">Type</th>
                                                 <th className="text-center px-3 py-2.5">Day</th>
+                                                <th className="text-center px-3 py-2.5">Block</th>
                                                 <th className="text-center px-3 py-2.5">Time</th>
                                                 <th className="text-center px-3 py-2.5">Location</th>
                                                 <th className="text-center px-3 py-2.5">Link</th>
@@ -201,14 +215,22 @@ export const CourseListView: React.FC<{ rules: ValidationRules; startingSemester
                                                             {course.WeekDay}
                                                         </td>
 
-                                                        {/* Time – orange + bold on collision */}
+                                                        {/* Block */}
+                                                        <td className={cn(
+                                                            'px-3 py-2.5 text-center text-xs font-mono whitespace-nowrap',
+                                                            collision ? 'font-bold text-orange-500' : 'text-gray-500'
+                                                        )}>
+                                                            {course.TimeBlock}
+                                                        </td>
+
+                                                        {/* Time – real start–end */}
                                                         <td className={cn(
                                                             'px-3 py-2.5 text-center text-xs whitespace-nowrap',
                                                             collision
                                                                 ? 'font-bold text-orange-500'
                                                                 : 'text-gray-500'
                                                         )}>
-                                                            {getTimeBlockLabel(course.TimeBlock)}
+                                                            {timeBlockReady ? getRealTimeStr(course) : '–'}
                                                         </td>
 
                                                         <td className={cn(
