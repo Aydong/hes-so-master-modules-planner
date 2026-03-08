@@ -1,7 +1,7 @@
 # Master Course Planner 🎓
 
 > [!NOTE]
-> This project is a fork of @NoeBerdoz's original work, adapted to support all HES-SO Master's programmes and add new features and improvements. The core functionality and design have been preserved.
+> This project is a fork of @NoeBerdoz's original work, adapted to support all HES-SO Master's programmes and add new features and improvements.
 >
 > [Original Repository](https://github.com/NoeBerdoz/hes-so-master-modules-planner)
 
