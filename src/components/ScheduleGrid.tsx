@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCourseStore } from '../store/useCourseStore';
 import { cn } from '../utils/cn';
 import { courseHasTimeBlock } from '../utils/timeBlockUtils';
@@ -6,6 +6,7 @@ import { X, ExternalLink, AlertTriangle, Plus } from 'lucide-react';
 import type { Course } from '../types';
 import { buildTravelWarningModules } from '../utils/travelWarning';
 import { getProgramById } from '../data/programs';
+import { slotToCourseSemester, getSlotShortLabel } from '../utils/semesterUtils';
 
 const TIME_BLOCKS = [
     { id: 'TB1', label: 'Block 1', time: '08:55 - 11:10' },
@@ -124,11 +125,16 @@ const SlotPicker: React.FC<SlotPickerProps> = ({ day, block, semester, courses, 
 );
 
 export const ScheduleGrid: React.FC = () => {
-    const { removeCourse, getSelectedCourses, getAllCourses, addCourse, isCourseSelected, currentProgramId } = useCourseStore();
+    const { removeCourse, getSelectedCourses, getAllCourses, addCourse, isCourseSelected, currentProgramId, startingSemester, importVersion } = useCourseStore();
     const selectedCourses = getSelectedCourses();
     const allCourses = getAllCourses();
     const [semester, setSemester] = useState<'1' | '2' | '3' | '4'>('1');
     const [selectedSlot, setSelectedSlot] = useState<{ day: string; block: string } | null>(null);
+
+    useEffect(() => {
+        setSemester('1');
+        setSelectedSlot(null);
+    }, [importVersion]);
 
     const currentProgram = currentProgramId ? getProgramById(currentProgramId) : null;
     const rules = currentProgram ? currentProgram.validationRules : {
@@ -150,8 +156,7 @@ export const ScheduleGrid: React.FC = () => {
             (c) => c.WeekDay === day && courseHasTimeBlock(c, block)
         );
 
-    // S1/S3 = Autumn courses, S2/S4 = Spring courses
-    const semesterType = (semester === '1' || semester === '3') ? '1' : '2';
+    const semesterType = slotToCourseSemester(semester, startingSemester);
 
     const getAvailableForSlot = (day: string, block: string) =>
         allCourses.filter(
@@ -177,12 +182,13 @@ export const ScheduleGrid: React.FC = () => {
                             <button
                                 key={s}
                                 className={cn(
-                                    'px-4 py-1.5 rounded-md text-sm font-bold transition-all',
+                                    'flex flex-col items-center px-3 py-1 rounded-md text-sm font-bold transition-all leading-tight',
                                     semester === s ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'
                                 )}
                                 onClick={() => setSemester(s)}
                             >
-                                S{s}
+                                <span>S{s}</span>
+                                <span className="text-[9px] font-normal opacity-70">{getSlotShortLabel(s, startingSemester).split('(')[1]?.replace(')', '') ?? ''}</span>
                             </button>
                         ))}
                     </div>

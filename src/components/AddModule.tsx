@@ -2,9 +2,10 @@ import React, { useState, useMemo } from 'react';
 import { useCourseStore } from '../store/useCourseStore';
 import { Plus, Search, ExternalLink } from 'lucide-react';
 import { cn } from '../utils/cn';
+import { courseToAssignedSemester } from '../utils/semesterUtils';
 
 export const AddModule: React.FC = () => {
-    const { addCourse, isCourseSelected, getAllCourses } = useCourseStore();
+    const { addCourse, isCourseSelected, getAllCourses, startingSemester } = useCourseStore();
     const allCourses = getAllCourses();
     const [search, setSearch] = useState('');
     const [semesterFilter, setSemesterFilter] = useState<'1' | '2' | null>(null);
@@ -169,13 +170,13 @@ export const AddModule: React.FC = () => {
                             </div>
                             <div className="flex gap-2">
                                 <button
-                                    onClick={() => addCourse(course, course.Semester === '1' ? '1' : '2')}
+                                    onClick={() => addCourse(course, courseToAssignedSemester(course.Semester, 1, startingSemester))}
                                     className="flex-1 bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-bold py-1.5 rounded transition-colors"
                                 >
                                     Add to Year 1 ({course.Semester === '1' ? 'Autumn' : 'Spring'})
                                 </button>
                                 <button
-                                    onClick={() => addCourse(course, course.Semester === '1' ? '3' : '4')}
+                                    onClick={() => addCourse(course, courseToAssignedSemester(course.Semester, 2, startingSemester))}
                                     className="flex-1 bg-purple-50 hover:bg-purple-100 text-purple-600 text-xs font-bold py-1.5 rounded transition-colors"
                                 >
                                     Add to Year 2 ({course.Semester === '1' ? 'Autumn' : 'Spring'})

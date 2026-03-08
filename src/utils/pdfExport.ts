@@ -2,6 +2,8 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import type { SelectedCourse, ValidationResult, ValidationRules } from '../types';
 import { courseHasTimeBlock, getTimeBlockLabel, getTimeBlockTimeRange } from './timeBlockUtils';
+import { getSemesterLabels } from './semesterUtils';
+import type { StartingSemester } from './semesterUtils';
 
 //  Constants 
 
@@ -14,12 +16,6 @@ const TIME_BLOCKS = [
     { id: 'TB4', label: 'Block 4', time: '17:30–19:55' },
 ] as const;
 
-const SEMESTER_LABELS: Record<string, string> = {
-    '1': 'Semester 1 – Autumn Year 1',
-    '2': 'Semester 2 – Spring Year 1',
-    '3': 'Semester 3 – Autumn Year 2',
-    '4': 'Semester 4 – Spring Year 2',
-};
 
 const CAT_FILL: Record<string, [number, number, number]> = {
     TSM: [219, 234, 254],
@@ -262,10 +258,10 @@ const drawDetailList = (doc: jsPDF, semCourses: SelectedCourse[], startY: number
             2: { halign: 'center', cellWidth: 14 },
             3: { halign: 'center', cellWidth: 13 },
             4: { halign: 'center', cellWidth: 14 },
-            5: { cellWidth: 24 },
+            5: { cellWidth: 28 },
             6: { halign: 'center', cellWidth: 16 },
             7: { cellWidth: 26 },
-            8: { cellWidth: 22 },
+            8: { cellWidth: 20 },
         },
         didDrawCell: (data) => {
             // Make module code cell clickable
@@ -291,8 +287,10 @@ export const exportToPDF = (
     programName: string,
     validation: ValidationResult,
     rules: ValidationRules,
-    hasCollisions: boolean
+    hasCollisions: boolean,
+    startingSemester: StartingSemester = 'SA'
 ) => {
+    const SEMESTER_LABELS = getSemesterLabels(startingSemester);
     const planStatus: 'valid' | 'warning' | 'invalid' = !validation.isValid
         ? 'invalid'
         : hasCollisions
@@ -310,7 +308,8 @@ export const exportToPDF = (
     doc.text('HES-SO MSE — Course Planner', 14, 14);
     doc.setFontSize(10);
     doc.setFont('helvetica', 'normal');
-    doc.text(`${programName}   |   Exported: ${new Date().toLocaleDateString('fr-CH')}`, 14, 21);
+    const startLabel = startingSemester === 'SA' ? 'Start: Autumn' : 'Start: Spring';
+    doc.text(`${programName}   |   ${startLabel}   |   Exported: ${new Date().toLocaleDateString('fr-CH')}`, 14, 21);
 
     doc.setTextColor(...DARK);
     doc.setFontSize(11);

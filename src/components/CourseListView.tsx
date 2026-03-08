@@ -7,13 +7,8 @@ import { buildTravelWarningModules } from '../utils/travelWarning';
 import { checkCollisions } from '../utils/validation';
 import { extractTimeBlocks, getTimeBlockLabel } from '../utils/timeBlockUtils';
 import type { ValidationRules } from '../types';
-
-const SEMESTER_LABELS: Record<string, string> = {
-    '1': 'Semester 1 – Autumn Year 1',
-    '2': 'Semester 2 – Spring Year 1',
-    '3': 'Semester 3 – Autumn Year 2',
-    '4': 'Semester 4 – Spring Year 2',
-};
+import { getSemesterLabels } from '../utils/semesterUtils';
+import type { StartingSemester } from '../utils/semesterUtils';
 
 // Sort helpers
 const DAY_ORDER: Record<string, number> = {
@@ -53,9 +48,10 @@ const getCategoryStyle = (moduleCode: string) => {
     return 'bg-gray-100 text-gray-800 border-gray-200';
 };
 
-export const CourseListView: React.FC<{ rules: ValidationRules }> = ({ rules }) => {
+export const CourseListView: React.FC<{ rules: ValidationRules; startingSemester: StartingSemester }> = ({ rules, startingSemester }) => {
     const { getSelectedCourses } = useCourseStore();
     const selectedCourses = getSelectedCourses();
+    const SEMESTER_LABELS = getSemesterLabels(startingSemester);
 
     const totalECTS = selectedCourses.reduce((sum, c) => sum + (c.credits || 3), 0);
 

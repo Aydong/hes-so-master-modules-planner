@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Course, SelectedCourse } from '../types';
+import type { StartingSemester } from '../utils/semesterUtils';
+import { courseToAssignedSemester } from '../utils/semesterUtils';
 import { getProgramById } from '../data/programs';
 import { getProgramIdFromLegacy } from '../data/dataLoader';
 
@@ -9,15 +11,19 @@ export interface ScheduleExport {
     exportedAt: string;
     programId: string;
     programName: string;
+    startingSemester?: StartingSemester;
     selectedCourses: SelectedCourse[];
 }
 
 interface CourseStore {
     currentProgramId: string | null;
+    startingSemester: StartingSemester;
     selectedCoursesByProgram: Record<string, SelectedCourse[]>;
+    importVersion: number;
 
     // Actions
     setProgram: (programId: string) => void;
+    setStartingSemester: (s: StartingSemester) => void;
     addCourse: (course: Course, assignedSemester: '1' | '2' | '3' | '4') => void;
     removeCourse: (moduleCode: string) => void;
     isCourseSelected: (moduleCode: string) => boolean;
@@ -42,9 +48,29 @@ export const useCourseStore = create<CourseStore>()(
     persist(
         (set, get) => ({
             currentProgramId: null,
+            startingSemester: 'SA' as StartingSemester,
             selectedCoursesByProgram: {},
+            importVersion: 0,
 
             setProgram: (programId) => set({ currentProgramId: programId || null }),
+            setStartingSemester: (s) => set((state) => {
+                const programId = state.currentProgramId;
+                if (!programId) return { startingSemester: s };
+
+                const currentSelections = state.selectedCoursesByProgram[programId] || [];
+                const remapped = currentSelections.map((course) => {
+                    const year = (course.assignedSemester === '1' || course.assignedSemester === '2') ? 1 : 2;
+                    return { ...course, assignedSemester: courseToAssignedSemester(course.Semester, year, s) };
+                });
+
+                return {
+                    startingSemester: s,
+                    selectedCoursesByProgram: {
+                        ...state.selectedCoursesByProgram,
+                        [programId]: remapped,
+                    },
+                };
+            }),
 
             addCourse: (course, assignedSemester) =>
                 set((state) => {
@@ -123,6 +149,7 @@ export const useCourseStore = create<CourseStore>()(
                     exportedAt: new Date().toISOString(),
                     programId,
                     programName: program?.name || programId,
+                    startingSemester: state.startingSemester,
                     selectedCourses,
                 };
 
@@ -160,10 +187,12 @@ export const useCourseStore = create<CourseStore>()(
                         });
                         return {
                             currentProgramId: migratedProgramId,
+                            startingSemester: data.startingSemester ?? 'SA',
                             selectedCoursesByProgram: {
                                 ...newSelections,
                                 [migratedProgramId]: data.selectedCourses,
                             },
+                            importVersion: state.importVersion + 1,
                         } as CourseStore;
                     });
 
@@ -189,6 +218,7 @@ export const useCourseStore = create<CourseStore>()(
             name: 'course-planner-storage-v2',
             partialize: (state) => ({
                 currentProgramId: state.currentProgramId,
+                startingSemester: state.startingSemester,
                 selectedCoursesByProgram: state.selectedCoursesByProgram,
             }),
             onRehydrateStorage: () => (state) => {

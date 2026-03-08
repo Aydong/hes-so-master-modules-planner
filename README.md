@@ -1,12 +1,14 @@
 # Master Course Planner 🎓
 
 > [!NOTE]
-> *This project is a fork of @NoeBerdoz's original work, adapted to support all HES-SO Master's programmes and add new features and improvements. The core functionality and design have been preserved.*
+> This project is a fork of @NoeBerdoz's original work, adapted to support all HES-SO Master's programmes and add new features and improvements. The core functionality and design have been preserved.
+>
 > [Original Repository](https://github.com/NoeBerdoz/hes-so-master-modules-planner)
+
 
 > [!CAUTION]
 > This is an **unofficial** tool created by a student for students. It is not affiliated with MSE and may not be 100% accurate. Always double-check with official sources and your academic advisor before making decisions based on this planner.
->  
+>
 > [HES-SO Master Official link](https://www.hes-so.ch/master/hes-so-master/formations/engineering/)
 
  
