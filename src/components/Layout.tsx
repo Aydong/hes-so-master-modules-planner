@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { Sidebar } from './Sidebar';
 import { ScheduleGrid } from './ScheduleGrid';
-import { ModuleList } from './ModuleList';
 import { CourseListView } from './CourseListView';
 import { RefreshCw, ChevronLeft, Download, Upload, FileText, LayoutGrid, List } from 'lucide-react';
 import { GithubIcon } from './GithubIcon';
@@ -315,11 +314,6 @@ export const Layout: React.FC = () => {
 
                     <div className="flex-1 overflow-y-auto">
                         {view === 'schedule' ? <ScheduleGrid /> : <CourseListView rules={rules} startingSemester={startingSemester} />}
-                    </div>
-
-                    {/* Footer / Module List */}
-                    <div className="mt-6 shrink-0">
-                        <ModuleList />
                     </div>
                 </div>
             </main>

@@ -198,6 +198,21 @@ export const ScheduleGrid: React.FC = () => {
     const travelWarnings  = buildTravelWarningModules(semesterCourses);
     const semesterType    = slotToCourseSemester(semester, startingSemester);
     const semesterECTS    = semesterCourses.reduce((s, c) => s + (c.credits ?? 3), 0);
+    
+    const selectedECTS = selectedCourses.reduce((sum, course) => sum + (course.credits || 3), 0);
+
+    const totalECTS_default = selectedECTS + 30 + 6; // default: 30 ECTS TM, 6 PA
+    const totalECTS_ICS = selectedECTS + 30 + 30;    // ICS: 30 TM + 30 Brasov
+    const totalECTS_CE = selectedECTS + 30;          // CE: 30 TM only
+    
+    const programId = useCourseStore().currentProgramId;
+    const program = getProgramById(programId || '');
+
+    const totalECTS = program?.masterCode === 'ICS'
+        ? totalECTS_ICS
+        : program?.masterCode === 'CE'
+            ? totalECTS_CE
+            : totalECTS_default;
 
     const getAvailableForSlot = (day: string, block: string) =>
         allCourses.filter(c =>
@@ -236,16 +251,18 @@ export const ScheduleGrid: React.FC = () => {
                         <span className="text-xs font-bold text-gray-500 uppercase">Semester Credits:</span>
                         <span className="text-sm font-bold text-blue-600">{semesterECTS} ECTS</span>
                     </div>
-                </div>
-
-                <div className="flex gap-4 text-xs font-medium text-gray-500">
-                    {rules.TSM.max > 0 && <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-blue-500" />TSM</div>}
-                    {rules.FTP.max > 0 && <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-purple-500" />FTP</div>}
-                    {rules.MA.max  > 0 && <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-500" />MA</div>}
-                    {rules.CM.max  > 0 && <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-amber-500" />CM</div>}
-                    {rules.PI.max  > 0 && <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-gray-500" />PI</div>}
-                    {rules.MAP.max > 0 && <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-indigo-500" />MAP</div>}
-                    {rules.CSI.max > 0 && <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-purple-500" />CSI</div>}
+                    <div className="bg-white border border-gray-200 px-3 py-1.5 rounded-lg shadow-sm flex items-center gap-2">
+                        <span className="text-xs font-bold text-gray-500 uppercase">Total Credits:</span>
+                        <span className="text-sm font-bold text-blue-600">{selectedECTS} <span className="font-normal">(selected modules)</span>
+                    {' '}
+                    {program?.masterCode === 'ICS' ? (
+                        <> + 30 <span className="font-normal">(TM)</span> + 30 <span className="font-normal">(Brasov)</span></>
+                    ) : program?.masterCode === 'CE' ? (
+                        <> + 30 <span className="font-normal">(TM)</span></>
+                    ) : (
+                        <> + 6 <span className="font-normal">(PA)</span> + 30 <span className="font-normal">(TM)</span></>
+                    )} = {totalECTS} ECTS</span>
+                    </div>
                 </div>
             </div>
 
@@ -326,7 +343,7 @@ export const ScheduleGrid: React.FC = () => {
                                                     <div key={`${timing.startMin}`}
                                                         className="flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-white/70 border border-gray-200 group-hover:border-blue-200">
                                                         <span className="text-[8px] font-bold text-gray-500 group-hover:text-blue-600">
-                                                            {locationCodes.map(getNameForCode).join('/')}
+                                                            {locationCodes.map(getNameForCode).join(' / ')}
                                                         </span>
                                                         <span className="text-[8px] text-gray-400 group-hover:text-blue-400">
                                                             {formatMinutes(timing.startMin)}–{formatMinutes(timing.endMin)}

@@ -1,51 +1,49 @@
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import type { SelectedCourse, ValidationResult, ValidationRules } from '../types';
-import { courseHasTimeBlock, getTimeBlockLabel, getTimeBlockTimeRange } from './timeBlockUtils';
+import { extractTimeBlocks } from './timeBlockUtils';
 import { getSemesterLabels } from './semesterUtils';
 import type { StartingSemester } from './semesterUtils';
+import { getBlockTime, formatMinutes } from './timeBlockData';
 
-//  Constants 
-
-const WEEK_DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'] as const;
-
-const TIME_BLOCKS = [
-    { id: 'TB1', label: 'Block 1', time: '08:55–11:10' },
-    { id: 'TB2', label: 'Block 2', time: '11:15–13:40' },
-    { id: 'TB3', label: 'Block 3', time: '15:00–17:25' },
-    { id: 'TB4', label: 'Block 4', time: '17:30–19:55' },
-] as const;
-
+//  Colors 
 
 const CAT_FILL: Record<string, [number, number, number]> = {
     TSM: [219, 234, 254],
     FTP: [243, 232, 255],
     MA:  [209, 250, 229],
     CM:  [254, 243, 199],
+    PI:  [229, 231, 235],
+    MAP: [224, 231, 255],
+    CSI: [243, 232, 255],
 };
-
 const CAT_TEXT: Record<string, [number, number, number]> = {
     TSM: [29,  78,  216],
     FTP: [109, 40,  217],
     MA:  [4,   120, 87],
     CM:  [180, 83,  9],
+    PI:  [75,  85,  99],
+    MAP: [67,  56,  202],
+    CSI: [109, 40,  217],
 };
 
-const BLUE:  [number, number, number] = [37,  99,  235];
-const GRAY:  [number, number, number] = [107, 114, 128];
-const WHITE: [number, number, number] = [255, 255, 255];
-const DARK:  [number, number, number] = [31,  41,  55];
-const LIGHT: [number, number, number] = [243, 244, 246];
-const GREEN: [number, number, number] = [22,  163, 74];
-const RED:   [number, number, number] = [220, 38,  38];
+const BLUE:   [number, number, number] = [37,  99,  235];
+const GRAY:   [number, number, number] = [107, 114, 128];
+const WHITE:  [number, number, number] = [255, 255, 255];
+const DARK:   [number, number, number] = [31,  41,  55];
+const LIGHT:  [number, number, number] = [243, 244, 246];
+const GREEN:  [number, number, number] = [22,  163, 74];
+const RED:    [number, number, number] = [220, 38,  38];
+const ORANGE: [number, number, number] = [249, 115, 22];
 
-//  Helpers 
+//  Misc helpers 
+
+const WEEK_DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'] as const;
 
 const getCategory = (module: string) => module.split('_')[0];
-
 const trunc = (s: string, n: number) => s.length > n ? s.slice(0, n - 1) + '…' : s;
 
-const drawHeader = (doc: jsPDF, left: string, right: string) => {
+const drawPageHeader = (doc: jsPDF, left: string, right: string) => {
     const w = doc.internal.pageSize.getWidth();
     doc.setFillColor(...BLUE);
     doc.rect(0, 0, w, 17, 'F');
@@ -59,151 +57,183 @@ const drawHeader = (doc: jsPDF, left: string, right: string) => {
     doc.setTextColor(...DARK);
 };
 
-const ORANGE: [number, number, number] = [249, 115, 22];
-
 const statusCell = (msg: string, valid: boolean) => ({
     content: msg,
-    styles: {
-        textColor: valid ? GREEN : RED,
-        fontStyle: 'bold' as const,
-        halign: 'center' as const,
-    },
+    styles: { textColor: valid ? GREEN : RED, fontStyle: 'bold' as const, halign: 'center' as const },
 });
-
-const planStatusCell = (planStatus: 'valid' | 'warning' | 'invalid') => {
+const planStatusCell = (status: 'valid' | 'warning' | 'invalid') => {
     const map = {
         valid:   { content: 'Valid Plan',   textColor: GREEN },
         warning: { content: 'Warning Plan', textColor: ORANGE },
         invalid: { content: 'Invalid Plan', textColor: RED },
     };
-    const s = map[planStatus];
+    const s = map[status];
     return { content: s.content, styles: { textColor: s.textColor, fontStyle: 'bold' as const, halign: 'center' as const } };
 };
 
-//  Calendar grid 
+//  Course timing helper 
 
-const drawCalendar = (doc: jsPDF, semCourses: SelectedCourse[], startY: number) => {
-    // Category legend strip above the grid
-    const cats = ['TSM', 'FTP', 'MA', 'CM'] as const;
-    let lx = 14;
-    cats.forEach((cat) => {
-        doc.setFillColor(...(CAT_FILL[cat] ?? LIGHT));
-        doc.roundedRect(lx, startY - 5, 24, 5, 1, 1, 'F');
-        doc.setTextColor(...(CAT_TEXT[cat] ?? GRAY));
-        doc.setFontSize(6.5);
+interface CourseTiming { startMin: number; endMin: number }
+
+function getCourseTiming(course: SelectedCourse): CourseTiming {
+    const blocks    = extractTimeBlocks(course.TimeBlock);
+    const blockNums = blocks.map(b => parseInt(b.replace('TB', ''))).filter(n => !isNaN(n));
+    if (blockNums.length === 0) return { startMin: 8 * 60 + 45, endMin: 11 * 60 + 10 };
+    const first = getBlockTime(course.location, Math.min(...blockNums));
+    const last  = getBlockTime(course.location, Math.max(...blockNums));
+    if (!first || !last) return { startMin: 8 * 60 + 45, endMin: 11 * 60 + 10 };
+    return { startMin: first.startMin, endMin: last.endMin };
+}
+
+function getRealTimeStr(course: SelectedCourse): string {
+    const { startMin, endMin } = getCourseTiming(course);
+    return `${formatMinutes(startMin)} – ${formatMinutes(endMin)}`;
+}
+
+//  Gantt calendar page 
+
+const drawGanttCalendar = (doc: jsPDF, semCourses: SelectedCourse[], startY: number) => {
+    const PAGE_W = doc.internal.pageSize.getWidth();   // 297mm
+    const PAGE_H = doc.internal.pageSize.getHeight();  // 210mm
+
+    const MARGIN_L   = 14;
+    const MARGIN_R   = 14;
+    const TIME_COL_W = 18; // time axis column
+    const DAY_HDR_H  = 7;  // day label strip height
+
+    const GRID_LEFT = MARGIN_L + TIME_COL_W;
+    const GRID_W    = PAGE_W - MARGIN_L - MARGIN_R - TIME_COL_W;
+    const COL_W     = GRID_W / 5;
+
+    const DAY_START  = 8 * 60;         // 480 min
+    const DAY_END    = 20 * 60 + 30;   // 1230 min
+    const TOTAL_MIN  = DAY_END - DAY_START;
+
+    const TL_TOP    = startY + DAY_HDR_H;
+    const TL_BOTTOM = PAGE_H - 8;
+    const TL_H      = TL_BOTTOM - TL_TOP;
+
+    const toY = (min: number) => TL_TOP + (min - DAY_START) / TOTAL_MIN * TL_H;
+    const toH = (s: number, e: number) => Math.max((e - s) / TOTAL_MIN * TL_H, 2);
+
+    // Background
+    doc.setFillColor(249, 250, 251);
+    doc.rect(GRID_LEFT, TL_TOP, GRID_W, TL_H, 'F');
+
+    // Day header strip
+    WEEK_DAYS.forEach((day, i) => {
+        const x = GRID_LEFT + i * COL_W;
+        doc.setFillColor(...BLUE);
+        doc.rect(x, startY, COL_W, DAY_HDR_H, 'F');
+        // vertical separator
+        if (i > 0) {
+            doc.setDrawColor(255, 255, 255);
+            doc.setLineWidth(0.3);
+            doc.line(x, startY, x, startY + DAY_HDR_H);
+        }
+        doc.setTextColor(...WHITE);
+        doc.setFontSize(7);
         doc.setFont('helvetica', 'bold');
-        doc.text(cat, lx + 12, startY - 1.2, { align: 'center' });
-        lx += 28;
+        doc.text(day, x + COL_W / 2, startY + 4.5, { align: 'center' });
     });
-    doc.setFillColor(254, 226, 226);
-    doc.roundedRect(lx, startY - 5, 32, 5, 1, 1, 'F');
-    doc.setTextColor(...RED);
-    doc.setFontSize(6.5);
-    doc.setFont('helvetica', 'bold');
-    doc.text('Collision', lx + 16, startY - 1.2, { align: 'center' });
     doc.setTextColor(...DARK);
 
-    const body = TIME_BLOCKS.map((block) => {
-        const timeCell = {
-            content: `${block.label}\n${block.time}`,
-            styles: {
-                fillColor: LIGHT,
-                textColor: DARK,
-                fontStyle: 'bold' as const,
-                halign: 'center' as const,
-                valign: 'middle' as const,
-                fontSize: 6.5,
-            },
-        };
+    // Hour grid lines + labels
+    for (let h = 8; h <= 20; h++) {
+        const y = toY(h * 60);
+        doc.setDrawColor(209, 213, 219);
+        doc.setLineWidth(h % 2 === 0 ? 0.35 : 0.15);
+        doc.line(GRID_LEFT, y, GRID_LEFT + GRID_W, y);
+        doc.setTextColor(...GRAY);
+        doc.setFontSize(5.5);
+        doc.setFont('helvetica', h % 2 === 0 ? 'bold' : 'normal');
+        doc.text(`${h}h`, GRID_LEFT - 2, y + 1.2, { align: 'right' });
+    }
 
-        const dayCells = WEEK_DAYS.map((day) => {
-            const slot = semCourses.filter(
-                (c) => c.WeekDay === day && courseHasTimeBlock(c, block.id)
-            );
+    // Vertical column separators
+    WEEK_DAYS.forEach((_, i) => {
+        if (i === 0) return;
+        const x = GRID_LEFT + i * COL_W;
+        doc.setDrawColor(209, 213, 219);
+        doc.setLineWidth(0.25);
+        doc.line(x, TL_TOP, x, TL_BOTTOM);
+    });
 
-            if (slot.length === 0) {
-                return {
-                    content: '',
-                    styles: { fillColor: WHITE, lineColor: [229, 231, 235] as [number, number, number] },
-                };
+    // Draw courses per day
+    WEEK_DAYS.forEach((day, dayIdx) => {
+        const dayCourses = semCourses.filter(c => c.WeekDay === day);
+        if (dayCourses.length === 0) return;
+
+        const timed = dayCourses.map(c => ({ course: c, ...getCourseTiming(c) }));
+
+        // Simple collision layout
+        const layout = new Map<string, { colIdx: number; colCount: number }>();
+        for (const item of timed) {
+            const group = timed
+                .filter(o => item.startMin < o.endMin && item.endMin > o.startMin)
+                .sort((a, b) => a.course.module.localeCompare(b.course.module));
+            const colIdx = group.findIndex(g => g.course.module === item.course.module);
+            layout.set(item.course.module, { colIdx, colCount: group.length });
+        }
+
+        const dayX = GRID_LEFT + dayIdx * COL_W;
+
+        timed.forEach(({ course, startMin, endMin }) => {
+            const { colIdx, colCount } = layout.get(course.module) ?? { colIdx: 0, colCount: 1 };
+            const isCollision = colCount > 1;
+            const cW = COL_W / colCount;
+            const cX = dayX + colIdx * cW + 0.7;
+            const cY = toY(startMin) + 0.5;
+            const cH = toH(startMin, endMin) - 1;
+
+            const cat   = getCategory(course.module);
+            const fill  = isCollision ? ([254, 226, 226] as [number, number, number]) : (CAT_FILL[cat] ?? LIGHT);
+            const tColor = isCollision ? RED : (CAT_TEXT[cat] ?? DARK);
+
+            doc.setFillColor(...fill);
+            doc.setDrawColor(...tColor);
+            doc.setLineWidth(isCollision ? 0.6 : 0.3);
+            doc.roundedRect(cX, cY, cW - 1.4, cH, 1, 1, 'FD');
+
+            doc.setTextColor(...tColor);
+
+            // Module code
+            doc.setFontSize(5.5);
+            doc.setFont('helvetica', 'bold');
+            doc.text(trunc(course.module, 18), cX + (cW - 1.4) / 2, cY + 3.5, { align: 'center', maxWidth: cW - 2.5 });
+
+            // Title (only if tall enough)
+            if (cH > 9) {
+                doc.setFontSize(4.8);
+                doc.setFont('helvetica', 'normal');
+                const titleLines = doc.splitTextToSize(trunc(course.title, 40), cW - 3);
+                doc.text(titleLines.slice(0, 2), cX + (cW - 1.4) / 2, cY + 7.5, { align: 'center' });
             }
 
-            const isCollision = slot.length > 1;
-            const cat = getCategory(slot[0].module);
-            const fill: [number, number, number] = isCollision ? [254, 226, 226] : (CAT_FILL[cat] ?? LIGHT);
-            const textColor: [number, number, number] = isCollision ? RED : (CAT_TEXT[cat] ?? DARK);
+            // Time
+            if (cH > 14) {
+                doc.setFontSize(4.5);
+                doc.setFont('helvetica', 'normal');
+                doc.text(`${formatMinutes(startMin)}–${formatMinutes(endMin)}`, cX + (cW - 1.4) / 2, cY + cH - 5, { align: 'center' });
+            }
 
-            // Concise content: module + truncated title + location only
-            const lines = slot.flatMap((c, i) => [
-                ...(i > 0 ? [''] : []),
-                c.module,
-                trunc(c.title, 32),
-                ...(c.location ? [`@ ${c.location}`] : []),
-            ]);
+            // Location
+            if (cH > 18 && course.location) {
+                doc.setFontSize(4.2);
+                doc.text(`@ ${course.location}`, cX + (cW - 1.4) / 2, cY + cH - 1.5, { align: 'center' });
+            }
 
-            return {
-                content: isCollision ? ['COLLISION', ...lines].join('\n') : lines.join('\n'),
-                styles: {
-                    fillColor: fill,
-                    textColor,
-                    fontStyle: 'bold' as const,
-                    fontSize: 6.5,
-                    valign: 'top' as const,
-                },
-            };
+            // Clickable link
+            if (course.link) {
+                doc.link(cX, cY, cW - 1.4, cH, { url: course.link });
+            }
         });
-
-        return [timeCell, ...dayCells];
     });
 
-    autoTable(doc, {
-        startY,
-        head: [
-            [
-                { content: 'Time', styles: { halign: 'center', fillColor: BLUE, textColor: WHITE, fontStyle: 'bold', fontSize: 8 } },
-                ...WEEK_DAYS.map((d) => ({
-                    content: d,
-                    styles: { halign: 'center' as const, fillColor: BLUE, textColor: WHITE, fontStyle: 'bold' as const, fontSize: 8 },
-                })),
-            ],
-        ],
-        body,
-        theme: 'grid',
-        styles: {
-            cellPadding: 2,
-            fontSize: 6.5,
-            minCellHeight: 28,
-            lineColor: [209, 213, 219],
-            lineWidth: 0.25,
-            overflow: 'linebreak',
-        },
-        columnStyles: {
-            0: { cellWidth: 28 },
-            1: { cellWidth: 49 },
-            2: { cellWidth: 49 },
-            3: { cellWidth: 49 },
-            4: { cellWidth: 49 },
-            5: { cellWidth: 49 },
-        },
-        didDrawCell: (data) => {
-            if (data.section === 'body' && data.column.index > 0) {
-                const block = TIME_BLOCKS[data.row.index];
-                const day = WEEK_DAYS[data.column.index - 1];
-                const matched = semCourses.filter(
-                    (c) => c.WeekDay === day && courseHasTimeBlock(c, block.id)
-                );
-                if (matched.length === 1 && matched[0].link) {
-                    doc.link(
-                        data.cell.x,
-                        data.cell.y,
-                        data.cell.width,
-                        data.cell.height,
-                        { url: matched[0].link }
-                    );
-                }
-            }
-        },
-    });
+    // Outer border
+    doc.setDrawColor(209, 213, 219);
+    doc.setLineWidth(0.4);
+    doc.rect(GRID_LEFT, TL_TOP, GRID_W, TL_H, 'S');
 };
 
 //  Detail list 
@@ -211,18 +241,13 @@ const drawCalendar = (doc: jsPDF, semCourses: SelectedCourse[], startY: number) 
 const drawDetailList = (doc: jsPDF, semCourses: SelectedCourse[], startY: number) => {
     autoTable(doc, {
         startY,
-        head: [['Module', 'Title', 'Cat.', 'ECTS', 'Type', 'Day', 'Block', 'Schedule', 'Location', 'Link']],
-        body: semCourses.map((c) => {
+        head: [['Module', 'Title', 'Cat.', 'ECTS', 'Type', 'Day', 'Block', 'Time', 'Location', 'Link']],
+        body: semCourses.map(c => {
             const cat = getCategory(c.module);
             return [
                 {
                     content: c.module,
-                    styles: {
-                        font: 'courier',
-                        fontStyle: 'bold' as const,
-                        fontSize: 7.5,
-                        textColor: BLUE,
-                    },
+                    styles: { font: 'courier', fontStyle: 'bold' as const, fontSize: 7.5, textColor: BLUE },
                 },
                 c.title,
                 {
@@ -234,17 +259,17 @@ const drawDetailList = (doc: jsPDF, semCourses: SelectedCourse[], startY: number
                         halign: 'center' as const,
                     },
                 },
+                { content: String(c.credits || 3), styles: { halign: 'center' as const, fontStyle: 'bold' as const } },
                 {
-                    content: String(c.credits || 3),
-                    styles: { halign: 'center' as const, fontStyle: 'bold' as const },
-                },
-                {
-                    content: c.type === 'R' ? 'Rec.' : (c.type === 'C' ? 'Mand.' : 'Opt.'),
-                    styles: { textColor: c.type === 'R' ? GREEN : (c.type === 'C' ? RED : GRAY), halign: 'center' as const },
+                    content: c.type === 'R' ? 'Rec.' : c.type === 'C' ? 'Comp.' : 'Opt.',
+                    styles: {
+                        textColor: c.type === 'R' ? GREEN : c.type === 'C' ? RED : GRAY,
+                        halign: 'left' as const,
+                    },
                 },
                 c.WeekDay,
-                { content: getTimeBlockLabel(c.TimeBlock), styles: { halign: 'center' as const } },
-                getTimeBlockTimeRange(c.TimeBlock),
+                { content: c.TimeBlock, styles: { halign: 'left' as const, font: 'courier' } },
+                { content: getRealTimeStr(c), styles: { halign: 'left' as const, fontSize: 7 } },
                 c.location || '–',
                 { content: 'View', styles: { textColor: BLUE, halign: 'left' as const } },
             ];
@@ -254,52 +279,46 @@ const drawDetailList = (doc: jsPDF, semCourses: SelectedCourse[], startY: number
         alternateRowStyles: { fillColor: [249, 250, 251] },
         styles: { fontSize: 8, cellPadding: 2.5 },
         columnStyles: {
-            0: { cellWidth: 34 },
-            2: { halign: 'center', cellWidth: 14 },
-            3: { halign: 'center', cellWidth: 13 },
-            4: { halign: 'center', cellWidth: 14 },
-            5: { cellWidth: 28 },
-            6: { halign: 'center', cellWidth: 16 },
-            7: { cellWidth: 26 },
-            8: { cellWidth: 20 },
+            0: { halign: 'left', cellWidth: 34 },
+            2: { halign: 'left', cellWidth: 14 },
+            3: { halign: 'left', cellWidth: 13 },
+            4: { halign: 'left', cellWidth: 14 },
+            5: { halign: 'left', cellWidth: 30 },
+            6: { halign: 'left', cellWidth: 24 },
+            7: { halign: 'left', cellWidth: 26 },
+            8: { halign: 'left', cellWidth: 20 },
+            9: { halign: 'left', cellWidth: 15 },
         },
         didDrawCell: (data) => {
-            // Make module code cell clickable
-            if ((data.section === 'body' && data.column.index === 0) || (data.section === 'body' && data.column.index === 9)) {
+            if (data.section === 'body' && (data.column.index === 0 || data.column.index === 9)) {
                 const course = semCourses[data.row.index];
                 if (course?.link) {
-                    doc.link(
-                        data.cell.x,
-                        data.cell.y,
-                        data.cell.width,
-                        data.cell.height,
-                        { url: course.link }
-                    );
+                    doc.link(data.cell.x, data.cell.y, data.cell.width, data.cell.height, { url: course.link });
                 }
             }
         },
     });
 };
 
-//  Main export function
+//  Main export 
+
 export const exportToPDF = (
     courses: SelectedCourse[],
     programName: string,
     validation: ValidationResult,
     rules: ValidationRules,
     hasCollisions: boolean,
-    startingSemester: StartingSemester = 'SA'
+    startingSemester: StartingSemester = 'SA',
 ) => {
     const SEMESTER_LABELS = getSemesterLabels(startingSemester);
     const planStatus: 'valid' | 'warning' | 'invalid' = !validation.isValid
         ? 'invalid'
-        : hasCollisions
-            ? 'warning'
-            : 'valid';
-    const doc = new jsPDF({ orientation: 'landscape' });
+        : hasCollisions ? 'warning' : 'valid';
+
+    const doc   = new jsPDF({ orientation: 'landscape' });
     const pageW = doc.internal.pageSize.getWidth();
 
-    // PAGE 1: cover + validation summary
+    //  Page 1: cover + validation summary 
     doc.setFillColor(...BLUE);
     doc.rect(0, 0, pageW, 24, 'F');
     doc.setTextColor(...WHITE);
@@ -317,15 +336,10 @@ export const exportToPDF = (
     doc.text('Validation Summary', 14, 32);
 
     const default_ECTS = ' + 6 (PA) + 30 (TM)';
-    const ICS_ECTS = ' + 30 (TM) + 30 (Brasov)';
-    const CE_ECTS = ' + 30 (TM)';
-
-    const add_ETCS_default = 36;
-    const add_ETCS_ICS = 60;
-    const add_ETCS_CE = 30;
-
-    const programECTS = programName.includes('ICS') ? ICS_ECTS : programName.includes('CE') ? CE_ECTS : default_ECTS;
-    const addECTS = programName.includes('ICS') ? add_ETCS_ICS : programName.includes('CE') ? add_ETCS_CE : add_ETCS_default;
+    const ICS_ECTS     = ' + 30 (TM) + 30 (Brasov)';
+    const CE_ECTS      = ' + 30 (TM)';
+    const programECTS  = programName.includes('ICS') ? ICS_ECTS : programName.includes('CE') ? CE_ECTS : default_ECTS;
+    const addECTS      = programName.includes('ICS') ? 60 : programName.includes('CE') ? 30 : 36;
 
     autoTable(doc, {
         startY: 36,
@@ -333,14 +347,14 @@ export const exportToPDF = (
         body: [
             rules.TSM.max > 0 ? ['TSM', String(validation.tsm.count), `${validation.tsm.rec} / ${rules.TSM.minRec}`, String(rules.TSM.max), statusCell(validation.tsm.message || '', validation.tsm.valid)] : null,
             rules.FTP.max > 0 ? ['FTP', String(validation.ftp.count), `${validation.ftp.rec} / ${rules.FTP.minRec}`, String(rules.FTP.max), statusCell(validation.ftp.message || '', validation.ftp.valid)] : null,
-            rules.MA.max > 0 ? ['MA',  String(validation.ma.count),  `${validation.ma.rec} / ${rules.MA.minRec}`,   String(rules.MA.max),  statusCell(validation.ma.message  || '', validation.ma.valid)] : null,
-            rules.CM.max > 0 ? ['CM',  String(validation.cm.count),  '–', String(rules.CM.max), statusCell(validation.cm.message  || '', validation.cm.valid)] : null,
-            rules.PI.max > 0 ? ['PI',  String(validation.pi.count),  `${validation.pi.rec} / ${rules.PI.minRec}`,   String(rules.PI.max),  statusCell(validation.pi.message  || '', validation.pi.valid)] : null,
+            rules.MA.max  > 0 ? ['MA',  String(validation.ma.count),  `${validation.ma.rec} / ${rules.MA.minRec}`,   String(rules.MA.max),  statusCell(validation.ma.message  || '', validation.ma.valid)] : null,
+            rules.CM.max  > 0 ? ['CM',  String(validation.cm.count),  '–', String(rules.CM.max), statusCell(validation.cm.message  || '', validation.cm.valid)] : null,
+            rules.PI.max  > 0 ? ['PI',  String(validation.pi.count),  `${validation.pi.rec} / ${rules.PI.minRec}`,   String(rules.PI.max),  statusCell(validation.pi.message  || '', validation.pi.valid)] : null,
             rules.MAP.max > 0 ? ['MAP', String(validation.map.count), `${validation.map.rec} / ${rules.MAP.minRec}`, String(rules.MAP.max), statusCell(validation.map.message || '', validation.map.valid)] : null,
             rules.CSI.max > 0 ? ['ICS', String(validation.csi.count), `${validation.csi.rec} / ${rules.CSI.minRec}`, String(rules.CSI.max), statusCell(validation.csi.message || '', validation.csi.valid)] : null,
             [
                 { content: 'TOTAL', styles: { fontStyle: 'bold' as const } },
-                { content: String(validation.totalEcts) + programECTS + ' = ' + String(validation.totalEcts + addECTS), styles: { fontStyle: 'bold' as const, halign: 'center' as const } },
+                { content: `${validation.totalEcts}${programECTS} = ${validation.totalEcts + addECTS}`, styles: { fontStyle: 'bold' as const, halign: 'center' as const } },
                 '–', '–',
                 planStatusCell(planStatus),
             ],
@@ -357,23 +371,23 @@ export const exportToPDF = (
         },
     });
 
-    // PAGES per semester: calendar + detail list
-    (['1', '2', '3', '4'] as const).forEach((sem) => {
-        const semCourses = courses.filter((c) => c.assignedSemester === sem);
+    //  One page pair per semester 
+    (['1', '2', '3', '4'] as const).forEach(sem => {
+        const semCourses = courses.filter(c => c.assignedSemester === sem);
         if (semCourses.length === 0) return;
 
         const semLabel = SEMESTER_LABELS[sem];
-        const semECTS = semCourses.reduce((sum, c) => sum + (c.credits || 3), 0);
-        const semInfo = `${semCourses.length} course${semCourses.length !== 1 ? 's' : ''} – ${semECTS} ECTS`;
+        const semECTS  = semCourses.reduce((s, c) => s + (c.credits || 3), 0);
+        const semInfo  = `${semCourses.length} course${semCourses.length !== 1 ? 's' : ''} – ${semECTS} ECTS`;
 
-        // Calendar page
+        // Gantt timeline page
         doc.addPage('landscape');
-        drawHeader(doc, `${semLabel}  ·  Weekly Schedule`, semInfo);
-        drawCalendar(doc, semCourses, 26);
+        drawPageHeader(doc, `${semLabel}  ·  Weekly Timeline`, semInfo);
+        drawGanttCalendar(doc, semCourses, 22);
 
-        // Course detail list page
+        // Detail list page
         doc.addPage('landscape');
-        drawHeader(doc, `${semLabel}  ·  Course Details`, semInfo);
+        drawPageHeader(doc, `${semLabel}  ·  Course Details`, semInfo);
         drawDetailList(doc, semCourses, 22);
     });
 
