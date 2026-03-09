@@ -1,0 +1,202 @@
+[
+  {
+    "module": "FTP_Energy",
+    "type": "O"
+  },
+  {
+    "module": "FTP_Physics",
+    "type": "O"
+  },
+  {
+    "module": "MA_HYBRD",
+    "type": "O"
+  },
+  {
+    "module": "CM_PrivLaw",
+    "type": "O"
+  },
+  {
+    "module": "MA_AppMic",
+    "type": "O"
+  },
+  {
+    "module": "TSM_AdvTherm",
+    "type": "O"
+  },
+  {
+    "module": "FTP_MachLe",
+    "type": "O"
+  },
+  {
+    "module": "FTP_ModSim",
+    "type": "O"
+  },
+  {
+    "module": "TSM_EcoSysSus",
+    "type": "R"
+  },
+  {
+    "module": "FTP_Multiphy",
+    "type": "O"
+  },
+  {
+    "module": "TSM_FundEnEn",
+    "type": "O"
+  },
+  {
+    "module": "CM_AcWritPre",
+    "type": "O"
+  },
+  {
+    "module": "CM_QRM",
+    "type": "R"
+  },
+  {
+    "module": "FTP_OrdDiff",
+    "type": "R"
+  },
+  {
+    "module": "MA_INTE1",
+    "type": "O"
+  },
+  {
+    "module": "TSM_FMechHeat",
+    "type": "R"
+  },
+  {
+    "module": "FTP_AppStat",
+    "type": "O"
+  },
+  {
+    "module": "TSM_CSM",
+    "type": "R"
+  },
+  {
+    "module": "CM_AdvProjMgmt",
+    "type": "O"
+  },
+  {
+    "module": "CM_InnChang",
+    "type": "O"
+  },
+  {
+    "module": "FTP_CompAlg",
+    "type": "R"
+  },
+  {
+    "module": "FTP_PartDiff",
+    "type": "O"
+  },
+  {
+    "module": "MA_CFD",
+    "type": "R"
+  },
+  {
+    "module": "MA_SOCI",
+    "type": "O"
+  },
+  {
+    "module": "MA_MSM",
+    "type": "O"
+  },
+  {
+    "module": "MA_TTS",
+    "type": "O"
+  },
+  {
+    "module": "MA_PGE",
+    "type": "O"
+  },
+  {
+    "module": "MA_EMR",
+    "type": "R"
+  },
+  {
+    "module": "MA_STOCK",
+    "type": "O"
+  },
+  {
+    "module": "TSM_MatSurf",
+    "type": "R"
+  },
+  {
+    "module": "MA_VERB",
+    "type": "O"
+  },
+  {
+    "module": "MA_SIMI",
+    "type": "O"
+  },
+  {
+    "module": "MA_VibrAcoust",
+    "type": "R"
+  },
+  {
+    "module": "MA_GPL",
+    "type": "O"
+  },
+  {
+    "module": "MA_Nucl",
+    "type": "O"
+  },
+  {
+    "module": "MA_SOLTH",
+    "type": "O"
+  },
+  {
+    "module": "CM_Entrepr",
+    "type": "O"
+  },
+  {
+    "module": "CM_ComplPro_B_ZH",
+    "type": "R"
+  },
+  {
+    "module": "MA_AMTO",
+    "type": "R"
+  },
+  {
+    "module": "MA_PAMPA",
+    "type": "R"
+  },
+  {
+    "module": "TSM_Dynamics",
+    "type": "O"
+  },
+  {
+    "module": "MA_HYDR",
+    "type": "O"
+  },
+  {
+    "module": "TSM_AdvMech",
+    "type": "R"
+  },
+  {
+    "module": "CM_SustDev",
+    "type": "O"
+  },
+  {
+    "module": "FTP_Optimiz",
+    "type": "O"
+  },
+  {
+    "module": "MA_AdvFemNL",
+    "type": "R"
+  },
+  {
+    "module": "PI_x",
+    "type": "C"
+  },
+  {
+    "module": "MA_BioCI",
+    "type": "O"
+  },
+  {
+    "module": "MA_PLM",
+    "type": "R"
+  },
+  {
+    "module": "FTP_SmartMach",
+    "type": "R"
+  }
+]

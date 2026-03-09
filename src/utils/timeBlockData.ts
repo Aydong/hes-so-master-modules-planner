@@ -1,10 +1,8 @@
 /**
- * Time block data — loaded exclusively from /data/HES_TimeBlock.json.
- * No hardcoded schedule data in this file.
+ * Time block data - loaded from /public/data/HES_TimeBlock.json.
  */
 
 //  Types 
-
 export interface BlockTime { startMin: number; endMin: number }
 
 interface _RawBlock { id: number; time_start: string; time_stop: string }
@@ -12,7 +10,7 @@ interface _RawSite  { code: string; name: string; block: _RawBlock[] }
 
 type BlockMap = Record<string, Record<number, BlockTime>>;
 
-// Built from JSON — null until the fetch resolves
+// Built from JSON - null until the fetch resolves
 let LOCATION_NAME_TO_CODE: Record<string, string> | null = null;
 
 /** Resolve a location full name to its code, falling back to 'L' if unknown or not yet loaded. */
@@ -23,13 +21,13 @@ function locationCode(location: string | undefined): string {
 
 // Helpers 
 
-/** Parse "8h45" → minutes from midnight */
+/** Parse "8h45" to minutes from midnight */
 export function parseTimeStr(t: string): number {
     const [hPart, mPart] = t.split('h');
     return parseInt(hPart) * 60 + (parseInt(mPart) || 0);
 }
 
-/** Format minutes from midnight → "8h45" */
+/** Format minutes from midnight to "8h45" */
 export function formatMinutes(min: number): string {
     const h = Math.floor(min / 60);
     const m = min % 60;
@@ -50,7 +48,7 @@ function buildMap(sites: _RawSite[]): BlockMap {
     return map;
 }
 
-//  Module-level cache — null until the JSON is fetched 
+//  Module-level cache - null until the JSON is fetched 
 
 let BLOCK_TIME_MAP: BlockMap | null = null;
 

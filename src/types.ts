@@ -13,6 +13,7 @@ export interface Course {
     TimeBlock: TimeBlock;
     location?: string;
     credits?: number;
+    description?: string; // Not use for now
 }
 
 export interface SelectedCourse extends Course {

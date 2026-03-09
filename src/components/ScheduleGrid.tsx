@@ -245,7 +245,7 @@ export const ScheduleGrid: React.FC = () => {
                     </div>
                     <div className="bg-white border border-gray-200 px-3 py-1.5 rounded-lg shadow-sm flex items-center gap-2">
                         <span className="text-xs font-bold text-gray-500 uppercase">Total Credits:</span>
-                        <span className="text-sm font-bold text-blue-600">{selectedECTS} <span className="font-normal">(selected modules)</span>
+                        <span className="text-sm font-bold text-blue-600">{selectedECTS}
                     {' '}
                     {program?.masterCode === 'ICS' ? (
                         <> + 30 <span className="font-normal">(TM)</span> + 30 <span className="font-normal">(Brasov)</span></>
