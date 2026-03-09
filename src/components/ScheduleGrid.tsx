@@ -378,7 +378,7 @@ export const ScheduleGrid: React.FC = () => {
                                             {/* Top section */}
                                             <div>
                                                 <div className="flex justify-between items-start gap-1">
-                                                    <span className="font-bold text-[10px] leading-tight truncate">{course.module}</span>
+                                                    <span className="font-bold text-[13px] leading-tight truncate">{course.module}</span>
                                                     {course.type === 'C' ? (
                                                         <Lock size={11} className="shrink-0 opacity-50" />
                                                     ) : (
@@ -390,7 +390,7 @@ export const ScheduleGrid: React.FC = () => {
                                                         </button>
                                                     )}
                                                 </div>
-                                                <p className="text-[9px] font-medium leading-tight mt-0.5 opacity-75 line-clamp-2">
+                                                <p className="text-[11px] font-medium leading-tight mt-0.5 opacity-75 line-clamp-2">
                                                     {course.title}
                                                 </p>
                                             </div>
@@ -398,7 +398,7 @@ export const ScheduleGrid: React.FC = () => {
                                             {/* Bottom section */}
                                             <div className="flex flex-col gap-0.5 mt-1">
                                                 {/* Real time */}
-                                                <span className="text-[9px] font-bold opacity-80">
+                                                <span className="text-[11px] font-bold opacity-80">
                                                     {formatMinutes(timing.startMin)} – {formatMinutes(timing.endMin)}
                                                 </span>
 
@@ -406,7 +406,7 @@ export const ScheduleGrid: React.FC = () => {
                                                     {/* Location */}
                                                     {course.location && (
                                                         <span className={cn(
-                                                            'text-[8px] font-medium uppercase tracking-wide flex items-center gap-0.5',
+                                                            'text-[10px] font-medium uppercase tracking-wide flex items-center gap-0.5',
                                                             hasTravel ? 'text-orange-500 font-bold' : 'opacity-60'
                                                         )}>
                                                             <svg width="6" height="6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
