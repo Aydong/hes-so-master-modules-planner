@@ -74,6 +74,17 @@ const getCategoryColor = (moduleCode: string) => {
     return 'bg-gray-100 border-gray-300 text-gray-800';
 };
 
+const getCategoryDot = (prefix: string) => {
+    if (prefix === 'TSM') return 'bg-blue-400';
+    if (prefix === 'FTP') return 'bg-purple-400';
+    if (prefix === 'MA')  return 'bg-emerald-400';
+    if (prefix === 'CM')  return 'bg-amber-400';
+    if (prefix === 'PI')  return 'bg-gray-400';
+    if (prefix === 'MAP') return 'bg-indigo-400';
+    if (prefix === 'CSI') return 'bg-purple-400';
+    return 'bg-gray-400';
+};
+
 const getCategoryBadge = (moduleCode: string) => {
     if (moduleCode.startsWith('TSM')) return 'bg-blue-100 text-blue-700';
     if (moduleCode.startsWith('FTP')) return 'bg-purple-100 text-purple-700';
@@ -340,6 +351,11 @@ export const ScheduleGrid: React.FC = () => {
                                                             {formatMinutes(timing.startMin)}–{formatMinutes(timing.endMin)}
                                                         </span>
                                                     </div>
+                                                ))}
+                                            </div>
+                                            <div className="flex items-center gap-2 mt-1.5">
+                                                {[...new Set(available.map(c => c.module.split('_')[0]))].map(prefix => (
+                                                    <span key={prefix} className={`w-2.5 h-2.5 rounded-full ${getCategoryDot(prefix)}`} title={prefix} />
                                                 ))}
                                             </div>
                                         </div>
