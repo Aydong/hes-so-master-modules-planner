@@ -315,7 +315,6 @@ export const ScheduleGrid: React.FC = () => {
                                     const bounds         = getBlockTimeBounds(locations, blockNum);
                                     if (!bounds) return null;
                                     const distinctTimings = getDistinctTimings(locations, blockNum);
-                                    // const hasMultiple    = distinctTimings.length > 1;
 
                                     return (
                                         <div key={block}
@@ -328,16 +327,16 @@ export const ScheduleGrid: React.FC = () => {
 
                                             <div className="flex items-center gap-1 text-gray-300 group-hover:text-blue-400 transition-colors">
                                                 <Plus size={14} />
-                                                <span className="text-[10px] font-bold">{block}</span>
+                                                <span className="text-[18px] font-bold">{block}</span>
                                             </div>
                                             <div className="flex flex-col items-center gap-0.5 mt-0.5">
-                                                {distinctTimings.map(({ timing, locationCodes }) => (
-                                                    <div key={`${timing.startMin}`}
+                                                {distinctTimings.map(({ timing, locationCode }) => (
+                                                    <div key={`${locationCode}-${timing.startMin}`}
                                                         className="flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-white/70 border border-gray-200 group-hover:border-blue-200">
-                                                        <span className="text-[8px] font-bold text-gray-500 group-hover:text-blue-600">
-                                                            {locationCodes.map(getNameForCode).join(' / ')}
+                                                        <span className="text-[12px] font-bold text-gray-500 group-hover:text-blue-600">
+                                                            {getNameForCode(locationCode)}
                                                         </span>
-                                                        <span className="text-[8px] text-gray-400 group-hover:text-blue-400">
+                                                        <span className="text-[12px] text-gray-400 group-hover:text-blue-400">
                                                             {formatMinutes(timing.startMin)}–{formatMinutes(timing.endMin)}
                                                         </span>
                                                     </div>

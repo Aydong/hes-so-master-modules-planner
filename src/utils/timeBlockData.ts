@@ -118,17 +118,17 @@ export function getBlockTimeBounds(
 export function getDistinctTimings(
     locations: (string | undefined)[],
     blockNum: number,
-): Array<{ timing: BlockTime; locationCodes: string[] }> {
+): Array<{ timing: BlockTime; locationCode: string }> {
     if (!BLOCK_TIME_MAP) return [];
-    const groups = new Map<string, { timing: BlockTime; locationCodes: string[] }>();
+    const seen = new Set<string>();
+    const result: Array<{ timing: BlockTime; locationCode: string }> = [];
     for (const loc of locations) {
         const timing = getBlockTime(loc, blockNum);
         if (!timing) continue;
         const code = locationCode(loc);
-        const key  = `${timing.startMin}-${timing.endMin}`;
-        if (!groups.has(key)) groups.set(key, { timing, locationCodes: [] });
-        const entry = groups.get(key)!;
-        if (!entry.locationCodes.includes(code)) entry.locationCodes.push(code);
+        if (seen.has(code)) continue;
+        seen.add(code);
+        result.push({ timing, locationCode: code });
     }
-    return Array.from(groups.values()).sort((a, b) => a.timing.startMin - b.timing.startMin);
+    return result.sort((a, b) => a.timing.startMin - b.timing.startMin);
 }
