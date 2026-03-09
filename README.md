@@ -19,7 +19,7 @@ This application helps you choose your courses, organize your schedule, and make
 
 **You can access the tool here:** https://aydong.github.io/hes-so-master-modules-planner/
 
-<img width="1868" height="1012" alt="image" src="https://github.com/user-attachments/assets/26fa9821-4bd7-40d3-8df9-eb095de31b0c" />
+<img width="3795" height="2166" alt="image" src="https://github.com/user-attachments/assets/c32fe796-4782-43f8-a3b6-cf7de8e60fae" />
 
 ## Who is this for? 👀
 
@@ -57,10 +57,11 @@ Use the panel on the right to find courses. You can search by name or filter by:
 
 Click **"Add to Year 1"** or **"Add to Year 2"** to put the course in your schedule.
 
-You can also click on a block in the calendar to open the course picker pre-filtered for that time slot.
-
 <img width="232" height="133" alt="image" src="https://github.com/user-attachments/assets/b72b9583-64d2-4542-94de-9a3847d2daf8" />
 
+You can also click on a block in the calendar to open the course picker pre-filtered for that time slot.
+
+<img width="465" height="265" alt="image" src="https://github.com/user-attachments/assets/df3e7880-5027-4c74-897e-0d745f4fe359" />
 
 ### 2. Check your Schedule
 The main calendar shows your week.
