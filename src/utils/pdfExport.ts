@@ -210,6 +210,16 @@ const drawGanttCalendar = (doc: jsPDF, semCourses: SelectedCourse[], startY: num
                 doc.text(titleLines.slice(0, 2), cX + 3.5, cY + 10, { align: 'left' });
             }
 
+            // Type of course
+            if (cH > 12) {
+                doc.setFontSize(6.5);
+                doc.setFont('helvetica', 'normal');
+                const typeStr = course.type === 'R' ? 'Recommended' :
+                                course.type === 'C' ? 'Compulsory' :
+                                course.type === 'O' ? 'Optional' : 'Other';
+                doc.text(typeStr, cX + 3.5, cY + cH - 11, { align: 'left' });
+            }
+
             // Time
             if (cH > 14) {
                 doc.setFontSize(7);
