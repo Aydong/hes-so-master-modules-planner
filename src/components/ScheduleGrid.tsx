@@ -167,7 +167,7 @@ const SlotPicker: React.FC<SlotPickerProps> = ({ day, block, semester, courses, 
 export const ScheduleGrid: React.FC = () => {
     const {
         removeCourse, getSelectedCourses, getAllCourses, addCourse,
-        isCourseSelected, currentProgramId, startingSemester, importVersion,
+        isCourseSelected, startingSemester, importVersion,
     } = useCourseStore();
 
     const selectedCourses = getSelectedCourses();
@@ -185,14 +185,6 @@ export const ScheduleGrid: React.FC = () => {
         setSemester('1');
         setSelectedSlot(null);
     }, [importVersion]);
-
-    const currentProgram = currentProgramId ? getProgramById(currentProgramId) : null;
-    const rules = currentProgram?.validationRules ?? {
-        TSM: { max: 0, minRec: 0 }, FTP: { max: 0, minRec: 0 },
-        MA:  { max: 0, minRec: 0 }, CM:  { max: 0, minRec: 0 },
-        PI:  { max: 0, minRec: 0 }, MAP: { max: 0, minRec: 0 },
-        CSI: { max: 0, minRec: 0 }, BONUS: 0,
-    };
 
     const semesterCourses = selectedCourses.filter(c => c.assignedSemester === semester);
     const travelWarnings  = buildTravelWarningModules(semesterCourses);
