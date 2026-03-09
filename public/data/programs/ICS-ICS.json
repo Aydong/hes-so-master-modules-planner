@@ -1,0 +1,146 @@
+[
+  {
+    "module": "MA_DeSEm",
+    "type": "O"
+  },
+  {
+    "module": "MA_PCM",
+    "type": "O"
+  },
+  {
+    "module": "TSM_MachLeData",
+    "type": "O"
+  },
+  {
+    "module": "MA_SeS",
+    "type": "R"
+  },
+  {
+    "module": "MA_AdMoApp",
+    "type": "O"
+  },
+  {
+    "module": "TSM_CyberSec",
+    "type": "R"
+  },
+  {
+    "module": "CM_PrivLaw",
+    "type": "R"
+  },
+  {
+    "module": "TSM_SoftwAs_ZH",
+    "type": "R"
+  },
+  {
+    "module": "FTP_MachLe",
+    "type": "R"
+  },
+  {
+    "module": "TSM_AdvEmbSof",
+    "type": "O"
+  },
+  {
+    "module": "CM_AcWritPre",
+    "type": "R"
+  },
+  {
+    "module": "CM_QRM",
+    "type": "O"
+  },
+  {
+    "module": "FTP_CryptCod",
+    "type": "R"
+  },
+  {
+    "module": "FTP_AppStat",
+    "type": "O"
+  },
+  {
+    "module": "MA_MLBD",
+    "type": "O"
+  },
+  {
+    "module": "TSM_EmbHardw",
+    "type": "O"
+  },
+  {
+    "module": "CM_AdvProjMgmt",
+    "type": "O"
+  },
+  {
+    "module": "CM_InnChang",
+    "type": "O"
+  },
+  {
+    "module": "FTP_Alg",
+    "type": "R"
+  },
+  {
+    "module": "CSI_1",
+    "type": "C"
+  },
+  {
+    "module": "MA_NSA",
+    "type": "R"
+  },
+  {
+    "module": "TSM_CyberSecOp_ZH",
+    "type": "R"
+  },
+  {
+    "module": "TSM_SecIndOpT_ZH",
+    "type": "R"
+  },
+  {
+    "module": "TSM_SoftwEng",
+    "type": "O"
+  },
+  {
+    "module": "TSM_AdvNetSec_ZH",
+    "type": "R"
+  },
+  {
+    "module": "CM_Entrepr",
+    "type": "O"
+  },
+  {
+    "module": "FTP_DeLearn",
+    "type": "O"
+  },
+  {
+    "module": "CM_ComplPro_B_ZH",
+    "type": "O"
+  },
+  {
+    "module": "MA_ICR",
+    "type": "R"
+  },
+  {
+    "module": "MA_ASAD",
+    "type": "O"
+  },
+  {
+    "module": "TSM_AdvComArc",
+    "type": "O"
+  },
+  {
+    "module": "CM_SustDev",
+    "type": "O"
+  },
+  {
+    "module": "FTP_Optimiz",
+    "type": "R"
+  },
+  {
+    "module": "CSI_2",
+    "type": "C"
+  },
+  {
+    "module": "MA_SRE",
+    "type": "R"
+  },
+  {
+    "module": "MA_CSEL1",
+    "type": "O"
+  }
+]

@@ -1,0 +1,142 @@
+[
+  {
+    "module": "FTP_Energy",
+    "type": "O"
+  },
+  {
+    "module": "MA_HYBRD",
+    "type": "R"
+  },
+  {
+    "module": "CM_PrivLaw",
+    "type": "O"
+  },
+  {
+    "module": "FTP_MachLe",
+    "type": "R"
+  },
+  {
+    "module": "FTP_ModSim",
+    "type": "R"
+  },
+  {
+    "module": "FTP_Multiphy",
+    "type": "R"
+  },
+  {
+    "module": "TSM_FundEnEn",
+    "type": "O"
+  },
+  {
+    "module": "CM_AcWritPre",
+    "type": "O"
+  },
+  {
+    "module": "CM_QRM",
+    "type": "R"
+  },
+  {
+    "module": "FTP_OrdDiff",
+    "type": "O"
+  },
+  {
+    "module": "MA_INTE1",
+    "type": "O"
+  },
+  {
+    "module": "TSM_SignProc",
+    "type": "R"
+  },
+  {
+    "module": "TSM_EmbHardw",
+    "type": "R"
+  },
+  {
+    "module": "CM_AdvProjMgmt",
+    "type": "R"
+  },
+  {
+    "module": "CM_InnChang",
+    "type": "R"
+  },
+  {
+    "module": "MA_PowElSys",
+    "type": "R"
+  },
+  {
+    "module": "TSM_DataMgmt",
+    "type": "O"
+  },
+  {
+    "module": "FTP_PartDiff",
+    "type": "R"
+  },
+  {
+    "module": "MA_HiVoEn",
+    "type": "R"
+  },
+  {
+    "module": "MA_PGE",
+    "type": "O"
+  },
+  {
+    "module": "MA_STOCK",
+    "type": "O"
+  },
+  {
+    "module": "MA_SIMI",
+    "type": "O"
+  },
+  {
+    "module": "MA_Nucl",
+    "type": "O"
+  },
+  {
+    "module": "CM_Entrepr",
+    "type": "O"
+  },
+  {
+    "module": "CM_ComplPro_B_ZH",
+    "type": "R"
+  },
+  {
+    "module": "TSM_PowGrid",
+    "type": "O"
+  },
+  {
+    "module": "MA_REA",
+    "type": "R"
+  },
+  {
+    "module": "CM_SustDev",
+    "type": "R"
+  },
+  {
+    "module": "FTP_Optimiz",
+    "type": "R"
+  },
+  {
+    "module": "TSM_AdvContr",
+    "type": "R"
+  },
+  {
+    "module": "TSM_AppElm",
+    "type": "R"
+  },
+  {
+    "module": "PI_x",
+    "type": "C"
+  },
+  {
+    "module": "MA_PLM",
+    "type": "O"
+  },
+  {
+    "module": "MA_ElPowSys",
+    "type": "R"
+  },
+  {
+    "module": "MA_SMART",
+    "type": "R"
+  }
+]

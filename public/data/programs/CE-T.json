@@ -1,0 +1,94 @@
+[
+  {
+    "module": "FTP_Energy",
+    "type": "O"
+  },
+  {
+    "module": "MAP_EspacPu",
+    "type": "R"
+  },
+  {
+    "module": "CM_PrivLaw",
+    "type": "R"
+  },
+  {
+    "module": "MAP_MobUrb",
+    "type": "R"
+  },
+  {
+    "module": "CM_AcWritPre",
+    "type": "O"
+  },
+  {
+    "module": "CM_QRM",
+    "type": "O"
+  },
+  {
+    "module": "MA_GDPC",
+    "type": "R"
+  },
+  {
+    "module": "FTP_AppStat",
+    "type": "O"
+  },
+  {
+    "module": "TSM_CSM",
+    "type": "O"
+  },
+  {
+    "module": "CM_AdvProjMgmt",
+    "type": "O"
+  },
+  {
+    "module": "CM_InnChang",
+    "type": "R"
+  },
+  {
+    "module": "TSM_DataMgmt",
+    "type": "O"
+  },
+  {
+    "module": "TSM_MaintStruc",
+    "type": "R"
+  },
+  {
+    "module": "TSM_NatHaz",
+    "type": "R"
+  },
+  {
+    "module": "TSM_BIM",
+    "type": "R"
+  },
+  {
+    "module": "MAP_TransPu",
+    "type": "R"
+  },
+  {
+    "module": "CM_Entrepr",
+    "type": "O"
+  },
+  {
+    "module": "MAP_NumMob",
+    "type": "R"
+  },
+  {
+    "module": "CM_ComplPro_B_ZH",
+    "type": "O"
+  },
+  {
+    "module": "FTP_Life_ZH",
+    "type": "O"
+  },
+  {
+    "module": "CM_SustDev",
+    "type": "O"
+  },
+  {
+    "module": "FTP_EnviPlan",
+    "type": "R"
+  },
+  {
+    "module": "MAP_Trafic",
+    "type": "R"
+  }
+]

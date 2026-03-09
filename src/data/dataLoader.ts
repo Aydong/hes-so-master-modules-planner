@@ -1,8 +1,5 @@
 import type { Course } from '../types';
 
-// Import the master index from the data folder (via public)
-// We'll load this dynamically
-
 export interface Master {
   code: string;
   name: string;
@@ -22,85 +19,88 @@ export interface MastersData {
   masters: Master[];
 }
 
-// Maps for dynamic loading
-let mastersDataCache: MastersData | null = null;
-let courseDataCache: Record<string, Course[]> = {};
+//  Caches 
 
-// Map specialization codes to legacy course data file names
-const courseDataFileMap: Record<string, string> = {
-  'CE-S': 'CE/MSE_CE_S.json',
-  'CE-G': 'CE/MSE_CE_G.json',
-  'CE-H': 'CE/MSE_CE_H.json',
-  'CE-T': 'CE/MSE_CE_T.json',
-  'CS-C': 'CS/MSE_CS_C.json',
-  'CS-Cy': 'CS/MSE_CS_Cy.json',
-  'CS-E': 'CS/MSE_CS_E.json',
-  'CS-S': 'CS/MSE_CS_S.json',
-  'DS-DS': 'DS/MSE_DS.json',
-  'ElE-S': 'EIE/MSE_ElE_S.json',
-  'ElE-P': 'EIE/MSE_ElE_P.json',
-  'EnEn-EnEn': 'EnEn/MSE_EnEn.json',
-  'ICS-ICS': 'ICS/MSE_ICS.json',
-  'ME-ME': 'ME/MSE_ME.json',
-  'Mic-B': 'Mic/MSE_Mic_B.json',
-  'Mic-D': 'Mic/MSE_Mic_D.json',
-  'Mic-H': 'Mic/MSE_Mic_H.json',
-  'Mic-P': 'Mic/MSE_Mic_P.json',
-};
+let mastersDataCache: MastersData | null = null;
+/** courses.json: module code → course data (without type) */
+let courseRegistryCache: Record<string, Omit<Course, 'module' | 'type'>> | null = null;
+/** per-program manifest cache */
+let manifestCache: Record<string, Array<{ module: string; type: Course['type'] }>> = {};
+/** resolved courses per program */
+let courseDataCache: Record<string, Course[]> = {};
 
 // Map old program IDs to new format for backward compatibility
 const legacyIdMap: Record<string, string> = {
-  'ds': 'DS-DS',
-  'cs-s': 'CS-S',
+  'ds':    'DS-DS',
+  'cs-s':  'CS-S',
   'cs-cy': 'CS-Cy',
-  'cs-e': 'CS-E',
-  'cs-c': 'CS-C',
-  'ics': 'ICS-ICS',
+  'cs-e':  'CS-E',
+  'cs-c':  'CS-C',
+  'ics':   'ICS-ICS',
 };
 
+//  Loaders 
+
 export async function getMastersData(): Promise<MastersData> {
-  if (mastersDataCache) {
-    return mastersDataCache;
-  }
-  
-  try {
-    // Use import.meta.env.BASE_URL to get the correct base path
-    const basePath = import.meta.env.BASE_URL;
-    const response = await fetch(`${basePath}data/MSE_masters_index.json`);
-    const data: MastersData = await response.json();
-    mastersDataCache = data;
-    return data;
-  } catch (error) {
-    console.error('Failed to load masters index:', error);
-    throw error;
-  }
+  if (mastersDataCache) return mastersDataCache;
+  const base = import.meta.env.BASE_URL;
+  const res = await fetch(`${base}data/MSE_masters_index.json`);
+  mastersDataCache = await res.json() as MastersData;
+  return mastersDataCache;
 }
 
-export async function getCoursesBySpecialization(masterCode: string, specializationCode: string | null): Promise<Course[]> {
-  // Build the ID based on master and specialization
-  const id = specializationCode ? `${masterCode}-${specializationCode}` : `${masterCode}-${masterCode}`;
-  
-  if (courseDataCache[id]) {
-    return courseDataCache[id];
-  }
+async function getCourseRegistry(): Promise<Record<string, Omit<Course, 'module' | 'type'>>> {
+  if (courseRegistryCache) return courseRegistryCache;
+  const base = import.meta.env.BASE_URL;
+  const res = await fetch(`${base}data/courses.json`);
+  courseRegistryCache = await res.json() as Record<string, Omit<Course, 'module' | 'type'>>;
+  return courseRegistryCache;
+}
 
-  const filePath = courseDataFileMap[id];
-  if (!filePath) {
-    console.warn(`No course data file mapping for ${id}`);
+async function getProgramManifest(
+  programId: string,
+): Promise<Array<{ module: string; type: Course['type'] }>> {
+  if (manifestCache[programId]) return manifestCache[programId];
+  const base = import.meta.env.BASE_URL;
+  const res = await fetch(`${base}data/programs/${programId}.json`);
+  if (!res.ok) {
+    console.warn(`No manifest found for program ${programId}`);
     return [];
   }
+  const manifest = await res.json() as Array<{ module: string; type: Course['type'] }>;
+  manifestCache[programId] = manifest;
+  return manifest;
+}
 
-  try {
-    // Use import.meta.env.BASE_URL to get the correct base path
-    const basePath = import.meta.env.BASE_URL;
-    const response = await fetch(`${basePath}data/${filePath}`);
-    const data: Course[] = await response.json();
-    courseDataCache[id] = data;
-    return data;
-  } catch (error) {
-    console.error(`Failed to load courses for ${id}:`, error);
-    return [];
+//  Public API 
+
+export async function getCoursesBySpecialization(
+  masterCode: string,
+  specializationCode: string | null,
+): Promise<Course[]> {
+  const programId = specializationCode
+    ? `${masterCode}-${specializationCode}`
+    : `${masterCode}-${masterCode}`;
+
+  if (courseDataCache[programId]) return courseDataCache[programId];
+
+  const [registry, manifest] = await Promise.all([
+    getCourseRegistry(),
+    getProgramManifest(programId),
+  ]);
+
+  const courses: Course[] = [];
+  for (const entry of manifest) {
+    const data = registry[entry.module];
+    if (!data) {
+      console.warn(`Module ${entry.module} not found in course registry`);
+      continue;
+    }
+    courses.push({ module: entry.module, type: entry.type, ...data });
   }
+
+  courseDataCache[programId] = courses;
+  return courses;
 }
 
 export function getProgramIdFromLegacy(legacyId: string): string {
@@ -108,11 +108,8 @@ export function getProgramIdFromLegacy(legacyId: string): string {
 }
 
 export function getLegacyIdFromProgram(programId: string): string {
-  // Reverse lookup
   for (const [legacy, program] of Object.entries(legacyIdMap)) {
-    if (program === programId) {
-      return legacy;
-    }
+    if (program === programId) return legacy;
   }
   return programId;
 }

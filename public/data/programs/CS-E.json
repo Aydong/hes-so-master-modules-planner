@@ -1,0 +1,202 @@
+[
+  {
+    "module": "MA_DeSEm",
+    "type": "O"
+  },
+  {
+    "module": "MA_PCM",
+    "type": "R"
+  },
+  {
+    "module": "TSM_MachLeData",
+    "type": "O"
+  },
+  {
+    "module": "MA_NTDA",
+    "type": "O"
+  },
+  {
+    "module": "MA_SeS",
+    "type": "R"
+  },
+  {
+    "module": "MA_AdMoApp",
+    "type": "O"
+  },
+  {
+    "module": "TSM_CyberSec",
+    "type": "R"
+  },
+  {
+    "module": "CM_PrivLaw",
+    "type": "O"
+  },
+  {
+    "module": "TSM_CloudSys",
+    "type": "O"
+  },
+  {
+    "module": "FTP_MachLe",
+    "type": "O"
+  },
+  {
+    "module": "TSM_AdvEmbSof",
+    "type": "R"
+  },
+  {
+    "module": "TSM_AnSeqDa",
+    "type": "O"
+  },
+  {
+    "module": "CM_AcWritPre",
+    "type": "R"
+  },
+  {
+    "module": "CM_QRM",
+    "type": "O"
+  },
+  {
+    "module": "FTP_CryptCod",
+    "type": "O"
+  },
+  {
+    "module": "FTP_DigImPro",
+    "type": "O"
+  },
+  {
+    "module": "MA_ITProMan",
+    "type": "O"
+  },
+  {
+    "module": "MA_MLBD",
+    "type": "O"
+  },
+  {
+    "module": "TSM_EmbHardw",
+    "type": "R"
+  },
+  {
+    "module": "CM_AdvProjMgmt",
+    "type": "O"
+  },
+  {
+    "module": "CM_InnChang",
+    "type": "O"
+  },
+  {
+    "module": "FTP_Alg",
+    "type": "R"
+  },
+  {
+    "module": "TSM_DataMgmt",
+    "type": "O"
+  },
+  {
+    "module": "MA_IPR",
+    "type": "O"
+  },
+  {
+    "module": "MA_NSA",
+    "type": "O"
+  },
+  {
+    "module": "MA_GPU",
+    "type": "R"
+  },
+  {
+    "module": "MA_GT",
+    "type": "O"
+  },
+  {
+    "module": "MA_AUI",
+    "type": "O"
+  },
+  {
+    "module": "MA_AdvProg",
+    "type": "O"
+  },
+  {
+    "module": "TSM_AdvNLP",
+    "type": "O"
+  },
+  {
+    "module": "TSM_AdvDaBa",
+    "type": "O"
+  },
+  {
+    "module": "TSM_SoftwEng",
+    "type": "R"
+  },
+  {
+    "module": "MA_EmbReal",
+    "type": "R"
+  },
+  {
+    "module": "MA_NTDE",
+    "type": "O"
+  },
+  {
+    "module": "CM_Entrepr",
+    "type": "R"
+  },
+  {
+    "module": "FTP_DeLearn",
+    "type": "O"
+  },
+  {
+    "module": "MA_GesSec",
+    "type": "O"
+  },
+  {
+    "module": "CM_ComplPro_B_ZH",
+    "type": "O"
+  },
+  {
+    "module": "MA_LPSC",
+    "type": "R"
+  },
+  {
+    "module": "MA_HPQC",
+    "type": "O"
+  },
+  {
+    "module": "MA_ICR",
+    "type": "O"
+  },
+  {
+    "module": "MA_ASAD",
+    "type": "O"
+  },
+  {
+    "module": "TSM_AdvComArc",
+    "type": "O"
+  },
+  {
+    "module": "CM_SustDev",
+    "type": "O"
+  },
+  {
+    "module": "FTP_Optimiz",
+    "type": "R"
+  },
+  {
+    "module": "PI_x",
+    "type": "C"
+  },
+  {
+    "module": "MA_SRE",
+    "type": "O"
+  },
+  {
+    "module": "MA_WEM",
+    "type": "O"
+  },
+  {
+    "module": "MA_BDA",
+    "type": "O"
+  },
+  {
+    "module": "MA_CSEL1",
+    "type": "R"
+  }
+]

@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { Sidebar } from './Sidebar';
 import { ScheduleGrid } from './ScheduleGrid';
-import { ModuleList } from './ModuleList';
 import { CourseListView } from './CourseListView';
 import { RefreshCw, ChevronLeft, Download, Upload, FileText, LayoutGrid, List } from 'lucide-react';
 import { GithubIcon } from './GithubIcon';
@@ -15,7 +14,7 @@ import { cn } from '../utils/cn';
 type View = 'schedule' | 'list';
 
 export const Layout: React.FC = () => {
-    const { getSelectedCourses, currentProgramId, setProgram, exportSchedule, importSchedule } = useCourseStore();
+    const { getSelectedCourses, currentProgramId, setProgram, exportSchedule, importSchedule, startingSemester, setStartingSemester } = useCourseStore();
     const selectedCourses = getSelectedCourses();
     const currentProgram = currentProgramId ? getProgramById(currentProgramId) : null;
 
@@ -61,7 +60,7 @@ export const Layout: React.FC = () => {
     };
 
     const handleExportPDF = () => {
-        exportToPDF(selectedCourses, currentProgram?.name || 'MSE Program', validation, rules, hasCollisions);
+        exportToPDF(selectedCourses, currentProgram?.name || 'MSE Program', validation, rules, hasCollisions, startingSemester);
     };
 
 
@@ -84,6 +83,39 @@ export const Layout: React.FC = () => {
                         <ChevronLeft size={16} />
                         Change Program
                     </button>
+
+                    <div className="h-6 w-px bg-gray-200"></div>
+
+                    {/* Starting semester toggle */}
+                    <div className="flex flex-col items-center gap-1">
+                        <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Start</span>
+                        <div className="flex bg-gray-100 p-0.5 rounded-lg">
+                            <button
+                                onClick={() => setStartingSemester('SA')}
+                                className={cn(
+                                    'px-2.5 py-1 rounded-md text-xs font-bold transition-all',
+                                    startingSemester === 'SA'
+                                        ? 'bg-amber-500 text-white shadow-sm'
+                                        : 'text-gray-500 hover:text-gray-700'
+                                )}
+                                title="Start in Autumn semester"
+                            >
+                                SA
+                            </button>
+                            <button
+                                onClick={() => setStartingSemester('SP')}
+                                className={cn(
+                                    'px-2.5 py-1 rounded-md text-xs font-bold transition-all',
+                                    startingSemester === 'SP'
+                                        ? 'bg-emerald-500 text-white shadow-sm'
+                                        : 'text-gray-500 hover:text-gray-700'
+                                )}
+                                title="Start in Spring semester"
+                            >
+                                SP
+                            </button>
+                        </div>
+                    </div>
 
                     <div className="h-6 w-px bg-gray-200"></div>
 
@@ -281,12 +313,7 @@ export const Layout: React.FC = () => {
                     </div>
 
                     <div className="flex-1 overflow-y-auto">
-                        {view === 'schedule' ? <ScheduleGrid /> : <CourseListView rules={rules} />}
-                    </div>
-
-                    {/* Footer / Module List */}
-                    <div className="mt-6 shrink-0">
-                        <ModuleList />
+                        {view === 'schedule' ? <ScheduleGrid /> : <CourseListView rules={rules} startingSemester={startingSemester} />}
                     </div>
                 </div>
             </main>
