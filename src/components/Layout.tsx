@@ -10,7 +10,7 @@ import { useCourseStore } from '../store/useCourseStore';
 import type { ScheduleExport } from '../store/useCourseStore';
 import { validateConstraints, checkCollisions } from '../utils/validation';
 import { getProgramById } from '../data/programs';
-import { exportToPDF } from '../utils/pdfExport';
+
 import { cn } from '../utils/cn';
 
 
@@ -75,8 +75,9 @@ export const Layout: React.FC = () => {
     };
 
     const handleExportJSON = (sems: Sem[]) => exportSchedule(sems);
-    const handleExportPDF  = (sems: Sem[]) => {
+    const handleExportPDF  = async (sems: Sem[]) => {
         const filtered = selectedCourses.filter(c => sems.includes(c.assignedSemester));
+        const { exportToPDF } = await import('../utils/pdfExport');
         exportToPDF(filtered, currentProgram?.name || 'MSE Program', validation, rules, hasCollisions, startingSemester);
     };
 
