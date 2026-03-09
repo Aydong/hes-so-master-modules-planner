@@ -87,7 +87,7 @@ function getCourseTiming(course: SelectedCourse): CourseTiming {
 
 function getRealTimeStr(course: SelectedCourse): string {
     const { startMin, endMin } = getCourseTiming(course);
-    return `${formatMinutes(startMin)} – ${formatMinutes(endMin)}`;
+    return `${formatMinutes(startMin)} - ${formatMinutes(endMin)}`;
 }
 
 //  Gantt calendar page 
@@ -181,8 +181,8 @@ const drawGanttCalendar = (doc: jsPDF, semCourses: SelectedCourse[], startY: num
         timed.forEach(({ course, startMin, endMin }) => {
             const { colIdx, colCount } = layout.get(course.module) ?? { colIdx: 0, colCount: 1 };
             const isCollision = colCount > 1;
-            const cW = COL_W / colCount;
-            const cX = dayX + colIdx * cW + 0.7;
+            const cW = COL_W / colCount - 3;
+            const cX = dayX + colIdx * cW + 0.7 + 1.5;
             const cY = toY(startMin) + 0.5;
             const cH = toH(startMin, endMin) - 1;
 
@@ -192,35 +192,35 @@ const drawGanttCalendar = (doc: jsPDF, semCourses: SelectedCourse[], startY: num
 
             doc.setFillColor(...fill);
             doc.setDrawColor(...tColor);
-            doc.setLineWidth(isCollision ? 0.6 : 0.3);
-            doc.roundedRect(cX, cY, cW - 1.4, cH, 1, 1, 'FD');
+            doc.setLineWidth(isCollision ? 0.6 : 0.1);
+            doc.roundedRect(cX, cY, cW - 1.4, cH, 3, 3, 'FD');
 
             doc.setTextColor(...tColor);
 
             // Module code
-            doc.setFontSize(5.5);
+            doc.setFontSize(9);
             doc.setFont('helvetica', 'bold');
-            doc.text(trunc(course.module, 18), cX + (cW - 1.4) / 2, cY + 3.5, { align: 'center', maxWidth: cW - 2.5 });
+            doc.text(trunc(course.module, 18), cX + 3.5, cY + 5, { align: 'left', maxWidth: cW - 2.5 });
 
             // Title (only if tall enough)
             if (cH > 9) {
-                doc.setFontSize(4.8);
+                doc.setFontSize(7);
                 doc.setFont('helvetica', 'normal');
                 const titleLines = doc.splitTextToSize(trunc(course.title, 40), cW - 3);
-                doc.text(titleLines.slice(0, 2), cX + (cW - 1.4) / 2, cY + 7.5, { align: 'center' });
+                doc.text(titleLines.slice(0, 2), cX + 3.5, cY + 10, { align: 'left' });
             }
 
             // Time
             if (cH > 14) {
-                doc.setFontSize(4.5);
+                doc.setFontSize(7);
                 doc.setFont('helvetica', 'normal');
-                doc.text(`${formatMinutes(startMin)}–${formatMinutes(endMin)}`, cX + (cW - 1.4) / 2, cY + cH - 5, { align: 'center' });
+                doc.text(`${formatMinutes(startMin)} - ${formatMinutes(endMin)}`, cX + 3.5, cY + cH - 7, { align: 'left' });
             }
 
             // Location
             if (cH > 18 && course.location) {
-                doc.setFontSize(4.2);
-                doc.text(`@ ${course.location}`, cX + (cW - 1.4) / 2, cY + cH - 1.5, { align: 'center' });
+                doc.setFontSize(6.5);
+                doc.text(`@ ${course.location}`, cX + 3.5, cY + cH - 3, { align: 'left' });
             }
 
             // Clickable link
@@ -270,7 +270,7 @@ const drawDetailList = (doc: jsPDF, semCourses: SelectedCourse[], startY: number
                 c.WeekDay,
                 { content: c.TimeBlock, styles: { halign: 'left' as const, font: 'courier' } },
                 { content: getRealTimeStr(c), styles: { halign: 'left' as const, fontSize: 7 } },
-                c.location || '–',
+                c.location || ' - ',
                 { content: 'View', styles: { textColor: BLUE, halign: 'left' as const } },
             ];
         }),
@@ -318,13 +318,13 @@ export const exportToPDF = (
     const doc   = new jsPDF({ orientation: 'landscape' });
     const pageW = doc.internal.pageSize.getWidth();
 
-    //  Page 1: cover + validation summary 
+    //  Page 1: cover + validation summary + disclaimer at the bottom
     doc.setFillColor(...BLUE);
     doc.rect(0, 0, pageW, 24, 'F');
     doc.setTextColor(...WHITE);
     doc.setFontSize(18);
     doc.setFont('helvetica', 'bold');
-    doc.text('HES-SO MSE — Course Planner', 14, 14);
+    doc.text('HES-SO MSE   |   Course Planner', 14, 14);
     doc.setFontSize(10);
     doc.setFont('helvetica', 'normal');
     const startLabel = startingSemester === 'SA' ? 'Start: Autumn' : 'Start: Spring';
@@ -348,14 +348,14 @@ export const exportToPDF = (
             rules.TSM.max > 0 ? ['TSM', String(validation.tsm.count), `${validation.tsm.rec} / ${rules.TSM.minRec}`, String(rules.TSM.max), statusCell(validation.tsm.message || '', validation.tsm.valid)] : null,
             rules.FTP.max > 0 ? ['FTP', String(validation.ftp.count), `${validation.ftp.rec} / ${rules.FTP.minRec}`, String(rules.FTP.max), statusCell(validation.ftp.message || '', validation.ftp.valid)] : null,
             rules.MA.max  > 0 ? ['MA',  String(validation.ma.count),  `${validation.ma.rec} / ${rules.MA.minRec}`,   String(rules.MA.max),  statusCell(validation.ma.message  || '', validation.ma.valid)] : null,
-            rules.CM.max  > 0 ? ['CM',  String(validation.cm.count),  '–', String(rules.CM.max), statusCell(validation.cm.message  || '', validation.cm.valid)] : null,
+            rules.CM.max  > 0 ? ['CM',  String(validation.cm.count),  '', String(rules.CM.max), statusCell(validation.cm.message  || '', validation.cm.valid)] : null,
             rules.PI.max  > 0 ? ['PI',  String(validation.pi.count),  `${validation.pi.rec} / ${rules.PI.minRec}`,   String(rules.PI.max),  statusCell(validation.pi.message  || '', validation.pi.valid)] : null,
             rules.MAP.max > 0 ? ['MAP', String(validation.map.count), `${validation.map.rec} / ${rules.MAP.minRec}`, String(rules.MAP.max), statusCell(validation.map.message || '', validation.map.valid)] : null,
             rules.CSI.max > 0 ? ['ICS', String(validation.csi.count), `${validation.csi.rec} / ${rules.CSI.minRec}`, String(rules.CSI.max), statusCell(validation.csi.message || '', validation.csi.valid)] : null,
             [
                 { content: 'TOTAL', styles: { fontStyle: 'bold' as const } },
                 { content: `${validation.totalEcts}${programECTS} = ${validation.totalEcts + addECTS}`, styles: { fontStyle: 'bold' as const, halign: 'center' as const } },
-                '–', '–',
+                '', '',
                 planStatusCell(planStatus),
             ],
         ].filter(row => row !== null),
@@ -371,6 +371,18 @@ export const exportToPDF = (
         },
     });
 
+    doc.setFontSize(8);
+    const disclaimer = 'This is an unofficial tool created by a student for students. It is not affiliated with MSE and may not be 100% accurate. Always double-check with official sources and your academic advisor before making decisions based on this planner. Visite the official MSE website for the most up-to-date information on courses, requirements, and schedules.';
+    const link = 'https://www.hes-so.ch/master/hes-so-master/formations/engineering';
+    const splitDisclaimer = doc.splitTextToSize(disclaimer, pageW - 28);
+    doc.setTextColor(...RED);
+    doc.text('Disclaimer:', 14, doc.internal.pageSize.getHeight() - splitDisclaimer.length * 4 - 9 - 5);
+    doc.setTextColor(...GRAY);
+    doc.text(splitDisclaimer, 14, doc.internal.pageSize.getHeight() - splitDisclaimer.length * 4 - 4 - 5);
+    doc.setTextColor(...BLUE);
+    doc.text(link, 14, doc.internal.pageSize.getHeight() - splitDisclaimer.length * 4 - 4 + splitDisclaimer.length * 4 - 5);
+
+
     //  One page pair per semester 
     (['1', '2', '3', '4'] as const).forEach(sem => {
         const semCourses = courses.filter(c => c.assignedSemester === sem);
@@ -378,7 +390,7 @@ export const exportToPDF = (
 
         const semLabel = SEMESTER_LABELS[sem];
         const semECTS  = semCourses.reduce((s, c) => s + (c.credits || 3), 0);
-        const semInfo  = `${semCourses.length} course${semCourses.length !== 1 ? 's' : ''} – ${semECTS} ECTS`;
+        const semInfo  = `${semCourses.length} course${semCourses.length !== 1 ? 's' : ''} - ${semECTS} ECTS`;
 
         // Gantt timeline page
         doc.addPage('landscape');
