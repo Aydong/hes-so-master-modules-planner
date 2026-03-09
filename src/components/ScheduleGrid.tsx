@@ -397,6 +397,13 @@ export const ScheduleGrid: React.FC = () => {
 
                                             {/* Bottom section */}
                                             <div className="flex flex-col gap-0.5 mt-1">
+                                                {/* Type of course*/}
+                                                <span className="text-[11px] opacity-80">
+                                                    {course.type === 'R' ? 'Recommended' :
+                                                     course.type === 'C' ? 'Compulsory' :
+                                                     course.type === 'O' ? 'Optional' : 'Other'}
+                                                </span>
+
                                                 {/* Real time */}
                                                 <span className="text-[11px] font-bold opacity-80">
                                                     {formatMinutes(timing.startMin)} – {formatMinutes(timing.endMin)}
