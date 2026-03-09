@@ -2,9 +2,12 @@ import React, { useRef, useState } from 'react';
 import { Sidebar } from './Sidebar';
 import { ScheduleGrid } from './ScheduleGrid';
 import { CourseListView } from './CourseListView';
-import { RefreshCw, ChevronLeft, Download, Upload, FileText, LayoutGrid, List } from 'lucide-react';
+import { ImportDialog } from './ImportDialog';
+import { ExportDialog } from './ExportDialog';
+import { RefreshCw, ChevronLeft, Download, Upload, LayoutGrid, List } from 'lucide-react';
 import { GithubIcon } from './GithubIcon';
 import { useCourseStore } from '../store/useCourseStore';
+import type { ScheduleExport } from '../store/useCourseStore';
 import { validateConstraints, checkCollisions } from '../utils/validation';
 import { getProgramById } from '../data/programs';
 import { exportToPDF } from '../utils/pdfExport';
@@ -20,6 +23,14 @@ export const Layout: React.FC = () => {
 
     const [view, setView] = useState<View>('schedule');
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const [importData, setImportData]       = useState<ScheduleExport | null>(null);
+    const [exportDialogOpen, setExportDialogOpen] = useState(false);
+
+    type Sem = '1' | '2' | '3' | '4';
+    const semesterCounts = (['1', '2', '3', '4'] as Sem[]).reduce<Record<Sem, number>>(
+        (acc, s) => { acc[s] = selectedCourses.filter(c => c.assignedSemester === s).length; return acc; },
+        { '1': 0, '2': 0, '3': 0, '4': 0 },
+    );
 
     const rules = currentProgram?.validationRules || {
         TSM: { max: 12, minRec: 6 },
@@ -45,22 +56,28 @@ export const Layout: React.FC = () => {
     const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;
-
         const reader = new FileReader();
         reader.onload = (event) => {
             const result = event.target?.result as string;
             const outcome = importSchedule(result);
-            if (!outcome.success) {
-                alert(`Import failed: ${outcome.error}`);
-            }
+            if (!outcome.success) { alert(`Import failed: ${outcome.error}`); return; }
+            if (outcome.data) setImportData(outcome.data);
         };
         reader.readAsText(file);
-        // Reset so same file can be re-imported
         e.target.value = '';
     };
 
-    const handleExportPDF = () => {
-        exportToPDF(selectedCourses, currentProgram?.name || 'MSE Program', validation, rules, hasCollisions, startingSemester);
+    const handleImportConfirm = (sems: Sem[]) => {
+        if (!importData) return;
+        const outcome = importSchedule(JSON.stringify(importData), sems);
+        if (!outcome.success) alert(`Import failed: ${outcome.error}`);
+        setImportData(null);
+    };
+
+    const handleExportJSON = (sems: Sem[]) => exportSchedule(sems);
+    const handleExportPDF  = (sems: Sem[]) => {
+        const filtered = selectedCourses.filter(c => sems.includes(c.assignedSemester));
+        exportToPDF(filtered, currentProgram?.name || 'MSE Program', validation, rules, hasCollisions, startingSemester);
     };
 
 
@@ -160,24 +177,14 @@ export const Layout: React.FC = () => {
                             Import
                         </button>
 
-                        {/* Export JSON */}
+                        {/* Export (JSON + PDF via dialog) */}
                         <button
-                            onClick={exportSchedule}
-                            title="Export schedule as JSON"
-                            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
-                        >
-                            <Download size={14} />
-                            JSON
-                        </button>
-
-                        {/* Export PDF */}
-                        <button
-                            onClick={handleExportPDF}
-                            title="Export schedule as PDF"
+                            onClick={() => setExportDialogOpen(true)}
+                            title="Export schedule"
                             className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
                         >
-                            <FileText size={14} />
-                            PDF
+                            <Download size={14} />
+                            Export
                         </button>
 
                         <div className="h-6 w-px bg-gray-200 mx-1"></div>
@@ -317,6 +324,26 @@ export const Layout: React.FC = () => {
                     </div>
                 </div>
             </main>
+
+            {/* Import dialog */}
+            {importData && (
+                <ImportDialog
+                    data={importData}
+                    onConfirm={handleImportConfirm}
+                    onClose={() => setImportData(null)}
+                />
+            )}
+
+            {/* Export dialog */}
+            {exportDialogOpen && (
+                <ExportDialog
+                    startingSemester={startingSemester}
+                    counts={semesterCounts}
+                    onExportJSON={handleExportJSON}
+                    onExportPDF={handleExportPDF}
+                    onClose={() => setExportDialogOpen(false)}
+                />
+            )}
         </div>
     );
 };

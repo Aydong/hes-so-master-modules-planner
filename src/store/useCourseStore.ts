@@ -30,8 +30,8 @@ interface CourseStore {
     removeCourse: (moduleCode: string) => void;
     isCourseSelected: (moduleCode: string) => boolean;
     refreshData: () => void;
-    exportSchedule: () => void;
-    importSchedule: (jsonData: string) => { success: boolean; error?: string };
+    exportSchedule: (semesters?: ('1'|'2'|'3'|'4')[]) => void;
+    importSchedule: (jsonData: string, semesters?: ('1'|'2'|'3'|'4')[]) => { success: boolean; error?: string; data?: ScheduleExport };
 
     // Getters (computed)
     getAllCourses: () => Course[];
@@ -138,13 +138,16 @@ export const useCourseStore = create<CourseStore>()(
                     return { selectedCoursesByProgram: newSelectionsByProgram };
                 }),
 
-            exportSchedule: () => {
+            exportSchedule: (semesters) => {
                 const state = get();
                 const programId = state.currentProgramId;
                 if (!programId) return;
 
                 const program = getProgramById(programId);
-                const selectedCourses = state.selectedCoursesByProgram[programId] || [];
+                const allCourses = state.selectedCoursesByProgram[programId] || [];
+                const selectedCourses = semesters
+                    ? allCourses.filter(c => semesters.includes(c.assignedSemester))
+                    : allCourses;
 
                 const enrichedCourses = selectedCourses.map(c => {
                     const blockNums = extractTimeBlocks(c.TimeBlock)
@@ -177,7 +180,7 @@ export const useCourseStore = create<CourseStore>()(
                 URL.revokeObjectURL(url);
             },
 
-            importSchedule: (jsonData: string) => {
+            importSchedule: (jsonData: string, semesters?) => {
                 try {
                     const data = JSON.parse(jsonData) as Partial<ScheduleExport>;
 
@@ -185,27 +188,33 @@ export const useCourseStore = create<CourseStore>()(
                         return { success: false, error: 'Invalid schedule data (programId or selectedCourses missing)' };
                     }
 
-                    // Migrate old program IDs to new format
-                    const migratedProgramId = migrateOldProgramId(data.programId);
+                    // If no semesters provided, just parse and return data for the dialog
+                    if (!semesters) {
+                        return { success: true, data: data as ScheduleExport };
+                    }
 
-                    // Validate that the program exists
+                    const migratedProgramId = migrateOldProgramId(data.programId);
                     const program = getProgramById(migratedProgramId);
                     if (!program) {
                         return { success: false, error: `Program not found: ${migratedProgramId}` };
                     }
 
-                    // All courses including type 'C' can now be imported
+                    // Only import courses from selected semesters; keep others intact
+                    const coursesToImport = data.selectedCourses.filter(
+                        c => semesters.includes(c.assignedSemester)
+                    );
+
                     set((state) => {
-                        const newSelections: Record<string, SelectedCourse[]> = {};
-                        Object.entries(state.selectedCoursesByProgram).forEach(([key, value]) => {
-                            if (value) newSelections[key] = value;
-                        });
+                        const existing = (state.selectedCoursesByProgram[migratedProgramId] || [])
+                            .filter(c => !semesters.includes(c.assignedSemester));
+                        const merged = [...existing, ...coursesToImport];
+
                         return {
                             currentProgramId: migratedProgramId,
                             startingSemester: data.startingSemester ?? 'SA',
                             selectedCoursesByProgram: {
-                                ...newSelections,
-                                [migratedProgramId]: data.selectedCourses,
+                                ...state.selectedCoursesByProgram,
+                                [migratedProgramId]: merged,
                             },
                             importVersion: state.importVersion + 1,
                         } as CourseStore;
