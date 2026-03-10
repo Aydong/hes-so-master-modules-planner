@@ -7,6 +7,7 @@ import { getProgramById } from '../data/programs';
 import { getProgramIdFromLegacy } from '../data/dataLoader';
 import { extractTimeBlocks } from '../utils/timeBlockUtils';
 import { getBlockTime, formatMinutes } from '../utils/timeBlockData';
+import { encodeSharePayload } from '../utils/urlShare';
 
 export interface ScheduleExport {
     version: string;
@@ -32,6 +33,7 @@ interface CourseStore {
     refreshData: () => void;
     exportSchedule: (semesters?: ('1'|'2'|'3'|'4')[]) => void;
     importSchedule: (jsonData: string, semesters?: ('1'|'2'|'3'|'4')[]) => { success: boolean; error?: string; data?: ScheduleExport };
+    buildShareURL: (semesters?: ('1'|'2'|'3'|'4')[]) => string | null;
 
     // Getters (computed)
     getAllCourses: () => Course[];
@@ -224,6 +226,16 @@ export const useCourseStore = create<CourseStore>()(
                 } catch (e) {
                     return { success: false, error: 'Failed to import schedule data' };
                 }
+            },
+
+            buildShareURL: (semesters) => {
+                const state = get();
+                const { currentProgramId, startingSemester, selectedCoursesByProgram } = state;
+                if (!currentProgramId) return null;
+                const all = selectedCoursesByProgram[currentProgramId] || [];
+                const courses = semesters ? all.filter(c => semesters.includes(c.assignedSemester)) : all;
+                const encoded = encodeSharePayload(currentProgramId, startingSemester, courses);
+                return `${window.location.origin}${window.location.pathname}#plan=${encoded}`;
             },
 
             getAllCourses: () => {

@@ -4,7 +4,7 @@ import { ScheduleGrid } from './ScheduleGrid';
 import { CourseListView } from './CourseListView';
 import { ImportDialog } from './ImportDialog';
 import { ExportDialog } from './ExportDialog';
-import { RefreshCw, ChevronLeft, Download, Upload, LayoutGrid, List } from 'lucide-react';
+import { RefreshCw, ChevronLeft, Download, Upload, LayoutGrid, List, Share2 } from 'lucide-react';
 import { GithubIcon } from './GithubIcon';
 import { useCourseStore } from '../store/useCourseStore';
 import type { ScheduleExport } from '../store/useCourseStore';
@@ -17,7 +17,7 @@ import { cn } from '../utils/cn';
 type View = 'schedule' | 'list';
 
 export const Layout: React.FC = () => {
-    const { getSelectedCourses, currentProgramId, setProgram, exportSchedule, importSchedule, startingSemester, setStartingSemester } = useCourseStore();
+    const { getSelectedCourses, currentProgramId, setProgram, exportSchedule, importSchedule, buildShareURL, startingSemester, setStartingSemester } = useCourseStore();
     const selectedCourses = getSelectedCourses();
     const currentProgram = currentProgramId ? getProgramById(currentProgramId) : null;
 
@@ -25,6 +25,16 @@ export const Layout: React.FC = () => {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [importData, setImportData]       = useState<ScheduleExport | null>(null);
     const [exportDialogOpen, setExportDialogOpen] = useState(false);
+    const [shareCopied, setShareCopied] = useState(false);
+
+    const handleShare = () => {
+        const url = buildShareURL();
+        if (!url) return;
+        navigator.clipboard.writeText(url).then(() => {
+            setShareCopied(true);
+            setTimeout(() => setShareCopied(false), 2000);
+        });
+    };
 
     type Sem = '1' | '2' | '3' | '4';
     const semesterCounts = (['1', '2', '3', '4'] as Sem[]).reduce<Record<Sem, number>>(
@@ -167,6 +177,16 @@ export const Layout: React.FC = () => {
                             className="hidden"
                             onChange={handleImport}
                         />
+
+                        {/* Share via URL */}
+                        <button
+                            onClick={handleShare}
+                            title="Copy shareable link to clipboard"
+                            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+                        >
+                            <Share2 size={14} />
+                            {shareCopied ? 'Copied !' : 'Share'}
+                        </button>
 
                         {/* Import JSON */}
                         <button
