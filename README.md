@@ -44,7 +44,8 @@ This tool is designed for **HES-SO Master's students** in the following majors.
 -   **Avoid conflicts**: See immediately if two courses happen at the same time.
 -   **Get travel warnings**: If you have back-to-back courses on different campuses, you'll get a warning. (you can ignore it if you have a teleportation device in your backpack)
 -   **Save your plan**: Your selection is saved automatically in your browser.
--   **Export / Import**: You can export your plan as a JSON file (or PDF) and import it later or share it with your best friends !
+-   **Export / Import**: You can export your plan as a JSON file (or PDF).
+-   **Share with friends**: Share your magnificent schedule with your friends with a simple URL.
 -   **Access course info**: Click on a course to open its description.
 
 ## How to use it 🛠️
