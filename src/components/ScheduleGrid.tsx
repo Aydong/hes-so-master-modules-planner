@@ -222,8 +222,7 @@ export const ScheduleGrid: React.FC = () => {
             c.WeekDay === day &&
             extractTimeBlocks(c.TimeBlock).includes(block) &&
             !isCourseSelected(c.module) &&
-            c.Semester === semesterType &&
-            c.type !== 'C'
+            c.Semester === semesterType
         );
 
     const availableForSelected = selectedSlot
@@ -395,16 +394,12 @@ export const ScheduleGrid: React.FC = () => {
                                             <div>
                                                 <div className="flex justify-between items-start gap-1">
                                                     <span className="font-bold text-[13px] leading-tight truncate">{course.module}</span>
-                                                    {course.type === 'C' ? (
-                                                        <Lock size={11} className="shrink-0 opacity-50" />
-                                                    ) : (
-                                                        <button
-                                                            onClick={e => { e.stopPropagation(); removeCourse(course.module); }}
-                                                            className="text-current opacity-40 hover:opacity-100 transition-opacity shrink-0"
-                                                            title="Remove course">
-                                                            <X size={12} />
-                                                        </button>
-                                                    )}
+                                                    <button
+                                                        onClick={e => { e.stopPropagation(); removeCourse(course.module); }}
+                                                        className="text-current opacity-40 hover:opacity-100 transition-opacity shrink-0"
+                                                        title="Remove course">
+                                                        <X size={12} />
+                                                    </button>
                                                 </div>
                                                 <p className="text-[11px] font-medium leading-tight mt-0.5 opacity-75 line-clamp-2">
                                                     {course.title}
