@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useCourseStore } from '../store/useCourseStore';
-import { Plus, Search, ExternalLink } from 'lucide-react';
+import { Search, ExternalLink } from 'lucide-react';
 import { cn } from '../utils/cn';
 import { courseToAssignedSemester } from '../utils/semesterUtils';
 
