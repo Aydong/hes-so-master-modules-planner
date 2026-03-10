@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useCourseStore } from '../store/useCourseStore';
 import { cn } from '../utils/cn';
 import { extractTimeBlocks } from '../utils/timeBlockUtils';
-import { X, ExternalLink, AlertTriangle, Plus, Lock } from 'lucide-react';
+import { X, ExternalLink, AlertTriangle, Plus } from 'lucide-react';
 import type { Course, SelectedCourse } from '../types';
 import { buildTravelWarningModules } from '../utils/travelWarning';
 import { getProgramById } from '../data/programs';
