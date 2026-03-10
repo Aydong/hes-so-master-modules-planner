@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useCourseStore } from '../store/useCourseStore';
-import { Plus, Search, ExternalLink } from 'lucide-react';
+import { Search, ExternalLink } from 'lucide-react';
 import { cn } from '../utils/cn';
 import { courseToAssignedSemester } from '../utils/semesterUtils';
 
@@ -27,13 +27,6 @@ export const AddModule: React.FC = () => {
 
     return (
         <div className="flex flex-col h-full min-h-0">
-            <h2 className="text-sm font-bold text-gray-800 uppercase tracking-wider mb-4 flex items-center gap-2">
-                <span className="bg-blue-600 text-white p-1 rounded-full">
-                    <Plus size={14} />
-                </span>
-                Add Module
-            </h2>
-
             <div className="space-y-4 mb-4">
                 <div>
                     <label className="text-xs font-bold text-gray-500 uppercase mb-1 block">Module Name / Code</label>
