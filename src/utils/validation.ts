@@ -4,6 +4,7 @@ import { timeBlocksOverlap } from './timeBlockUtils';
 // --- Helpers ---
 
 const buildMessage = (
+    module: string,
     current: number,
     max: number,
     rec: number,
@@ -11,9 +12,9 @@ const buildMessage = (
     overflow: number,
     hasRecRequirement = true,
 ): string => {
-    if (hasRecRequirement && rec < minRec) return `Need ${minRec} ECTS Rec.`;
-    if (overflow > 0) return `Over by ${overflow} ECTS`;
-    if (current < max) return `Missing ${max - current} ECTS`;
+    if (hasRecRequirement && rec < minRec) return `${module} need ${minRec} ECTS Rec.`;
+    if (overflow > 0) return `Over by ${overflow} ECTS in ${module}`;
+    if (current < max) return `Missing ${max - current} ECTS in ${module}`;
     return 'OK';
 };
 
@@ -63,71 +64,89 @@ export const validateConstraints = (courses: SelectedCourse[], rules: Validation
         (rules.MAP.max > 0 ? mapStatus.overflow : 0) +
         (rules.CSI.max > 0 ? icsStatus.overflow : 0);
 
-    const isValid =
-        (rules.TSM.max === 0 || (tsmStatus.validRec)) &&
-        (rules.FTP.max === 0 || (ftpStatus.validRec)) &&
-        (rules.MA.max  === 0 || (maStatus.validRec))  &&
-        (rules.CM.max  === 0 || (cmStatus.validRec))  &&
-        (rules.PI.max  === 0 || (piStatus.validRec))  &&
-        (rules.MAP.max === 0 || (mapStatus.validRec)) &&
-        (rules.CSI.max === 0 || (icsStatus.validRec)) &&
-        totalOverflow <= rules.BONUS; 
+    // const isValid =
+    //     (rules.TSM.max === 0 || (tsmStatus.validRec)) &&
+    //     (rules.FTP.max === 0 || (ftpStatus.validRec)) &&
+    //     (rules.MA.max  === 0 || (maStatus.validRec))  &&
+    //     (rules.CM.max  === 0 || (cmStatus.validRec))  &&
+    //     (rules.PI.max  === 0 || (piStatus.validRec))  &&
+    //     (rules.MAP.max === 0 || (mapStatus.validRec)) &&
+    //     (rules.CSI.max === 0 || (icsStatus.validRec)) &&
+    //     totalOverflow <= rules.BONUS; 
 
-    return {
-        tsm: {
-            count: stats.TSM.count,
-            rec: stats.TSM.rec,
-            valid: tsmStatus.validRec && (tsmStatus.overflow === 0 || (totalOverflow <= rules.BONUS && tsmStatus.overflow <= rules.BONUS)) && rules.TSM.max <= stats.TSM.count,
-            message: buildMessage(stats.TSM.count, rules.TSM.max, stats.TSM.rec, rules.TSM.minRec, tsmStatus.overflow),
-        },
-        ftp: {
-            count: stats.FTP.count,
-            rec: stats.FTP.rec,
-            valid: ftpStatus.validRec && (ftpStatus.overflow === 0 || (totalOverflow <= rules.BONUS && ftpStatus.overflow <= rules.BONUS)) && rules.FTP.max <= stats.FTP.count,
-            message: buildMessage(stats.FTP.count, rules.FTP.max, stats.FTP.rec, rules.FTP.minRec, ftpStatus.overflow),
-        },
-        ma: {
-            count: stats.MA.count,
-            rec: stats.MA.rec,
-            valid: maStatus.validRec && (maStatus.overflow === 0 || (totalOverflow <= rules.BONUS && maStatus.overflow <= rules.BONUS)) && rules.MA.max <= stats.MA.count,
-            message: buildMessage(stats.MA.count, rules.MA.max, stats.MA.rec, rules.MA.minRec, maStatus.overflow),
-        },
-        cm: {
-            count: stats.CM.count,
-            valid: (cmStatus.overflow === 0 || (totalOverflow <= rules.BONUS && cmStatus.overflow <= rules.BONUS)) && rules.CM.max <= stats.CM.count,
-            message: buildMessage(stats.CM.count, rules.CM.max, 0, 0, cmStatus.overflow, false),
-        },
-        pi: {
-            count: stats.PI.count,
-            rec: stats.PI.rec,
-            valid: piStatus.validRec && (piStatus.overflow === 0 || (totalOverflow <= rules.BONUS && piStatus.overflow <= rules.BONUS)) && rules.PI.max <= stats.PI.count,
-            message: buildMessage(stats.PI.count, rules.PI.max, stats.PI.rec, rules.PI.minRec, piStatus.overflow),
-        },
-        map: {
-            count: stats.MAP.count,
-            rec: stats.MAP.rec,
-            valid: mapStatus.validRec && (mapStatus.overflow === 0 || (totalOverflow <= rules.BONUS && mapStatus.overflow <= rules.BONUS)) && rules.MAP.max <= stats.MAP.count,
-            message: buildMessage(stats.MAP.count, rules.MAP.max, stats.MAP.rec, rules.MAP.minRec, mapStatus.overflow),
-        },
-        csi: {
-            count: stats.CSI.count,
-            rec: stats.CSI.rec,
-            valid: icsStatus.validRec && (icsStatus.overflow === 0 || (totalOverflow <= rules.BONUS && icsStatus.overflow <= rules.BONUS)) && rules.CSI.max <= stats.CSI.count,
-            message: buildMessage(stats.CSI.count, rules.CSI.max, stats.CSI.rec, rules.CSI.minRec, icsStatus.overflow),
-        },
-        bonus: {
-            count: totalOverflow,
-            valid: totalOverflow <= rules.BONUS,
-            message:
-                totalOverflow === 0
-                    ? 'No overflow'
-                    : totalOverflow <= rules.BONUS
-                        ? `Using ${totalOverflow}/${rules.BONUS} ECTS bonus`
-                        : `Overflow too high: ${totalOverflow} ECTS (max ${rules.BONUS})`,
-        },
-        totalEcts: courses.reduce((sum, c) => sum + (c.credits || 3), 0),
-        isValid,
+    const tsm = {
+        count: stats.TSM.count,
+        rec: stats.TSM.rec,
+        valid: tsmStatus.validRec && (tsmStatus.overflow === 0 || (totalOverflow <= rules.BONUS && tsmStatus.overflow <= rules.BONUS)) && rules.TSM.max <= stats.TSM.count,
+        message: buildMessage('TSM', stats.TSM.count, rules.TSM.max, stats.TSM.rec, rules.TSM.minRec, tsmStatus.overflow),
+    }
+
+    const ftp = {
+        count: stats.FTP.count,
+        rec: stats.FTP.rec,
+        valid: ftpStatus.validRec && (ftpStatus.overflow === 0 || (totalOverflow <= rules.BONUS && ftpStatus.overflow <= rules.BONUS)) && rules.FTP.max <= stats.FTP.count,
+        message: buildMessage('FTP', stats.FTP.count, rules.FTP.max, stats.FTP.rec, rules.FTP.minRec, ftpStatus.overflow),
     };
+
+    const ma = {
+        count: stats.MA.count,
+        rec: stats.MA.rec,
+        valid: maStatus.validRec && (maStatus.overflow === 0 || (totalOverflow <= rules.BONUS && maStatus.overflow <= rules.BONUS)) && rules.MA.max <= stats.MA.count,
+        message: buildMessage('MA', stats.MA.count, rules.MA.max, stats.MA.rec, rules.MA.minRec, maStatus.overflow),
+    };
+
+    const cm = {
+        count: stats.CM.count,
+        valid: (cmStatus.overflow === 0 || (totalOverflow <= rules.BONUS && cmStatus.overflow <= rules.BONUS)) && rules.CM.max <= stats.CM.count,
+        message: buildMessage('CM', stats.CM.count, rules.CM.max, 0, 0, cmStatus.overflow, false),
+    };
+
+    const pi = {
+        count: stats.PI.count,
+        rec: stats.PI.rec,
+        valid: piStatus.validRec && (piStatus.overflow === 0 || (totalOverflow <= rules.BONUS && piStatus.overflow <= rules.BONUS)) && rules.PI.max <= stats.PI.count,
+        message: buildMessage('PI', stats.PI.count, rules.PI.max, stats.PI.rec, rules.PI.minRec, piStatus.overflow),
+    };
+
+    const map = {
+        count: stats.MAP.count,
+        rec: stats.MAP.rec,
+        valid: mapStatus.validRec && (mapStatus.overflow === 0 || (totalOverflow <= rules.BONUS && mapStatus.overflow <= rules.BONUS)) && rules.MAP.max <= stats.MAP.count,
+        message: buildMessage('MAP', stats.MAP.count, rules.MAP.max, stats.MAP.rec, rules.MAP.minRec, mapStatus.overflow),
+    };
+
+    const csi = {
+        count: stats.CSI.count,
+        rec: stats.CSI.rec,
+        valid: icsStatus.validRec && (icsStatus.overflow === 0 || (totalOverflow <= rules.BONUS && icsStatus.overflow <= rules.BONUS)) && rules.CSI.max <= stats.CSI.count,
+        message: buildMessage('CSI', stats.CSI.count, rules.CSI.max, stats.CSI.rec, rules.CSI.minRec, icsStatus.overflow),
+    };
+
+    const bonus = {
+        count: totalOverflow,
+        valid: totalOverflow <= rules.BONUS,
+        message:
+            totalOverflow === 0
+                ? 'No overflow'
+                : totalOverflow <= rules.BONUS
+                    ? `Using ${totalOverflow}/${rules.BONUS} ECTS bonus`
+                    : `Overflow too high: ${totalOverflow} ECTS (max ${rules.BONUS})`,
+    };
+
+    const totalEcts = courses.reduce((sum, c) => sum + (c.credits || 3), 0);
+
+    const isValid = (
+        tsm.valid &&
+        ftp.valid &&
+        ma.valid  &&
+        cm.valid  &&
+        pi.valid  &&
+        map.valid &&
+        csi.valid &&
+        bonus.valid
+    )
+
+    return { tsm, ftp, ma, cm, pi, map, csi, bonus, totalEcts, isValid };
 };
 
 export const checkCollisions = (courses: SelectedCourse[]): Collision[] => {

@@ -10,13 +10,15 @@ import { useCourseStore } from '../store/useCourseStore';
 import type { ScheduleExport } from '../store/useCourseStore';
 import { validateConstraints, checkCollisions } from '../utils/validation';
 import { getProgramById } from '../data/programs';
+import { useIsMobile } from '../hooks/useIsMobile';
+import { MobileLayout } from './mobile/MobileLayout';
 
 import { cn } from '../utils/cn';
 
 
 type View = 'schedule' | 'list';
 
-export const Layout: React.FC = () => {
+const DesktopLayout: React.FC = () => {
     const { getSelectedCourses, currentProgramId, setProgram, exportSchedule, importSchedule, buildShareURL, startingSemester, setStartingSemester } = useCourseStore();
     const selectedCourses = getSelectedCourses();
     const currentProgram = currentProgramId ? getProgramById(currentProgramId) : null;
@@ -367,4 +369,9 @@ export const Layout: React.FC = () => {
             )}
         </div>
     );
+};
+
+export const Layout: React.FC = () => {
+    const isMobile = useIsMobile();
+    return isMobile ? <MobileLayout /> : <DesktopLayout />;
 };
