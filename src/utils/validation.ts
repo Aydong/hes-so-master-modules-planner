@@ -166,3 +166,13 @@ export const checkCollisions = (courses: SelectedCourse[]): Collision[] => {
     }
     return collisions;
 };
+
+/** Returns a Set of module codes that are involved in at least one collision. */
+export function buildCollisionModules(courses: SelectedCourse[]): Set<string> {
+    const set = new Set<string>();
+    checkCollisions(courses).forEach(c => {
+        set.add(c.course1.module);
+        set.add(c.course2.module);
+    });
+    return set;
+}

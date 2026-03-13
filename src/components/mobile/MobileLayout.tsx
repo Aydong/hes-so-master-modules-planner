@@ -12,7 +12,7 @@ import { ExportDialog } from '../ExportDialog';
 import { useCourseStore } from '../../store/useCourseStore';
 import type { ScheduleExport } from '../../store/useCourseStore';
 import { validateConstraints, checkCollisions } from '../../utils/validation';
-import { getProgramById } from '../../data/programs';
+import { getProgramById, getDefaultValidationRules } from '../../data/programs';
 import { cn } from '../../utils/cn';
 
 type MobileTab = 'add' | 'schedule' | 'plan' | 'validate';
@@ -45,12 +45,7 @@ export const MobileLayout: React.FC = () => {
     const [shareCopied, setShareCopied] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
-    const rules = currentProgram?.validationRules ?? {
-        TSM: { max: 12, minRec: 6 }, FTP: { max: 9, minRec: 3 },
-        MA:  { max: 18, minRec: 12 }, CM: { max: 6, minRec: 0 },
-        PI:  { max: 6,  minRec: 6 },  MAP: { max: 0, minRec: 0 },
-        CSI: { max: 18, minRec: 0 },  BONUS: 3,
-    };
+    const rules = currentProgram?.validationRules ?? getDefaultValidationRules();
 
     const validation = validateConstraints(selectedCourses, rules);
     const collisions = checkCollisions(selectedCourses);

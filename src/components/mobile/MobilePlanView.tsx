@@ -2,43 +2,11 @@ import React from 'react';
 import { ExternalLink, Trash2, AlertTriangle } from 'lucide-react';
 import { useCourseStore } from '../../store/useCourseStore';
 import { cn } from '../../utils/cn';
-import { checkCollisions } from '../../utils/validation';
+import { buildCollisionModules } from '../../utils/validation';
+import { getCategoryBadge } from '../../utils/courseColors';
+import { formatCourseTime } from '../../utils/timeBlockUtils';
 import { getSemesterLabels } from '../../utils/semesterUtils';
 import type { StartingSemester } from '../../utils/semesterUtils';
-import type { SelectedCourse } from '../../types';
-import type { Course } from '../../types';
-import { getBlockTime, formatMinutes } from '../../utils/timeBlockData';
-import { extractTimeBlocks } from '../../utils/timeBlockUtils';
-
-
-const getCategoryStyle = (moduleCode: string) => {
-    if (moduleCode.startsWith('TSM')) return 'bg-blue-100 text-blue-800';
-    if (moduleCode.startsWith('FTP')) return 'bg-purple-100 text-purple-800';
-    if (moduleCode.startsWith('MA'))  return 'bg-emerald-100 text-emerald-800';
-    if (moduleCode.startsWith('CM'))  return 'bg-amber-100 text-amber-800';
-    if (moduleCode.startsWith('PI'))  return 'bg-red-100 text-red-800';
-    if (moduleCode.startsWith('MAP')) return 'bg-indigo-100 text-indigo-800';
-    if (moduleCode.startsWith('CSI')) return 'bg-purple-100 text-purple-800';
-    return 'bg-gray-100 text-gray-800';
-};
-
-const buildCollisionSet = (courses: SelectedCourse[]): Set<string> => {
-    const cols = checkCollisions(courses);
-    const set = new Set<string>();
-    cols.forEach(c => { set.add(c.course1.module); set.add(c.course2.module); });
-    return set;
-};
-
-
-function formatCourseTime(course: Course): string {
-    const blocks = extractTimeBlocks(course.TimeBlock);
-    const blockNums = blocks.map(b => parseInt(b.replace('TB', ''))).filter(n => !isNaN(n));
-    if (blockNums.length === 0) return course.TimeBlock;
-    const first = getBlockTime(course.location, Math.min(...blockNums));
-    const last  = getBlockTime(course.location, Math.max(...blockNums));
-    if (!first || !last) return course.TimeBlock;
-    return `${formatMinutes(first.startMin)} - ${formatMinutes(last.endMin)}`;
-}
 
 
 interface MobilePlanViewProps {
@@ -71,7 +39,7 @@ export const MobilePlanView: React.FC<MobilePlanViewProps> = ({ startingSemester
                 const semCourses = selectedCourses.filter(c => c.assignedSemester === sem);
                 if (semCourses.length === 0) return null;
 
-                const collisionSet = buildCollisionSet(semCourses);
+                const collisionSet = buildCollisionModules(semCourses);
                 const semECTS = semCourses.reduce((sum, c) => sum + (c.credits || 3), 0);
                 const collisionCount = collisionSet.size;
 
@@ -112,7 +80,7 @@ export const MobilePlanView: React.FC<MobilePlanViewProps> = ({ startingSemester
                                         {/* Top row: badges + actions */}
                                         <div className="flex items-start justify-between gap-2">
                                             <div className="flex items-center gap-1.5 flex-wrap">
-                                                <span className={cn('text-xs font-bold px-2 py-0.5 rounded', getCategoryStyle(course.module))}>
+                                                <span className={cn('text-xs font-bold px-2 py-0.5 rounded', getCategoryBadge(course.module))}>
                                                     {category}
                                                 </span>
                                                 <span className="text-xs font-mono font-bold text-gray-700">
