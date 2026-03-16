@@ -115,7 +115,7 @@ export function GeneratePage() {
         const coursesParam   = params.get('courses') ?? '';
         const avoidParam     = params.get('avoid') ?? '';
         const semesterParam  = params.get('semester') ?? 'SA';
-        const maxYears       = params.get('years') === '1' ? 1 : 2 as 1 | 2;
+        const maxYears       = params.get('years') === '2' ? 2 : 1 as 1 | 2;
         const shouldRedirect = params.get('redirect') !== '0';
 
         if (!programParam) {
