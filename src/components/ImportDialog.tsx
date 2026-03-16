@@ -24,8 +24,8 @@ export const ImportDialog: React.FC<Props> = ({ data, onConfirm, onClose }) => {
         { '1': 0, '2': 0, '3': 0, '4': 0 },
     );
 
-    // Pre-select all semesters that have courses
-    const available = (['1', '2', '3', '4'] as Sem[]).filter(s => counts[s] > 0);
+    // All 4 semesters are always selectable — checking an empty one clears existing courses
+    const available = ['1', '2', '3', '4'] as Sem[];
     const [selected, setSelected] = useState<Set<Sem>>(new Set(available));
 
     const toggle = (s: Sem) =>
