@@ -40,7 +40,7 @@ export const MobileCreditBars: React.FC<Props> = ({ validation, rules }) => {
                             </div>
                             <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
                                 <div
-                                    className={cn('h-full rounded-full transition-all duration-500', isOver ? 'bg-red-500' : bar)}
+                                    className={cn('h-full rounded-full transition-all duration-500', bar)}
                                     style={{ width: `${pct}%` }}
                                 />
                             </div>

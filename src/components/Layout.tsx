@@ -9,7 +9,7 @@ import { GithubIcon } from './GithubIcon';
 import { useCourseStore } from '../store/useCourseStore';
 import type { ScheduleExport } from '../store/useCourseStore';
 import { validateConstraints, checkCollisions } from '../utils/validation';
-import { getProgramById } from '../data/programs';
+import { getProgramById, getDefaultValidationRules } from '../data/programs';
 import { useIsMobile } from '../hooks/useIsMobile';
 import { MobileLayout } from './mobile/MobileLayout';
 
@@ -44,16 +44,7 @@ const DesktopLayout: React.FC = () => {
         { '1': 0, '2': 0, '3': 0, '4': 0 },
     );
 
-    const rules = currentProgram?.validationRules || {
-        TSM: { max: 12, minRec: 6 },
-        FTP: { max: 9, minRec: 3 },
-        MA: { max: 18, minRec: 12 },
-        CM: { max: 6, minRec: 0 },
-        PI: { max: 6, minRec: 6 },
-        MAP: { max: 0, minRec: 0 },
-        CSI: { max: 18, minRec: 0 },
-        BONUS: 3,
-    };
+    const rules = currentProgram?.validationRules ?? getDefaultValidationRules();
 
     const validation = validateConstraints(selectedCourses, rules);
     const hasCollisions = checkCollisions(selectedCourses).length > 0;
@@ -240,7 +231,7 @@ const DesktopLayout: React.FC = () => {
             {/* Main Content */}
             <main className="flex-1 flex overflow-hidden">
                 {/* Sidebar */}
-                <aside className="w-80 bg-white border-r border-gray-200 flex flex-col overflow-y-auto shrink-0">
+                <aside className="w-72 bg-white border-r border-gray-200 flex flex-col overflow-y-auto shrink-0">
                     <Sidebar />
                 </aside>
 

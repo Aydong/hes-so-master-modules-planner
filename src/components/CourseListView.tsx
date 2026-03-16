@@ -4,12 +4,13 @@ import { useCourseStore } from '../store/useCourseStore';
 import type { SelectedCourse } from '../types';
 import { cn } from '../utils/cn';
 import { buildTravelWarningModules } from '../utils/travelWarning';
-import { checkCollisions } from '../utils/validation';
-import { extractTimeBlocks } from '../utils/timeBlockUtils';
+import { buildCollisionModules } from '../utils/validation';
+import { extractTimeBlocks, formatCourseTime } from '../utils/timeBlockUtils';
+import { getCategoryCard, getTypeBadge } from '../utils/courseColors';
 import type { ValidationRules } from '../types';
 import { getSemesterLabels } from '../utils/semesterUtils';
 import type { StartingSemester } from '../utils/semesterUtils';
-import { getBlockTime, formatMinutes, timeBlockDataReady } from '../utils/timeBlockData';
+import { timeBlockDataReady } from '../utils/timeBlockData';
 
 // Sort helpers
 const DAY_ORDER: Record<string, number> = {
@@ -27,37 +28,6 @@ const sortBySchedule = (a: SelectedCourse, b: SelectedCourse) => {
     return dayDiff !== 0 ? dayDiff : (TB_ORDER[aFirstBlock] ?? 0) - (TB_ORDER[bFirstBlock] ?? 0);
 };
 
-/** Returns a Set of collision module codes */
-const buildCollisionModules = (courses: SelectedCourse[]): Set<string> => {
-    const collisions = checkCollisions(courses);
-    const collisionModules = new Set<string>();
-    collisions.forEach(collision => {
-        collisionModules.add(collision.course1.module);
-        collisionModules.add(collision.course2.module);
-    });
-    return collisionModules;
-};
-
-const getCategoryStyle = (moduleCode: string) => {
-    if (moduleCode.startsWith('TSM')) return 'bg-blue-100 text-blue-800 border-blue-200';
-    if (moduleCode.startsWith('FTP')) return 'bg-purple-100 text-purple-800 border-purple-200';
-    if (moduleCode.startsWith('MA')) return 'bg-emerald-100 text-emerald-800 border-emerald-200';
-    if (moduleCode.startsWith('CM')) return 'bg-amber-100 text-amber-800 border-amber-200';
-    if (moduleCode.startsWith('PI')) return 'bg-red-100 text-red-800 border-red-200';
-    if (moduleCode.startsWith('MAP')) return 'bg-indigo-100 text-indigo-800 border-indigo-200';
-    if (moduleCode.startsWith('CSI')) return 'bg-purple-100 text-purple-800 border-purple-200';
-    return 'bg-gray-100 text-gray-800 border-gray-200';
-};
-
-function getRealTimeStr(course: SelectedCourse): string {
-    const blocks    = extractTimeBlocks(course.TimeBlock);
-    const blockNums = blocks.map(b => parseInt(b.replace('TB', ''))).filter(n => !isNaN(n));
-    if (blockNums.length === 0) return '–';
-    const first = getBlockTime(course.location, Math.min(...blockNums));
-    const last  = getBlockTime(course.location, Math.max(...blockNums));
-    if (!first || !last) return '–';
-    return `${formatMinutes(first.startMin)}–${formatMinutes(last.endMin)}`;
-}
 
 export const CourseListView: React.FC<{ rules: ValidationRules; startingSemester: StartingSemester }> = ({ rules, startingSemester }) => {
     const { getSelectedCourses } = useCourseStore();
@@ -181,7 +151,7 @@ export const CourseListView: React.FC<{ rules: ValidationRules; startingSemester
                                                         <td className="px-3 py-2.5 text-center">
                                                             <span className={cn(
                                                                 'px-2 py-0.5 rounded text-xs font-bold border',
-                                                                getCategoryStyle(course.module)
+                                                                getCategoryCard(course.module)
                                                             )}>
                                                                 {category}
                                                             </span>
@@ -190,14 +160,7 @@ export const CourseListView: React.FC<{ rules: ValidationRules; startingSemester
                                                             {course.credits || 3}
                                                         </td>
                                                         <td className="px-3 py-2.5 text-center">
-                                                            <span className={cn(
-                                                                'px-2 py-0.5 rounded-full text-xs font-semibold',
-                                                                course.type === 'C'
-                                                                    ? 'bg-red-100 text-red-700'
-                                                                    : course.type === 'R'
-                                                                        ? 'bg-green-100 text-green-700'
-                                                                        : 'bg-gray-100 text-gray-500'
-                                                            )}>
+                                                            <span className={cn('px-2 py-0.5 rounded-full text-xs font-semibold', getTypeBadge(course.type))}>
                                                                 {course.type === 'C' ? 'Com.' : course.type === 'R' ? 'Rec.' : 'Opt.'}
                                                             </span>
                                                         </td>
@@ -230,7 +193,7 @@ export const CourseListView: React.FC<{ rules: ValidationRules; startingSemester
                                                                 ? 'font-bold text-orange-500'
                                                                 : 'text-gray-500'
                                                         )}>
-                                                            {timeBlockReady ? getRealTimeStr(course) : '–'}
+                                                            {timeBlockReady ? formatCourseTime(course) : '–'}
                                                         </td>
 
                                                         <td className={cn(

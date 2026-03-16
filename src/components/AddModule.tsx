@@ -3,20 +3,8 @@ import { useCourseStore } from '../store/useCourseStore';
 import { Search, ExternalLink } from 'lucide-react';
 import { cn } from '../utils/cn';
 import { courseToAssignedSemester, getSemesterLabels } from '../utils/semesterUtils';
-import type { Course } from '../types';
-import { extractTimeBlocks } from '../utils/timeBlockUtils';
-import { getBlockTime, formatMinutes } from '../utils/timeBlockData';
-
-
-function formatCourseTime(course: Course): string {
-    const blocks    = extractTimeBlocks(course.TimeBlock);
-    const blockNums = blocks.map(b => parseInt(b.replace('TB', ''))).filter(n => !isNaN(n));
-    if (blockNums.length === 0) return course.TimeBlock;
-    const first = getBlockTime(course.location, Math.min(...blockNums));
-    const last  = getBlockTime(course.location, Math.max(...blockNums));
-    if (!first || !last) return course.TimeBlock;
-    return `${formatMinutes(first.startMin)} - ${formatMinutes(last.endMin)}`;
-}
+import { formatCourseTime } from '../utils/timeBlockUtils';
+import { getCategoryPrefix, CATEGORY_PREFIXES, getTypeBadge } from '../utils/courseColors';
 
 export const AddModule: React.FC = () => {
     const { addCourse, removeCourse, getSelectedCourses, getAllCourses, startingSemester } = useCourseStore();
@@ -43,8 +31,8 @@ export const AddModule: React.FC = () => {
     }), [allCourses, search, semesterFilter, typeFilter, dayFilter]);
 
     const availableCategories = useMemo(() => {
-        const cats = new Set(baseUnfiltered.map(c => c.module.split('_')[0]));
-        return ['TSM', 'FTP', 'MA', 'CM', 'PI', 'MAP', 'CSI'].filter(cat => cats.has(cat));
+        const cats = new Set(baseUnfiltered.map(c => getCategoryPrefix(c.module)));
+        return [...CATEGORY_PREFIXES].filter(cat => cats.has(cat));
     }, [baseUnfiltered]);
 
     const filteredCourses = useMemo(() => baseUnfiltered.filter(course => {
@@ -144,9 +132,7 @@ export const AddModule: React.FC = () => {
                             <div className="flex justify-between items-start mb-1">
                                 <span className="font-bold text-gray-800 text-sm">{course.module}</span>
                                 <div className="flex items-center gap-1.5">
-                                    <span className={cn('text-[10px] px-1.5 py-0.5 rounded font-bold uppercase',
-                                        course.type === 'R' ? 'bg-emerald-100 text-emerald-700' :
-                                        course.type === 'C' ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-600')}>
+                                    <span className={cn('text-[10px] px-1.5 py-0.5 rounded font-bold uppercase', getTypeBadge(course.type))}>
                                         {course.type === 'R' ? 'Rec' : course.type === 'C' ? 'Com' : 'Opt'}
                                     </span>
                                     <a href={course.link} target="_blank" rel="noopener noreferrer"
@@ -173,7 +159,7 @@ export const AddModule: React.FC = () => {
                                 {isPlaced ? (<>
                                     <button disabled
                                         className="flex-1 bg-gray-50 text-gray-400 text-xs font-bold py-1.5 rounded cursor-not-allowed border border-gray-200">
-                                        Placed in {placedLabel}
+                                        {placedLabel}
                                     </button>
                                     <button
                                         onClick={() => removeCourse(course.module)}

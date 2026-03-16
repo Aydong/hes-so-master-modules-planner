@@ -64,16 +64,6 @@ export const validateConstraints = (courses: SelectedCourse[], rules: Validation
         (rules.MAP.max > 0 ? mapStatus.overflow : 0) +
         (rules.CSI.max > 0 ? icsStatus.overflow : 0);
 
-    // const isValid =
-    //     (rules.TSM.max === 0 || (tsmStatus.validRec)) &&
-    //     (rules.FTP.max === 0 || (ftpStatus.validRec)) &&
-    //     (rules.MA.max  === 0 || (maStatus.validRec))  &&
-    //     (rules.CM.max  === 0 || (cmStatus.validRec))  &&
-    //     (rules.PI.max  === 0 || (piStatus.validRec))  &&
-    //     (rules.MAP.max === 0 || (mapStatus.validRec)) &&
-    //     (rules.CSI.max === 0 || (icsStatus.validRec)) &&
-    //     totalOverflow <= rules.BONUS; 
-
     const tsm = {
         count: stats.TSM.count,
         rec: stats.TSM.rec,
@@ -166,3 +156,13 @@ export const checkCollisions = (courses: SelectedCourse[]): Collision[] => {
     }
     return collisions;
 };
+
+/** Returns a Set of module codes that are involved in at least one collision. */
+export function buildCollisionModules(courses: SelectedCourse[]): Set<string> {
+    const set = new Set<string>();
+    checkCollisions(courses).forEach(c => {
+        set.add(c.course1.module);
+        set.add(c.course2.module);
+    });
+    return set;
+}

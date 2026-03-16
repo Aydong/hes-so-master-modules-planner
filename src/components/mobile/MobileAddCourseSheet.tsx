@@ -3,8 +3,8 @@ import { X, ExternalLink, Plus } from 'lucide-react';
 import { useCourseStore } from '../../store/useCourseStore';
 import { cn } from '../../utils/cn';
 import { slotToCourseSemester, getSemesterLabels } from '../../utils/semesterUtils';
-import { getBlockTime, formatMinutes } from '../../utils/timeBlockData';
-import { extractTimeBlocks } from '../../utils/timeBlockUtils';
+import { formatCourseTime } from '../../utils/timeBlockUtils';
+import { getCategoryBadge, getTypeBadge, CATEGORY_PREFIXES, getCategoryPrefix } from '../../utils/courseColors';
 import type { StartingSemester } from '../../utils/semesterUtils';
 import type { Course } from '../../types';
 
@@ -14,27 +14,6 @@ interface Props {
     startingSemester: StartingSemester;
     onClose:          () => void;
 }
-
-function formatCourseTime(course: Course): string {
-    const blocks    = extractTimeBlocks(course.TimeBlock);
-    const blockNums = blocks.map(b => parseInt(b.replace('TB', ''))).filter(n => !isNaN(n));
-    if (blockNums.length === 0) return course.TimeBlock;
-    const first = getBlockTime(course.location, Math.min(...blockNums));
-    const last  = getBlockTime(course.location, Math.max(...blockNums));
-    if (!first || !last) return course.TimeBlock;
-    return `${formatMinutes(first.startMin)} - ${formatMinutes(last.endMin)}`;
-}
-
-const getModuleBg = (module: string): string => {
-    if (module.startsWith('TSM')) return 'bg-blue-100 text-blue-700';
-    if (module.startsWith('FTP')) return 'bg-purple-100 text-purple-700';
-    if (module.startsWith('MA'))  return 'bg-emerald-100 text-emerald-700';
-    if (module.startsWith('CM'))  return 'bg-amber-100 text-amber-700';
-    if (module.startsWith('PI'))  return 'bg-gray-100 text-gray-700';
-    if (module.startsWith('MAP')) return 'bg-indigo-100 text-indigo-700';
-    if (module.startsWith('CSI')) return 'bg-purple-100 text-purple-700';
-    return 'bg-gray-100 text-gray-700';
-};
 
 export const MobileAddCourseSheet: React.FC<Props> = ({ dayFull, assignedSem, startingSemester, onClose }) => {
     const { addCourse, isCourseSelected, getAllCourses } = useCourseStore();
@@ -53,8 +32,8 @@ export const MobileAddCourseSheet: React.FC<Props> = ({ dayFull, assignedSem, st
     [allCourses, dayFull, courseSemester, isCourseSelected]);
 
     const availableCategories = useMemo(() => {
-        const cats = new Set(baseCourses.map(c => c.module.split('_')[0]));
-        return ['TSM', 'FTP', 'MA', 'CM', 'PI', 'MAP', 'CSI'].filter(cat => cats.has(cat));
+        const cats = new Set(baseCourses.map(c => getCategoryPrefix(c.module)));
+        return [...CATEGORY_PREFIXES].filter(cat => cats.has(cat));
     }, [baseCourses]);
 
     const courses = useMemo(() =>
@@ -128,15 +107,10 @@ export const MobileAddCourseSheet: React.FC<Props> = ({ dayFull, assignedSem, st
                             <div className="flex items-center gap-2">
                                 {/* Info (left) */}
                                 <div className="flex items-center gap-1.5 flex-wrap flex-1 min-w-0">
-                                    <span className={cn('text-xs font-bold px-2 py-0.5 rounded-md whitespace-nowrap', getModuleBg(course.module))}>
+                                    <span className={cn('text-xs font-bold px-2 py-0.5 rounded-md whitespace-nowrap', getCategoryBadge(course.module))}>
                                         {course.module}
                                     </span>
-                                    <span className={cn(
-                                        'text-[10px] px-1.5 py-0.5 rounded font-bold uppercase whitespace-nowrap',
-                                        course.type === 'R' ? 'bg-emerald-100 text-emerald-700' :
-                                        course.type === 'C' ? 'bg-red-100 text-red-700' :
-                                        'bg-gray-100 text-gray-500'
-                                    )}>
+                                    <span className={cn('text-[10px] px-1.5 py-0.5 rounded font-bold uppercase whitespace-nowrap', getTypeBadge(course.type))}>
                                         {course.type === 'R' ? 'Rec' : course.type === 'C' ? 'Com' : 'Opt'}
                                     </span>
                                     <span className="text-[11px] text-gray-400 whitespace-nowrap">

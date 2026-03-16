@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useCourseStore } from '../store/useCourseStore';
 import { cn } from '../utils/cn';
-import { extractTimeBlocks } from '../utils/timeBlockUtils';
+import { extractTimeBlocks, courseHasTimeBlock } from '../utils/timeBlockUtils';
 import { X, ExternalLink, AlertTriangle, Plus } from 'lucide-react';
 import type { Course, SelectedCourse } from '../types';
 import { buildTravelWarningModules } from '../utils/travelWarning';
 import { getProgramById } from '../data/programs';
 import { slotToCourseSemester, getSlotShortLabel } from '../utils/semesterUtils';
 import { getBlockTime, getBlockTimeBounds, getDistinctTimings, formatMinutes, timeBlockDataReady, getNameForCode } from '../utils/timeBlockData';
-import { courseHasTimeBlock } from '../utils/timeBlockUtils';
+import { getCategoryCard, getCategoryBadge, getCategorySolid, getTypeBadge } from '../utils/courseColors';
 
-//  Timeline constants 
+//  Timeline constants
 
-const DAY_START_MIN = 8 * 60;        // 8h00
-const DAY_END_MIN   = 20 * 60 + 30; // 20h30
-const TOTAL_MIN     = DAY_END_MIN - DAY_START_MIN; // 750 min
-const TIMELINE_PX   = 900;           // fixed height in px
+const DAY_START_MIN  = 8 * 60;        // 8h00
+const DAY_END_MIN    = 20 * 60 + 30; // 20h30
+const TOTAL_MIN      = DAY_END_MIN - DAY_START_MIN; // 750 min
+const MIN_TIMELINE_PX = 500;          // minimum height in px
 
 const HOUR_MARKS = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 const WEEK_DAYS  = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
@@ -61,41 +61,6 @@ function buildCollisionLayout(courses: SelectedCourse[]): Map<string, { colIdx: 
     return layout;
 }
 
-//  Color helpers 
-
-const getCategoryColor = (moduleCode: string) => {
-    if (moduleCode.startsWith('TSM')) return 'bg-blue-100 border-blue-300 text-blue-800';
-    if (moduleCode.startsWith('FTP')) return 'bg-purple-100 border-purple-300 text-purple-800';
-    if (moduleCode.startsWith('MA'))  return 'bg-emerald-100 border-emerald-300 text-emerald-800';
-    if (moduleCode.startsWith('CM'))  return 'bg-amber-100 border-amber-300 text-amber-800';
-    if (moduleCode.startsWith('PI'))  return 'bg-gray-100 border-gray-300 text-gray-800';
-    if (moduleCode.startsWith('MAP')) return 'bg-indigo-100 border-indigo-300 text-indigo-800';
-    if (moduleCode.startsWith('CSI')) return 'bg-purple-100 border-purple-300 text-purple-800';
-    return 'bg-gray-100 border-gray-300 text-gray-800';
-};
-
-const getCategoryDot = (prefix: string) => {
-    if (prefix === 'TSM') return 'bg-blue-400';
-    if (prefix === 'FTP') return 'bg-purple-400';
-    if (prefix === 'MA')  return 'bg-emerald-400';
-    if (prefix === 'CM')  return 'bg-amber-400';
-    if (prefix === 'PI')  return 'bg-gray-400';
-    if (prefix === 'MAP') return 'bg-indigo-400';
-    if (prefix === 'CSI') return 'bg-purple-400';
-    return 'bg-gray-400';
-};
-
-const getCategoryBadge = (moduleCode: string) => {
-    if (moduleCode.startsWith('TSM')) return 'bg-blue-100 text-blue-700';
-    if (moduleCode.startsWith('FTP')) return 'bg-purple-100 text-purple-700';
-    if (moduleCode.startsWith('MA'))  return 'bg-emerald-100 text-emerald-700';
-    if (moduleCode.startsWith('CM'))  return 'bg-amber-100 text-amber-700';
-    if (moduleCode.startsWith('PI'))  return 'bg-gray-100 text-gray-700';
-    if (moduleCode.startsWith('MAP')) return 'bg-indigo-100 text-indigo-700';
-    if (moduleCode.startsWith('CSI')) return 'bg-purple-100 text-purple-700';
-    return 'bg-gray-100 text-gray-700';
-};
-
 //  SlotPicker modal 
 
 interface SlotPickerProps {
@@ -135,11 +100,7 @@ const SlotPicker: React.FC<SlotPickerProps> = ({ day, block, semester, courses, 
                                         <span className={cn('text-xs font-bold px-2 py-0.5 rounded', getCategoryBadge(course.module))}>
                                             {course.module}
                                         </span>
-                                        <span className={cn(
-                                            'text-[10px] font-bold px-1.5 py-0.5 rounded',
-                                            course.type === 'R' ? 'bg-emerald-100 text-emerald-700' :
-                                            course.type === 'C' ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-500'
-                                        )}>
+                                        <span className={cn('text-[10px] font-bold px-1.5 py-0.5 rounded', getTypeBadge(course.type))}>
                                             {course.type === 'R' ? 'Rec' : course.type === 'C' ? 'Com' : 'Opt'}
                                         </span>
                                         <span className="text-xs text-gray-400">{course.credits ?? 3} ECTS</span>
@@ -269,9 +230,9 @@ export const ScheduleGrid: React.FC = () => {
             </div>
 
             {/*  Timeline  */}
-            <div className="flex-1 overflow-auto p-4">
+            <div className="flex-1 min-h-0 flex flex-col overflow-auto p-4">
                 {/* Day header row */}
-                <div className="flex gap-0 mb-0" style={{ paddingLeft: '52px' }}>
+                <div className="flex gap-0 mb-0 shrink-0" style={{ paddingLeft: '30px' }}>
                     {WEEK_DAYS.map(day => (
                         <div key={day} className="flex-1 text-center font-bold text-gray-600 uppercase tracking-wider text-xs bg-white py-2 rounded-lg border border-gray-100 shadow-sm mx-0.5 mb-2">
                             {day}
@@ -281,13 +242,13 @@ export const ScheduleGrid: React.FC = () => {
 
                 {/* Timeline body */}
                 {!timeBlockReady && (
-                    <div className="flex items-center justify-center text-gray-400 text-sm" style={{ height: `${TIMELINE_PX}px` }}>
+                    <div className="flex-1 flex items-center justify-center text-gray-400 text-sm" style={{ minHeight: `${MIN_TIMELINE_PX}px` }}>
                         Loading schedule data. Please wait young padawan you are on the way to master the planner force...
                     </div>
                 )}
-                {timeBlockReady && <div className="flex gap-0" style={{ height: `${TIMELINE_PX}px` }}>
+                {timeBlockReady && <div className="flex gap-0 flex-1" style={{ minHeight: `${MIN_TIMELINE_PX}px` }}>
                     {/* Time axis */}
-                    <div className="relative shrink-0" style={{ width: '52px' }}>
+                    <div className="relative shrink-0" style={{ width: '30px' }}>
                         {HOUR_MARKS.map(h => (
                             <div key={h}
                                 className="absolute right-2 text-[10px] text-gray-400 font-medium leading-none"
@@ -354,7 +315,7 @@ export const ScheduleGrid: React.FC = () => {
                                             </div>
                                             <div className="flex items-center gap-2 mt-1.5">
                                                 {[...new Set(available.map(c => c.module.split('_')[0]))].map(prefix => (
-                                                    <span key={prefix} className={`w-2.5 h-2.5 rounded-full ${getCategoryDot(prefix)}`} title={prefix} />
+                                                    <span key={prefix} className={`w-2.5 h-2.5 rounded-full ${getCategorySolid(prefix)}`} title={prefix} />
                                                 ))}
                                             </div>
                                         </div>
@@ -374,8 +335,8 @@ export const ScheduleGrid: React.FC = () => {
                                     return (
                                         <div key={`${course.module}-${course.TimeBlock}`}
                                             className={cn(
-                                                'absolute rounded-xl border shadow-sm flex flex-col justify-between p-2 overflow-hidden transition-transform hover:scale-[1.01] hover:z-10',
-                                                getCategoryColor(course.module),
+                                                'absolute rounded-xl border shadow-sm flex flex-col justify-between p-2 transition-transform hover:scale-[1.01] hover:z-10',
+                                                getCategoryCard(course.module),
                                                 isCollision && 'border-red-300 ring-1 ring-red-200',
                                             )}
                                             style={{
@@ -393,7 +354,12 @@ export const ScheduleGrid: React.FC = () => {
                                             {/* Top section */}
                                             <div>
                                                 <div className="flex justify-between items-start gap-1">
-                                                    <span className="font-bold text-[13px] leading-tight truncate">{course.module}</span>
+                                                    <div className="flex items-baseline gap-1 min-w-0">
+                                                        <span className="font-bold text-[13px] leading-tight truncate">{course.module}</span>
+                                                        <span className="text-[10px] font-medium opacity-60 shrink-0 uppercase">
+                                                            {course.type === 'R' ? 'Rec' : course.type === 'C' ? 'Com' : 'Opt'}
+                                                        </span>
+                                                    </div>
                                                     <button
                                                         onClick={e => { e.stopPropagation(); removeCourse(course.module); }}
                                                         className="text-current opacity-40 hover:opacity-100 transition-opacity shrink-0"
@@ -408,12 +374,6 @@ export const ScheduleGrid: React.FC = () => {
 
                                             {/* Bottom section */}
                                             <div className="flex flex-col gap-0.5 mt-1">
-                                                {/* Type of course*/}
-                                                <span className="text-[11px] opacity-80">
-                                                    {course.type === 'R' ? 'Recommended' :
-                                                     course.type === 'C' ? 'Compulsory' :
-                                                     course.type === 'O' ? 'Optional' : 'Other'}
-                                                </span>
 
                                                 {/* Real time */}
                                                 <span className="text-[11px] font-bold opacity-80">

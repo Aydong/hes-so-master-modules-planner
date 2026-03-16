@@ -113,6 +113,20 @@ export const getProgramById = (id: string): Program | undefined => {
     return PROGRAMS.find(p => p.id === normalizedId);
 };
 
+/** Fallback rules used when no program is selected. */
+export function getDefaultValidationRules(): ValidationRules {
+    return {
+        TSM: { max: 12, minRec: 6 },
+        FTP: { max: 9,  minRec: 3 },
+        MA:  { max: 18, minRec: 12 },
+        CM:  { max: 6,  minRec: 0 },
+        PI:  { max: 6,  minRec: 6 },
+        MAP: { max: 0,  minRec: 0 },
+        CSI: { max: 0,  minRec: 0 },
+        BONUS: 3,
+    };
+}
+
 export const getAllPrograms = async (): Promise<Program[]> => {
     if (PROGRAMS.length === 0) {
         await initializePrograms();

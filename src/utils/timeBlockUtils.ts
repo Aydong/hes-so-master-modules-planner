@@ -2,6 +2,7 @@
  * Utility functions for handling time blocks
  * Handles both single blocks (TB1, TB2, etc.) and combined blocks (TB1+TB2, TB3+TB4, etc.)
  */
+import { getBlockTime, formatMinutes } from './timeBlockData';
 
 const SINGLE_BLOCK_REGEX = /TB[1-4]/g;
 
@@ -45,4 +46,20 @@ export function timeBlocksOverlap(block1: string, block2: string): boolean {
 export function courseHasTimeBlock(course: { TimeBlock: string }, targetBlock: string): boolean {
     return timeBlocksOverlap(course.TimeBlock, targetBlock);
 }
+
+/**
+ * Returns a human-readable time range string for a course, e.g. "8h30 - 10h05".
+ * Falls back to the raw TimeBlock string if timing data is unavailable.
+ * Requires timeBlockData to be initialised (await timeBlockDataReady first).
+ */
+export function formatCourseTime(course: { TimeBlock: string; location?: string }): string {
+    const blocks    = extractTimeBlocks(course.TimeBlock);
+    const blockNums = blocks.map(b => parseInt(b.replace('TB', ''))).filter(n => !isNaN(n));
+    if (blockNums.length === 0) return course.TimeBlock;
+    const first = getBlockTime(course.location, Math.min(...blockNums));
+    const last  = getBlockTime(course.location, Math.max(...blockNums));
+    if (!first || !last) return course.TimeBlock;
+    return `${formatMinutes(first.startMin)} - ${formatMinutes(last.endMin)}`;
+}
+
 
