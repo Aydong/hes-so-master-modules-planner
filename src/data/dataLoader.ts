@@ -28,6 +28,10 @@ let courseRegistryCache: Record<string, Omit<Course, 'module' | 'type'>> | null 
 let manifestCache: Record<string, Array<{ module: string; type: Course['type'] }>> = {};
 /** resolved courses per program */
 let courseDataCache: Record<string, Course[]> = {};
+/** out-of-specialization courses per program */
+let outOfSpecCache: Record<string, Course[]> = {};
+
+const OUT_OF_SPEC_PREFIXES = ['TSM', 'FTP', 'CM'];
 
 // Map old program IDs to new format for backward compatibility
 const legacyIdMap: Record<string, string> = {
@@ -100,6 +104,32 @@ export async function getCoursesBySpecialization(
   }
 
   courseDataCache[programId] = courses;
+  return courses;
+}
+
+/**
+ * Returns all TSM/FTP/CM courses from the registry that are NOT in the given program's manifest.
+ * These courses are forced to type 'O' and flagged as out-of-specialization.
+ */
+export async function getOutOfSpecializationCourses(programId: string): Promise<Course[]> {
+  if (outOfSpecCache[programId]) return outOfSpecCache[programId];
+
+  const [registry, manifest] = await Promise.all([
+    getCourseRegistry(),
+    getProgramManifest(programId),
+  ]);
+
+  const manifestModules = new Set(manifest.map(e => e.module));
+
+  const courses: Course[] = [];
+  for (const [module, data] of Object.entries(registry)) {
+    const prefix = module.split('_')[0];
+    if (OUT_OF_SPEC_PREFIXES.includes(prefix) && !manifestModules.has(module)) {
+      courses.push({ module, type: 'O', isOutOfSpecialization: true, ...data });
+    }
+  }
+
+  outOfSpecCache[programId] = courses;
   return courses;
 }
 

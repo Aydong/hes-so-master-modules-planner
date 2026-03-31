@@ -4,11 +4,11 @@ import { ScheduleGrid } from './ScheduleGrid';
 import { CourseListView } from './CourseListView';
 import { ImportDialog } from './ImportDialog';
 import { ExportDialog } from './ExportDialog';
-import { RefreshCw, ChevronLeft, Download, Upload, LayoutGrid, List, Share2 } from 'lucide-react';
+import { RefreshCw, ChevronLeft, Download, Upload, LayoutGrid, List, Share2, XCircle, AlertTriangle } from 'lucide-react';
 import { GithubIcon } from './GithubIcon';
 import { useCourseStore } from '../store/useCourseStore';
 import type { ScheduleExport } from '../store/useCourseStore';
-import { validateConstraints, checkCollisions } from '../utils/validation';
+import { validateConstraints, checkCollisions, getValidationIssues } from '../utils/validation';
 import { getProgramById, getDefaultValidationRules } from '../data/programs';
 import { useIsMobile } from '../hooks/useIsMobile';
 import { MobileLayout } from './mobile/MobileLayout';
@@ -24,6 +24,7 @@ const DesktopLayout: React.FC = () => {
     const currentProgram = currentProgramId ? getProgramById(currentProgramId) : null;
 
     const [view, setView] = useState<View>('schedule');
+    const [showTooltip, setShowTooltip] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [importData, setImportData]       = useState<ScheduleExport | null>(null);
     const [exportDialogOpen, setExportDialogOpen] = useState(false);
@@ -47,12 +48,16 @@ const DesktopLayout: React.FC = () => {
     const rules = currentProgram?.validationRules ?? getDefaultValidationRules();
 
     const validation = validateConstraints(selectedCourses, rules);
-    const hasCollisions = checkCollisions(selectedCourses).length > 0;
+    const collisions = checkCollisions(selectedCourses);
+    const hasCollisions = collisions.length > 0;
+    const collisionCount = collisions.length;
+
+    const { errors: planErrors, warnings: planWarnings } = getValidationIssues(validation, rules, hasCollisions, collisionCount);
 
     type PlanStatus = 'valid' | 'warning' | 'invalid';
     const planStatus: PlanStatus = !validation.isValid
         ? 'invalid'
-        : hasCollisions
+        : (hasCollisions || !validation.outOfSpec.valid)
             ? 'warning'
             : 'valid';
 
@@ -140,8 +145,12 @@ const DesktopLayout: React.FC = () => {
 
                     <div className="h-6 w-px bg-gray-200"></div>
 
-                    <div className="flex flex-col items-end">
-                        <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Compliance</span>
+                    <div
+                        className="flex flex-col items-end relative"
+                        onMouseEnter={() => setShowTooltip(true)}
+                        onMouseLeave={() => setShowTooltip(false)}
+                    >
+                        <span className="text-xs font-bold text-gray-400 uppercase tracking-wider cursor-help select-none">Compliance</span>
                         <div className="flex items-center gap-2">
                             {planStatus === 'valid' && (
                                 <span className="text-green-500 font-bold flex items-center gap-1">
@@ -158,7 +167,42 @@ const DesktopLayout: React.FC = () => {
                                     <span className="w-2 h-2 rounded-full bg-red-500"></span> Invalid Plan
                                 </span>
                             )}
+                            {(planErrors.length > 0 || planWarnings.length > 0) && (
+                                <span className="text-xs font-bold text-gray-400">
+                                    ({planErrors.length + planWarnings.length})
+                                </span>
+                            )}
                         </div>
+
+                        {/* Tooltip */}
+                        {showTooltip && (planErrors.length > 0 || planWarnings.length > 0) && (
+                            <div className="absolute top-full right-0 mt-2 z-50 bg-white border border-gray-200 rounded-xl shadow-2xl p-4 min-w-[300px] max-w-sm">
+                                {planErrors.length > 0 && (
+                                    <div className={planWarnings.length > 0 ? 'mb-3' : ''}>
+                                        <p className="text-[10px] font-bold text-red-500 uppercase tracking-wider mb-1.5">Issues</p>
+                                        <div className="space-y-1">
+                                            {planErrors.map((e, i) => (
+                                                <p key={i} className="text-xs text-red-600 flex items-start gap-1.5">
+                                                    <XCircle size={12} className="shrink-0 mt-0.5" />{e}
+                                                </p>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                                {planWarnings.length > 0 && (
+                                    <div>
+                                        <p className="text-[10px] font-bold text-orange-500 uppercase tracking-wider mb-1.5">Warnings</p>
+                                        <div className="space-y-1">
+                                            {planWarnings.map((w, i) => (
+                                                <p key={i} className="text-xs text-orange-600 flex items-start gap-1.5">
+                                                    <AlertTriangle size={12} className="shrink-0 mt-0.5" />{w}
+                                                </p>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        )}
                     </div>
 
                     <div className="flex items-center gap-2">
@@ -330,8 +374,46 @@ const DesktopLayout: React.FC = () => {
                                 </div>
                                 <span className="text-[10px] mt-0.5">&nbsp;</span>
                             </div>
+
+                            {/* Out-of-spec indicator (only shown when at least 1 out-of-spec course) */}
+                            {validation.outOfSpec.count > 0 && (
+                                <div className="flex flex-col items-start">
+                                    <span className="text-xs font-bold text-orange-500 mb-1">Out of spec</span>
+                                    <div className="flex items-center gap-1 h-2">
+                                        {[0].map((_, i) => (
+                                            <div
+                                                key={i}
+                                                className={cn('w-2 h-2 rounded-full transition-colors',
+                                                    validation.outOfSpec.valid ? 'bg-emerald-400' : 'bg-red-500'
+                                                )}
+                                            />
+                                        ))}
+                                    </div>
+                                    <span className={cn('text-[10px] mt-0.5 font-medium',
+                                        validation.outOfSpec.valid ? 'text-green-600' : 'text-red-500'
+                                    )}>
+                                        {validation.outOfSpec.count}/1
+                                    </span>
+                                </div>
+                            )}
                         </div>
                     </div>
+
+                    {/* Issues strip - constant visibility without taking much space */}
+                    {(planErrors.length > 0 || planWarnings.length > 0) && (
+                        <div className="flex flex-wrap gap-1.5 mb-3 shrink-0">
+                            {planErrors.map((e, i) => (
+                                <span key={`e-${i}`} className="flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 bg-red-50 text-red-600 border border-red-200 rounded-full whitespace-nowrap">
+                                    <XCircle size={10} /> {e}
+                                </span>
+                            ))}
+                            {planWarnings.map((w, i) => (
+                                <span key={`w-${i}`} className="flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-full whitespace-nowrap truncate max-w-[500px] truncate">
+                                    <AlertTriangle size={10} className="shrink-0" /> {w}
+                                </span>
+                            ))}
+                        </div>
+                    )}
 
                     <div className="flex-1 overflow-y-auto">
                         {view === 'schedule' ? <ScheduleGrid /> : <CourseListView rules={rules} startingSemester={startingSemester} />}

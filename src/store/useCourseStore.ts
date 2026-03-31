@@ -23,10 +23,12 @@ interface CourseStore {
     startingSemester: StartingSemester;
     selectedCoursesByProgram: Record<string, SelectedCourse[]>;
     importVersion: number;
+    scopeFilter: 'own' | 'extended';
 
     // Actions
     setProgram: (programId: string) => void;
     setStartingSemester: (s: StartingSemester) => void;
+    setScopeFilter: (scope: 'own' | 'extended') => void;
     addCourse: (course: Course, assignedSemester: '1' | '2' | '3' | '4') => void;
     removeCourse: (moduleCode: string) => void;
     isCourseSelected: (moduleCode: string) => boolean;
@@ -55,8 +57,10 @@ export const useCourseStore = create<CourseStore>()(
             startingSemester: 'SA' as StartingSemester,
             selectedCoursesByProgram: {},
             importVersion: 0,
+            scopeFilter: 'own' as 'own' | 'extended',
 
             setProgram: (programId) => set({ currentProgramId: programId || null }),
+            setScopeFilter: (scope) => set({ scopeFilter: scope }),
             setStartingSemester: (s) => set((state) => {
                 const programId = state.currentProgramId;
                 if (!programId) return { startingSemester: s };

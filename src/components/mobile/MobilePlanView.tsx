@@ -97,6 +97,12 @@ export const MobilePlanView: React.FC<MobilePlanViewProps> = ({ startingSemester
                                                 {hasCollision && (
                                                     <AlertTriangle size={12} className="text-orange-500" />
                                                 )}
+                                                {course.isOutOfSpecialization && (
+                                                    <span className="flex items-center gap-0.5 text-[10px] px-1.5 py-0.5 rounded font-bold bg-orange-100 text-orange-600 border border-orange-200">
+                                                        <AlertTriangle size={9} />
+                                                        Out of spec
+                                                    </span>
+                                                )}
                                             </div>
                                             <div className="flex items-center gap-0.5 shrink-0">
                                                 <a

@@ -1,13 +1,15 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useCourseStore } from '../store/useCourseStore';
-import { Search, ExternalLink } from 'lucide-react';
+import { Search, ExternalLink, AlertTriangle } from 'lucide-react';
 import { cn } from '../utils/cn';
 import { courseToAssignedSemester, getSemesterLabels } from '../utils/semesterUtils';
 import { formatCourseTime } from '../utils/timeBlockUtils';
 import { getCategoryPrefix, CATEGORY_PREFIXES, getTypeBadge } from '../utils/courseColors';
+import { getOutOfSpecializationCourses } from '../data/dataLoader';
+import type { Course } from '../types';
 
 export const AddModule: React.FC = () => {
-    const { addCourse, removeCourse, getSelectedCourses, getAllCourses, startingSemester } = useCourseStore();
+    const { addCourse, removeCourse, getSelectedCourses, getAllCourses, startingSemester, currentProgramId, scopeFilter, setScopeFilter } = useCourseStore();
     const allCourses      = getAllCourses();
     const selectedCourses = getSelectedCourses();
     const selectedModules = useMemo(() => new Set(selectedCourses.map(c => c.module)), [selectedCourses]);
@@ -19,16 +21,31 @@ export const AddModule: React.FC = () => {
     const [dayFilter, setDayFilter]           = useState<string | null>(null);
     const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
     const [placedFilter, setPlacedFilter]     = useState<'placed' | 'unplaced' | null>(null);
+    const [outOfSpecCourses, setOutOfSpecCourses] = useState<Course[]>([]);
+
+    useEffect(() => {
+        if (!currentProgramId) return;
+        getOutOfSpecializationCourses(currentProgramId).then(setOutOfSpecCourses);
+    }, [currentProgramId]);
+
+    useEffect(() => {
+        if (scopeFilter === 'own') setCategoryFilter(null);
+    }, [scopeFilter]);
+
+    const sourceCourses = useMemo(
+        () => scopeFilter === 'extended' ? outOfSpecCourses : allCourses,
+        [scopeFilter, allCourses, outOfSpecCourses]
+    );
 
     /** Base: search + semester + type + day - no placed/category filter (for availableCategories) */
-    const baseUnfiltered = useMemo(() => allCourses.filter(course => {
+    const baseUnfiltered = useMemo(() => sourceCourses.filter(course => {
         const q = search.toLowerCase();
         const matchesSearch   = course.module.toLowerCase().includes(q) || course.title.toLowerCase().includes(q);
         const matchesSemester = semesterFilter ? course.Semester === semesterFilter : true;
         const matchesType     = typeFilter ? course.type === typeFilter : true;
         const matchesDay      = dayFilter ? course.WeekDay === dayFilter : true;
         return matchesSearch && matchesSemester && matchesType && matchesDay;
-    }), [allCourses, search, semesterFilter, typeFilter, dayFilter]);
+    }), [sourceCourses, search, semesterFilter, typeFilter, dayFilter]);
 
     const availableCategories = useMemo(() => {
         const cats = new Set(baseUnfiltered.map(c => getCategoryPrefix(c.module)));
@@ -58,6 +75,33 @@ export const AddModule: React.FC = () => {
                             onChange={(e) => setSearch(e.target.value)}
                         />
                     </div>
+                </div>
+
+                {/* Specialisation scope */}
+                <div>
+                    <label className="text-xs font-bold text-gray-500 uppercase mb-1 block">Specialization</label>
+                    <div className="flex rounded-lg border border-gray-200 bg-white p-1">
+                        <button
+                            className={cn('flex-1 py-1 text-xs font-bold rounded transition-colors',
+                                scopeFilter === 'own' ? 'bg-blue-600 text-white' : 'text-gray-600 hover:bg-gray-50')}
+                            onClick={() => setScopeFilter('own')}
+                        >
+                            {currentProgramId ?? 'My spec'}
+                        </button>
+                        <button
+                            className={cn('flex-1 py-1 text-xs font-bold rounded transition-colors',
+                                scopeFilter === 'extended' ? 'bg-orange-500 text-white' : 'text-gray-600 hover:bg-gray-50')}
+                            onClick={() => setScopeFilter('extended')}
+                        >
+                            Other
+                        </button>
+                    </div>
+                    {scopeFilter === 'extended' && (
+                        <p className="text-[10px] text-orange-500 mt-1 flex items-center gap-1">
+                            <AlertTriangle size={10} />
+                            TSM/FTP/CM courses outside your specialization count as Optional (no recommended credits)
+                        </p>
+                    )}
                 </div>
 
                 {/* Semester + Type */}
@@ -123,14 +167,27 @@ export const AddModule: React.FC = () => {
                     const isPlaced     = selectedModules.has(course.module);
                     const placedEntry  = isPlaced ? selectedCourses.find(c => c.module === course.module) : null;
                     const placedLabel  = placedEntry ? SEMESTER_LABELS[placedEntry.assignedSemester] : null;
+                    const isOutOfSpec  = course.isOutOfSpecialization === true;
 
                     return (
                         <div key={course.module}
                             className={cn('bg-white p-3 rounded-lg border shadow-sm transition-shadow cursor-default',
-                                isPlaced ? 'border-gray-200 opacity-75' : 'border-gray-200 hover:shadow-md')}
+                                isPlaced
+                                    ? 'border-gray-200 opacity-75'
+                                    : isOutOfSpec
+                                        ? 'border-orange-200 hover:shadow-md'
+                                        : 'border-gray-200 hover:shadow-md')}
                         >
                             <div className="flex justify-between items-start mb-1">
-                                <span className="font-bold text-gray-800 text-sm">{course.module}</span>
+                                <div className="flex items-center gap-1.5 flex-wrap">
+                                    <span className="font-bold text-gray-800 text-sm">{course.module}</span>
+                                    {isOutOfSpec && (
+                                        <span className="flex items-center gap-0.5 text-[10px] px-1.5 py-0.5 rounded font-bold bg-orange-100 text-orange-600 border border-orange-200">
+                                            <AlertTriangle size={9} />
+                                            Out of spec
+                                        </span>
+                                    )}
+                                </div>
                                 <div className="flex items-center gap-1.5">
                                     <span className={cn('text-[10px] px-1.5 py-0.5 rounded font-bold uppercase', getTypeBadge(course.type))}>
                                         {course.type === 'R' ? 'Rec' : course.type === 'C' ? 'Com' : 'Opt'}

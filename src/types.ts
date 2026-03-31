@@ -14,6 +14,7 @@ export interface Course {
     location?: string;
     credits?: number;
     description?: string; // Not use for now
+    isOutOfSpecialization?: boolean;
 }
 
 export interface SelectedCourse extends Course {
@@ -21,16 +22,17 @@ export interface SelectedCourse extends Course {
 }
 
 export interface ValidationResult {
-    tsm:    { count: number; rec: number; valid: boolean; message?: string };
-    ftp:    { count: number; rec: number; valid: boolean; message?: string };
-    ma:     { count: number; rec: number; valid: boolean; message?: string };
-    cm:     { count: number; valid: boolean; message?: string };
-    pi:     { count: number; rec: number; valid: boolean; message?: string };
-    map:    { count: number; rec: number; valid: boolean; message?: string };
-    csi:    { count: number; rec: number; valid: boolean; message?: string };
-    bonus:  { count: number; valid: boolean; message?: string };
+    tsm:       { count: number; rec: number; valid: boolean; message?: string };
+    ftp:       { count: number; rec: number; valid: boolean; message?: string };
+    ma:        { count: number; rec: number; valid: boolean; message?: string };
+    cm:        { count: number; valid: boolean; message?: string };
+    pi:        { count: number; rec: number; valid: boolean; message?: string };
+    map:       { count: number; rec: number; valid: boolean; message?: string };
+    csi:       { count: number; rec: number; valid: boolean; message?: string };
+    bonus:     { count: number; valid: boolean; message?: string };
+    outOfSpec: { count: number; valid: boolean; message?: string };
     totalEcts: number;
-    isValid: boolean;
+    isValid:   boolean;
 }
 
 export interface Collision {
@@ -41,9 +43,9 @@ export interface Collision {
 export interface ValidationRules {
     TSM: { max: number; minRec: number };
     FTP: { max: number; minRec: number };
-    MA: { max: number; minRec: number };
-    CM: { max: number; minRec: number };
-    PI: { max: number; minRec: number };
+    MA:  { max: number; minRec: number };
+    CM:  { max: number; minRec: number };
+    PI:  { max: number; minRec: number };
     MAP: { max: number; minRec: number };
     CSI: { max: number; minRec: number };
     BONUS: number;

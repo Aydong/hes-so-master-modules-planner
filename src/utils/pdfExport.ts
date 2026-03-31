@@ -180,19 +180,21 @@ const drawGanttCalendar = (doc: jsPDF, semCourses: SelectedCourse[], startY: num
 
         timed.forEach(({ course, startMin, endMin }) => {
             const { colIdx, colCount } = layout.get(course.module) ?? { colIdx: 0, colCount: 1 };
-            const isCollision = colCount > 1;
+            const isCollision  = colCount > 1;
+            const isOutOfSpec  = course.isOutOfSpecialization === true;
             const cW = COL_W / colCount - 3;
             const cX = dayX + colIdx * cW + 0.7 + 1.5;
             const cY = toY(startMin) + 0.5;
             const cH = toH(startMin, endMin) - 1;
 
-            const cat   = getCategory(course.module);
-            const fill  = isCollision ? ([254, 226, 226] as [number, number, number]) : (CAT_FILL[cat] ?? LIGHT);
+            const cat    = getCategory(course.module);
+            const fill   = isCollision ? ([254, 226, 226] as [number, number, number]) : (CAT_FILL[cat] ?? LIGHT);
             const tColor = isCollision ? RED : (CAT_TEXT[cat] ?? DARK);
+            const border = isCollision ? RED : isOutOfSpec ? ORANGE : tColor;
 
             doc.setFillColor(...fill);
-            doc.setDrawColor(...tColor);
-            doc.setLineWidth(isCollision ? 0.6 : 0.1);
+            doc.setDrawColor(...border);
+            doc.setLineWidth(isCollision ? 0.6 : isOutOfSpec ? 0.8 : 0.1);
             doc.roundedRect(cX, cY, cW - 1.4, cH, 3, 3, 'FD');
 
             doc.setTextColor(...tColor);
@@ -202,12 +204,22 @@ const drawGanttCalendar = (doc: jsPDF, semCourses: SelectedCourse[], startY: num
             doc.setFont('helvetica', 'bold');
             doc.text(trunc(course.module, 18), cX + 3.5, cY + 5, { align: 'left', maxWidth: cW - 2.5 });
 
+            // "Out of specialization" label below module code
+            if (isOutOfSpec && cH > 7) {
+                doc.setFontSize(6);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(...ORANGE);
+                doc.text('Out of spec', cX + 3.5, cY + 10, { align: 'left' });
+                doc.setTextColor(...tColor);
+            }
+
             // Title (only if tall enough)
             if (cH > 9) {
                 doc.setFontSize(7);
                 doc.setFont('helvetica', 'normal');
+                const titleY = isOutOfSpec ? cY + 15 : cY + 10;
                 const titleLines = doc.splitTextToSize(trunc(course.title, 40), cW - 3);
-                doc.text(titleLines.slice(0, 2), cX + 3.5, cY + 10, { align: 'left' });
+                doc.text(titleLines.slice(0, 2), cX + 3.5, titleY, { align: 'left' });
             }
 
             // Type of course
@@ -217,6 +229,7 @@ const drawGanttCalendar = (doc: jsPDF, semCourses: SelectedCourse[], startY: num
                 const typeStr = course.type === 'R' ? 'Recommended' :
                                 course.type === 'C' ? 'Compulsory' :
                                 course.type === 'O' ? 'Optional' : 'Other';
+                doc.setTextColor(...tColor);
                 doc.text(typeStr, cX + 3.5, cY + cH - 11, { align: 'left' });
             }
 
@@ -254,12 +267,17 @@ const drawDetailList = (doc: jsPDF, semCourses: SelectedCourse[], startY: number
         head: [['Module', 'Title', 'Cat.', 'ECTS', 'Type', 'Day', 'Block', 'Time', 'Location', 'Link']],
         body: semCourses.map(c => {
             const cat = getCategory(c.module);
+            const isOutOfSpec = c.isOutOfSpecialization === true;
+            const rowFill = isOutOfSpec ? ([255, 237, 213] as [number, number, number]) : undefined;
+            const maybeRowFill = (extra?: object) => isOutOfSpec
+                ? { fillColor: rowFill, ...extra }
+                : { ...extra };
             return [
                 {
-                    content: c.module,
-                    styles: { font: 'courier', fontStyle: 'bold' as const, fontSize: 7.5, textColor: BLUE },
+                    content: isOutOfSpec ? `${c.module}\nOut of spec.` : c.module,
+                    styles: { font: 'courier', fontStyle: 'bold' as const, fontSize: 7.5, textColor: isOutOfSpec ? ORANGE : BLUE, ...maybeRowFill() },
                 },
-                c.title,
+                { content: c.title, styles: maybeRowFill() },
                 {
                     content: cat,
                     styles: {
@@ -269,19 +287,21 @@ const drawDetailList = (doc: jsPDF, semCourses: SelectedCourse[], startY: number
                         halign: 'center' as const,
                     },
                 },
-                { content: String(c.credits || 3), styles: { halign: 'center' as const, fontStyle: 'bold' as const } },
+                { content: String(c.credits || 3), styles: { halign: 'center' as const, fontStyle: 'bold' as const, ...maybeRowFill() } },
                 {
                     content: c.type === 'R' ? 'Rec.' : c.type === 'C' ? 'Comp.' : 'Opt.',
                     styles: {
                         textColor: c.type === 'R' ? GREEN : c.type === 'C' ? RED : GRAY,
+                        fontStyle: 'normal' as const,
                         halign: 'left' as const,
+                        fillColor: rowFill,
                     },
                 },
-                c.WeekDay,
-                { content: c.TimeBlock, styles: { halign: 'left' as const, font: 'courier' } },
-                { content: getRealTimeStr(c), styles: { halign: 'left' as const, fontSize: 7 } },
-                c.location || ' - ',
-                { content: 'View', styles: { textColor: BLUE, halign: 'left' as const } },
+                { content: c.WeekDay, styles: maybeRowFill() },
+                { content: c.TimeBlock, styles: { halign: 'left' as const, font: 'courier', ...maybeRowFill() } },
+                { content: getRealTimeStr(c), styles: { halign: 'left' as const, fontSize: 7, ...maybeRowFill() } },
+                { content: c.location || ' - ', styles: maybeRowFill() },
+                { content: 'View', styles: { textColor: BLUE, halign: 'left' as const, ...maybeRowFill() } },
             ];
         }),
         theme: 'striped',
@@ -323,7 +343,7 @@ export const exportToPDF = (
     const SEMESTER_LABELS = getSemesterLabels(startingSemester);
     const planStatus: 'valid' | 'warning' | 'invalid' = !validation.isValid
         ? 'invalid'
-        : hasCollisions ? 'warning' : 'valid';
+        : (hasCollisions || !validation.outOfSpec.valid) ? 'warning' : 'valid';
 
     const doc   = new jsPDF({ orientation: 'landscape' });
     const pageW = doc.internal.pageSize.getWidth();
@@ -381,8 +401,47 @@ export const exportToPDF = (
         },
     });
 
+    // Issues & Warnings section (only shown when there are problems)
+    const pdfErrors: string[] = [];
+    const pdfWarnings: string[] = [];
+    if (rules.TSM.max > 0 && !validation.tsm.valid && validation.tsm.message) pdfErrors.push(validation.tsm.message);
+    if (rules.FTP.max > 0 && !validation.ftp.valid && validation.ftp.message) pdfErrors.push(validation.ftp.message);
+    if (rules.MA.max  > 0 && !validation.ma.valid  && validation.ma.message)  pdfErrors.push(validation.ma.message);
+    if (rules.CM.max  > 0 && !validation.cm.valid  && validation.cm.message)  pdfErrors.push(validation.cm.message);
+    if (rules.PI.max  > 0 && !validation.pi.valid  && validation.pi.message)  pdfErrors.push(validation.pi.message);
+    if (rules.MAP.max > 0 && !validation.map.valid && validation.map.message) pdfErrors.push(validation.map.message);
+    if (rules.CSI.max > 0 && !validation.csi.valid && validation.csi.message) pdfErrors.push(validation.csi.message);
+    if (!validation.bonus.valid && validation.bonus.message) pdfErrors.push(validation.bonus.message);
+    if (hasCollisions) pdfWarnings.push('Schedule conflicts detected, check overlapping courses.');
+    if (!validation.outOfSpec.valid && validation.outOfSpec.message) pdfWarnings.push(validation.outOfSpec.message);
+
+    if (pdfErrors.length > 0 || pdfWarnings.length > 0) {
+        const issuesY = (doc as any).lastAutoTable.finalY + 8;
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(...DARK);
+        doc.text('Issues & Warnings', 14, issuesY);
+
+        let lineY = issuesY + 6;
+        pdfErrors.forEach(msg => {
+            doc.setFontSize(8);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(...RED);
+            doc.text(`${msg}`, 18, lineY);
+            lineY += 5;
+        });
+        pdfWarnings.forEach(msg => {
+            doc.setFontSize(8);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(...ORANGE);
+            const lines = doc.splitTextToSize(`${msg}`, pageW - 32);
+            doc.text(lines, 18, lineY);
+            lineY += lines.length * 4.5;
+        });
+    }
+
     doc.setFontSize(8);
-    const disclaimer = 'This is an unofficial tool created by a student for students. It is not affiliated with MSE and may not be 100% accurate. Always double-check with official sources and your academic advisor before making decisions based on this planner. Visite the official MSE website for the most up-to-date information on courses, requirements, and schedules.';
+    const disclaimer = 'This is an unofficial tool created by a student for students. It is not affiliated with MSE and may not be 100% accurate. Always double-check with official sources and your academic advisor before making decisions based on this planner. Visit the official MSE website for the most up-to-date information on courses, requirements, and schedules.';
     const link = 'https://www.hes-so.ch/master/hes-so-master/formations/engineering';
     const splitDisclaimer = doc.splitTextToSize(disclaimer, pageW - 28);
     doc.setTextColor(...RED);
