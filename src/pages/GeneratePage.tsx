@@ -440,7 +440,7 @@ export function GeneratePage() {
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="text-xs font-bold text-gray-500 uppercase mb-1 block">Years to plan</label>
+                                    <label className="text-xs font-bold text-gray-500 uppercase mb-1 block">Number of years</label>
                                     <div className="flex rounded-lg border border-gray-200 bg-white p-1 gap-1">
                                         {([1, 2] as const).map(y => (
                                             <button key={y} onClick={() => setYears(y)}

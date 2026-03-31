@@ -125,6 +125,19 @@ export const validateConstraints = (courses: SelectedCourse[], rules: Validation
 
     const totalEcts = courses.reduce((sum, c) => sum + (c.credits || 3), 0);
 
+    const outOfSpecCount = courses.filter(c => c.isOutOfSpecialization).length;
+    const outOfSpec = {
+        count: outOfSpecCount,
+        valid: outOfSpecCount <= 1,
+        message:
+            outOfSpecCount === 0
+                ? 'No out-of-spec course'
+                : outOfSpecCount === 1
+                    ? '1/1 out-of-specialization course (OK)'
+                    : `You have ${outOfSpecCount} out-of-specialization courses (max 1). Check with your academic advisor.`,
+    };
+
+    // outOfSpec is a soft warning - it does not affect isValid (plan stays usable)
     const isValid = (
         tsm.valid &&
         ftp.valid &&
@@ -134,9 +147,34 @@ export const validateConstraints = (courses: SelectedCourse[], rules: Validation
         map.valid &&
         csi.valid &&
         bonus.valid
-    )
+    );
 
-    return { tsm, ftp, ma, cm, pi, map, csi, bonus, totalEcts, isValid };
+    return { tsm, ftp, ma, cm, pi, map, csi, bonus, outOfSpec, totalEcts, isValid };
+};
+
+/** Returns arrays of error and warning messages for display in UI and PDF. */
+export const getValidationIssues = (
+    validation: ValidationResult,
+    rules: ValidationRules,
+    hasCollisions: boolean,
+    collisionCount = 0,
+): { errors: string[]; warnings: string[] } => {
+    const errors: string[] = [];
+    const warnings: string[] = [];
+
+    if (rules.TSM.max > 0 && !validation.tsm.valid && validation.tsm.message) errors.push(validation.tsm.message);
+    if (rules.FTP.max > 0 && !validation.ftp.valid && validation.ftp.message) errors.push(validation.ftp.message);
+    if (rules.MA.max  > 0 && !validation.ma.valid  && validation.ma.message)  errors.push(validation.ma.message);
+    if (rules.CM.max  > 0 && !validation.cm.valid  && validation.cm.message)  errors.push(validation.cm.message);
+    if (rules.PI.max  > 0 && !validation.pi.valid  && validation.pi.message)  errors.push(validation.pi.message);
+    if (rules.MAP.max > 0 && !validation.map.valid && validation.map.message) errors.push(validation.map.message);
+    if (rules.CSI.max > 0 && !validation.csi.valid && validation.csi.message) errors.push(validation.csi.message);
+    if (!validation.bonus.valid && validation.bonus.message) errors.push(validation.bonus.message);
+
+    if (hasCollisions) warnings.push(`${collisionCount} schedule conflict${collisionCount !== 1 ? 's' : ''}`);
+    if (!validation.outOfSpec.valid && validation.outOfSpec.message) warnings.push(validation.outOfSpec.message);
+
+    return { errors, warnings };
 };
 
 export const checkCollisions = (courses: SelectedCourse[]): Collision[] => {

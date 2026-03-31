@@ -9,6 +9,7 @@ import { getProgramById } from '../data/programs';
 import { slotToCourseSemester, getSlotShortLabel } from '../utils/semesterUtils';
 import { getBlockTime, getBlockTimeBounds, getDistinctTimings, formatMinutes, timeBlockDataReady, getNameForCode } from '../utils/timeBlockData';
 import { getCategoryCard, getCategoryBadge, getCategorySolid, getTypeBadge } from '../utils/courseColors';
+import { getOutOfSpecializationCourses } from '../data/dataLoader';
 
 //  Timeline constants
 
@@ -67,87 +68,135 @@ interface SlotPickerProps {
     day: string;
     block: string;
     semester: '1' | '2' | '3' | '4';
-    courses: Course[];
+    ownCourses: Course[];
+    outOfSpecCourses: Course[];
     onAdd: (course: Course) => void;
     onClose: () => void;
 }
 
-const SlotPicker: React.FC<SlotPickerProps> = ({ day, block, semester, courses, onAdd, onClose }) => (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50" onClick={onClose}>
-        <div className="bg-white rounded-2xl shadow-xl w-[500px] max-h-[65vh] flex flex-col" onClick={e => e.stopPropagation()}>
-            {/* Header */}
-            <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center shrink-0">
-                <div>
-                    <h3 className="font-bold text-gray-800">Add a course</h3>
-                    <p className="text-sm text-gray-400">{day} · {block} — Semester {semester}</p>
-                </div>
-                <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition-colors">
-                    <X size={20} />
-                </button>
-            </div>
+const SlotPicker: React.FC<SlotPickerProps> = ({ day, block, semester, ownCourses, outOfSpecCourses, onAdd, onClose }) => {
+    const { scopeFilter, setScopeFilter, currentProgramId } = useCourseStore();
+    const courses = scopeFilter === 'extended' ? outOfSpecCourses : ownCourses;
 
-            {/* Course list */}
-            <div className="overflow-y-auto p-4 space-y-2">
-                {courses.length === 0 ? (
-                    <p className="text-center text-gray-400 py-10 text-sm">No available courses for this slot</p>
-                ) : (
-                    courses.map(course => {
-                        const timing = getCourseTiming(course);
-                        return (
-                            <div key={course.module} className="flex items-center gap-3 p-3 rounded-xl border border-gray-100 hover:border-blue-200 hover:bg-blue-50 transition-colors">
-                                <div className="flex-1 min-w-0">
-                                    <div className="flex items-center gap-2 mb-1 flex-wrap">
-                                        <span className={cn('text-xs font-bold px-2 py-0.5 rounded', getCategoryBadge(course.module))}>
-                                            {course.module}
-                                        </span>
-                                        <span className={cn('text-[10px] font-bold px-1.5 py-0.5 rounded', getTypeBadge(course.type))}>
-                                            {course.type === 'R' ? 'Rec' : course.type === 'C' ? 'Com' : 'Opt'}
-                                        </span>
-                                        <span className="text-xs text-gray-400">{course.credits ?? 3} ECTS</span>
-                                        {course.location && (
-                                            <span className="text-xs text-gray-400">{course.location}</span>
-                                        )}
-                                        <span className="text-xs font-medium text-gray-500">
-                                            {formatMinutes(timing.startMin)} – {formatMinutes(timing.endMin)}
-                                        </span>
+    return (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50" onClick={onClose}>
+            <div className="bg-white rounded-2xl shadow-xl w-[500px] max-h-[65vh] flex flex-col" onClick={e => e.stopPropagation()}>
+                {/* Header */}
+                <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center shrink-0">
+                    <div>
+                        <h3 className="font-bold text-gray-800">Add a course</h3>
+                        <p className="text-sm text-gray-400">{day} · {block} - Semester {semester}</p>
+                    </div>
+                    <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition-colors">
+                        <X size={20} />
+                    </button>
+                </div>
+
+                {/* Scope toggle */}
+                <div className="px-6 pt-3 pb-1 shrink-0">
+                    <div className="flex rounded-lg border border-gray-200 bg-gray-50 p-1">
+                        <button
+                            className={cn('flex-1 py-1 text-xs font-bold rounded transition-colors',
+                                scopeFilter === 'own' ? 'bg-blue-600 text-white shadow-sm' : 'text-gray-500 hover:bg-white')}
+                            onClick={() => setScopeFilter('own')}
+                        >
+                            {currentProgramId ?? 'My spec'}
+                        </button>
+                        <button
+                            className={cn('flex-1 py-1 text-xs font-bold rounded transition-colors',
+                                scopeFilter === 'extended' ? 'bg-orange-500 text-white shadow-sm' : 'text-gray-500 hover:bg-white')}
+                            onClick={() => setScopeFilter('extended')}
+                        >
+                            Other
+                        </button>
+                    </div>
+                    {scopeFilter === 'extended' && (
+                        <p className="text-[10px] text-orange-500 mt-1 flex items-center gap-1">
+                            <AlertTriangle size={9} />
+                            Courses outside your specialization count as Optional (no recommended credits)
+                        </p>
+                    )}
+                </div>
+
+                {/* Course list */}
+                <div className="overflow-y-auto p-4 space-y-2">
+                    {courses.length === 0 ? (
+                        <p className="text-center text-gray-400 py-10 text-sm">No available courses for this slot</p>
+                    ) : (
+                        courses.map(course => {
+                            const timing = getCourseTiming(course);
+                            const isOutOfSpec = course.isOutOfSpecialization === true;
+                            return (
+                                <div key={course.module} className={cn(
+                                    'flex items-center gap-3 p-3 rounded-xl border transition-colors',
+                                    isOutOfSpec
+                                        ? 'border-orange-100 hover:border-orange-300 hover:bg-orange-50'
+                                        : 'border-gray-100 hover:border-blue-200 hover:bg-blue-50'
+                                )}>
+                                    <div className="flex-1 min-w-0">
+                                        <div className="flex items-center gap-2 mb-1 flex-wrap">
+                                            <span className={cn('text-xs font-bold px-2 py-0.5 rounded', getCategoryBadge(course.module))}>
+                                                {course.module}
+                                            </span>
+                                            <span className={cn('text-[10px] font-bold px-1.5 py-0.5 rounded', getTypeBadge(course.type))}>
+                                                {course.type === 'R' ? 'Rec' : course.type === 'C' ? 'Com' : 'Opt'}
+                                            </span>
+                                            {isOutOfSpec && (
+                                                <span className="flex items-center gap-0.5 text-[10px] px-1.5 py-0.5 rounded font-bold bg-orange-100 text-orange-600 border border-orange-200">
+                                                    <AlertTriangle size={9} />
+                                                    Out of spec
+                                                </span>
+                                            )}
+                                            <span className="text-xs text-gray-400">{course.credits ?? 3} ECTS</span>
+                                            {course.location && (
+                                                <span className="text-xs text-gray-400">{course.location}</span>
+                                            )}
+                                            <span className="text-xs font-medium text-gray-500">
+                                                {formatMinutes(timing.startMin)} – {formatMinutes(timing.endMin)}
+                                            </span>
+                                        </div>
+                                        <p className="text-sm text-gray-700 truncate">{course.title}</p>
                                     </div>
-                                    <p className="text-sm text-gray-700 truncate">{course.title}</p>
+                                    <div className="shrink-0 flex items-center gap-1.5">
+                                        <a href={course.link} target="_blank" rel="noopener noreferrer"
+                                           title="Open course details"
+                                           className="p-1.5 text-gray-400 hover:text-blue-600 transition-colors"
+                                           onClick={e => e.stopPropagation()}>
+                                            <ExternalLink size={14} />
+                                        </a>
+                                        <button onClick={() => onAdd(course)}
+                                            className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg transition-colors flex items-center gap-1">
+                                            <Plus size={12} /> Add
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="shrink-0 flex items-center gap-1.5">
-                                    <a href={course.link} target="_blank" rel="noopener noreferrer"
-                                       title="Open course details"
-                                       className="p-1.5 text-gray-400 hover:text-blue-600 transition-colors"
-                                       onClick={e => e.stopPropagation()}>
-                                        <ExternalLink size={14} />
-                                    </a>
-                                    <button onClick={() => onAdd(course)}
-                                        className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg transition-colors flex items-center gap-1">
-                                        <Plus size={12} /> Add
-                                    </button>
-                                </div>
-                            </div>
-                        );
-                    })
-                )}
+                            );
+                        })
+                    )}
+                </div>
             </div>
         </div>
-    </div>
-);
+    );
+};
 
 //  Main component 
 
 export const ScheduleGrid: React.FC = () => {
     const {
         removeCourse, getSelectedCourses, getAllCourses, addCourse,
-        isCourseSelected, startingSemester, importVersion,
+        isCourseSelected, startingSemester, importVersion, scopeFilter,
     } = useCourseStore();
 
     const selectedCourses = getSelectedCourses();
     const allCourses      = getAllCourses();
 
+    const programId = useCourseStore().currentProgramId;
+    const program   = getProgramById(programId || '');
+
     const [semester, setSemester]         = useState<'1' | '2' | '3' | '4'>('1');
     const [selectedSlot, setSelectedSlot] = useState<{ day: string; block: string } | null>(null);
     const [timeBlockReady, setTimeBlockReady] = useState(false);
+    const [outOfSpecCourses, setOutOfSpecCourses] = useState<Course[]>([]);
 
     useEffect(() => {
         timeBlockDataReady.then(() => setTimeBlockReady(true));
@@ -158,19 +207,21 @@ export const ScheduleGrid: React.FC = () => {
         setSelectedSlot(null);
     }, [importVersion]);
 
+    useEffect(() => {
+        if (!programId) return;
+        getOutOfSpecializationCourses(programId).then(setOutOfSpecCourses);
+    }, [programId]);
+
     const semesterCourses = selectedCourses.filter(c => c.assignedSemester === semester);
     const travelWarnings  = buildTravelWarningModules(semesterCourses);
     const semesterType    = slotToCourseSemester(semester, startingSemester);
     const semesterECTS    = semesterCourses.reduce((s, c) => s + (c.credits ?? 3), 0);
-    
+
     const selectedECTS = selectedCourses.reduce((sum, course) => sum + (course.credits || 3), 0);
 
     const totalECTS_default = selectedECTS + 30 + 6; // default: 30 ECTS TM, 6 PA
     const totalECTS_ICS = selectedECTS + 30 + 30;    // ICS: 30 TM + 30 Brasov
     const totalECTS_CE = selectedECTS + 30;          // CE: 30 TM only
-    
-    const programId = useCourseStore().currentProgramId;
-    const program = getProgramById(programId || '');
 
     const totalECTS = program?.masterCode === 'ICS'
         ? totalECTS_ICS
@@ -186,8 +237,20 @@ export const ScheduleGrid: React.FC = () => {
             c.Semester === semesterType
         );
 
-    const availableForSelected = selectedSlot
+    const getOutOfSpecForSlot = (day: string, block: string) =>
+        outOfSpecCourses.filter(c =>
+            c.WeekDay === day &&
+            extractTimeBlocks(c.TimeBlock).includes(block) &&
+            !isCourseSelected(c.module) &&
+            c.Semester === semesterType
+        );
+
+    const ownCoursesForSelected = selectedSlot
         ? getAvailableForSlot(selectedSlot.day, selectedSlot.block)
+        : [];
+
+    const outOfSpecForSelected = selectedSlot
+        ? getOutOfSpecForSlot(selectedSlot.day, selectedSlot.block)
         : [];
 
     return (
@@ -273,18 +336,34 @@ export const ScheduleGrid: React.FC = () => {
                                 ))}
 
                                 {/* Empty clickable zones for each block */}
-                                {TIME_BLOCKS.map(block => {
+                                {(() => {
+                                    // Pre-compute visual timing of each placed course on this day
+                                    const placedTimings = dayCourses.map(c => getCourseTiming(c));
+
+                                    return TIME_BLOCKS.map(block => {
                                     const blockNum  = parseInt(block.replace('TB', ''));
                                     const available = getAvailableForSlot(day, block);
-                                    if (available.length === 0) return null;
+                                    const availableOutOfSpec = getOutOfSpecForSlot(day, block);
+                                    if (available.length === 0 && availableOutOfSpec.length === 0) return null;
 
                                     // Hide if a placed course already occupies this block slot
                                     const isOccupied = dayCourses.some(c => courseHasTimeBlock(c, block));
                                     if (isOccupied) return null;
 
-                                    const locations      = available.map(c => c.location);
-                                    const bounds         = getBlockTimeBounds(locations, blockNum);
+                                    const displayCourses  = scopeFilter === 'extended'
+                                        ? availableOutOfSpec
+                                        : available;
+                                    if (displayCourses.length === 0) return null;
+                                    const locations       = displayCourses.map(c => c.location);
+                                    const bounds          = getBlockTimeBounds(locations, blockNum);
                                     if (!bounds) return null;
+
+                                    // Hide this zone if a placed course visually extends into it
+                                    const coveredByPlaced = placedTimings.some(
+                                        t => t.startMin < bounds.startMin && t.endMin > bounds.startMin
+                                    );
+                                    if (coveredByPlaced) return null;
+
                                     const distinctTimings = getDistinctTimings(locations, blockNum);
 
                                     return (
@@ -314,20 +393,22 @@ export const ScheduleGrid: React.FC = () => {
                                                 ))}
                                             </div>
                                             <div className="flex items-center gap-2 mt-1.5">
-                                                {[...new Set(available.map(c => c.module.split('_')[0]))].map(prefix => (
+                                                {[...new Set(displayCourses.map(c => c.module.split('_')[0]))].map(prefix => (
                                                     <span key={prefix} className={`w-2.5 h-2.5 rounded-full ${getCategorySolid(prefix)}`} title={prefix} />
                                                 ))}
                                             </div>
                                         </div>
                                     );
-                                })}
+                                    }); // end TIME_BLOCKS.map
+                                })()} {/* end IIFE */}
 
                                 {/* Placed courses */}
                                 {dayCourses.map(course => {
                                     const timing = getCourseTiming(course);
                                     const { colIdx, colCount } = collisionLayout.get(course.module) ?? { colIdx: 0, colCount: 1 };
-                                    const isCollision = colCount > 1;
-                                    const hasTravel   = travelWarnings.has(course.module);
+                                    const isCollision  = colCount > 1;
+                                    const hasTravel    = travelWarnings.has(course.module);
+                                    const isOutOfSpec  = course.isOutOfSpecialization === true;
 
                                     const colWidth = 100 / colCount;
                                     const colLeft  = colIdx * colWidth;
@@ -338,6 +419,7 @@ export const ScheduleGrid: React.FC = () => {
                                                 'absolute rounded-xl border shadow-sm flex flex-col justify-between p-2 transition-transform hover:scale-[1.01] hover:z-10',
                                                 getCategoryCard(course.module),
                                                 isCollision && 'border-red-300 ring-1 ring-red-200',
+                                                isOutOfSpec && !isCollision && 'border-orange-300 ring-1 ring-orange-200',
                                             )}
                                             style={{
                                                 top:    `${toPercent(timing.startMin)}%`,
@@ -347,6 +429,11 @@ export const ScheduleGrid: React.FC = () => {
                                             }}>
                                             {isCollision && (
                                                 <div className="absolute -top-1.5 -right-1.5 bg-red-500 text-white p-0.5 rounded-full z-10 shadow-sm">
+                                                    <AlertTriangle size={10} />
+                                                </div>
+                                            )}
+                                            {isOutOfSpec && !isCollision && (
+                                                <div className="absolute -top-1.5 -left-1.5 bg-orange-500 text-white p-0.5 rounded-full z-10 shadow-sm" title="Out of specialization">
                                                     <AlertTriangle size={10} />
                                                 </div>
                                             )}
@@ -367,6 +454,11 @@ export const ScheduleGrid: React.FC = () => {
                                                         <X size={12} />
                                                     </button>
                                                 </div>
+                                                {isOutOfSpec && (
+                                                    <span className="text-[9px] font-bold text-orange-500 uppercase tracking-wide leading-none">
+                                                        Out of specialization
+                                                    </span>
+                                                )}
                                                 <p className="text-[11px] font-medium leading-tight mt-0.5 opacity-75 line-clamp-2">
                                                     {course.title}
                                                 </p>
@@ -418,7 +510,8 @@ export const ScheduleGrid: React.FC = () => {
                     day={selectedSlot.day}
                     block={selectedSlot.block}
                     semester={semester}
-                    courses={availableForSelected}
+                    ownCourses={ownCoursesForSelected}
+                    outOfSpecCourses={outOfSpecForSelected}
                     onAdd={course => {
                         addCourse(course, semester);
                         setSelectedSlot(null);

@@ -53,7 +53,7 @@ export const MobileLayout: React.FC = () => {
     const collisionModules = new Set<string>();
     collisions.forEach(c => { collisionModules.add(c.course1.module); collisionModules.add(c.course2.module); });
 
-    const planStatus = !validation.isValid ? 'invalid' : hasCollisions ? 'warning' : 'valid';
+    const planStatus = !validation.isValid ? 'invalid' : (hasCollisions || !validation.outOfSpec.valid) ? 'warning' : 'valid';
 
     const semesterCounts = (['1', '2', '3', '4'] as Sem[]).reduce<Record<Sem, number>>(
         (acc, s) => { acc[s] = selectedCourses.filter(c => c.assignedSemester === s).length; return acc; },

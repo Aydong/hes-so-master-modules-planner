@@ -52,6 +52,10 @@ export const MobileValidateView: React.FC<MobileValidateViewProps> = ({
         validation.csi, validation.bonus,
     ].filter(v => v.message && !v.valid);
 
+    const warnings: string[] = [];
+    if (hasCollisions) warnings.push(`${collisionCount} collision${collisionCount !== 1 ? 's' : ''} horaire`);
+    if (!validation.outOfSpec.valid && validation.outOfSpec.message) warnings.push(validation.outOfSpec.message);
+
     return (
         <div className="space-y-4 pb-2">
             {/* Status banner */}
@@ -161,7 +165,7 @@ export const MobileValidateView: React.FC<MobileValidateViewProps> = ({
                 </div>
             </div>
 
-            {/* Issues */}
+            {/* Errors */}
             {issues.length > 0 && (
                 <div className="bg-white rounded-xl border border-red-100 shadow-sm overflow-hidden">
                     <div className="px-4 py-3 border-b border-red-100 bg-red-50/50">
@@ -172,6 +176,23 @@ export const MobileValidateView: React.FC<MobileValidateViewProps> = ({
                             <p key={i} className="text-sm text-red-600 flex items-start gap-2">
                                 <XCircle size={14} className="shrink-0 mt-0.5" />
                                 {v.message}
+                            </p>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {/* Warnings */}
+            {warnings.length > 0 && (
+                <div className="bg-white rounded-xl border border-orange-100 shadow-sm overflow-hidden">
+                    <div className="px-4 py-3 border-b border-orange-100 bg-orange-50/50">
+                        <p className="text-xs font-bold text-orange-500 uppercase tracking-wider">Warnings</p>
+                    </div>
+                    <div className="p-4 space-y-2">
+                        {warnings.map((w, i) => (
+                            <p key={i} className="text-sm text-orange-600 flex items-start gap-2">
+                                <AlertTriangle size={14} className="shrink-0 mt-0.5" />
+                                {w}
                             </p>
                         ))}
                     </div>

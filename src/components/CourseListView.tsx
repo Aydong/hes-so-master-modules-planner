@@ -65,6 +65,10 @@ export const CourseListView: React.FC<{ rules: ValidationRules; startingSemester
                         <AlertTriangle size={12} />
                         Collision
                     </div>
+                    <div className="flex items-center gap-1.5 text-orange-400 font-bold">
+                        <AlertTriangle size={12} />
+                        Out of spec
+                    </div>
                 </div>
             </div>
 
@@ -131,8 +135,9 @@ export const CourseListView: React.FC<{ rules: ValidationRules; startingSemester
                                         </thead>
                                         <tbody>
                                             {sorted.map((course, i) => {
-                                                const category = course.module.split('_')[0];
-                                                const collision = isColliding(course);
+                                                const category   = course.module.split('_')[0];
+                                                const collision  = isColliding(course);
+                                                const isOutOfSpec = course.isOutOfSpecialization === true;
 
                                                 return (
                                                     <tr
@@ -142,8 +147,13 @@ export const CourseListView: React.FC<{ rules: ValidationRules; startingSemester
                                                             i % 2 === 0 ? 'bg-white' : 'bg-gray-50/40'
                                                         )}
                                                     >
-                                                        <td className="px-4 py-2.5 font-mono font-bold text-xs text-gray-700 whitespace-nowrap">
-                                                            {course.module}
+                                                        <td className="px-4 py-2.5 whitespace-nowrap">
+                                                            <span className="font-mono font-bold text-xs text-gray-700">{course.module}</span>
+                                                            {isOutOfSpec && (
+                                                                <div className="text-[10px] font-bold text-orange-500 uppercase tracking-wide leading-none mt-0.5">
+                                                                    Out of specialization
+                                                                </div>
+                                                            )}
                                                         </td>
                                                         <td className="px-4 py-2.5 font-medium text-gray-800 max-w-xs">
                                                             {course.title}
