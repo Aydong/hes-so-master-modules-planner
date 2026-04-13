@@ -190,7 +190,8 @@ export const ScheduleGrid: React.FC = () => {
     const selectedCourses = getSelectedCourses();
     const allCourses      = getAllCourses();
 
-    const programId = useCourseStore().currentProgramId;
+    const programId   = useCourseStore().currentProgramId;
+    const catalogFile = useCourseStore().catalogFile;
     const program   = getProgramById(programId || '');
 
     const [semester, setSemester]         = useState<'1' | '2' | '3' | '4'>('1');
@@ -209,8 +210,8 @@ export const ScheduleGrid: React.FC = () => {
 
     useEffect(() => {
         if (!programId) return;
-        getOutOfSpecializationCourses(programId).then(setOutOfSpecCourses);
-    }, [programId]);
+        getOutOfSpecializationCourses(programId, catalogFile).then(setOutOfSpecCourses);
+    }, [programId, catalogFile]);
 
     const semesterCourses = selectedCourses.filter(c => c.assignedSemester === semester);
     const travelWarnings  = buildTravelWarningModules(semesterCourses);

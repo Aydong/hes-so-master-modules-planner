@@ -44,22 +44,15 @@ const ceRules: ValidationRules = {
     BONUS: 3,
 };
 
-let programsCache: Program[] | null = null;
-let loadingPromise: Promise<Program[]> | null = null;
+/** Cache keyed by catalogFile */
+const programsByYear: Partial<Record<string, Program[]>> = {};
+const loadingPromiseByYear: Partial<Record<string, Promise<Program[]>>> = {};
 
-/**
- * Load all programs from the data folder dynamically
- */
-async function loadProgramsAsync(): Promise<Program[]> {
-    if (programsCache) {
-        return programsCache;
-    }
+async function loadProgramsAsync(catalogFile: string): Promise<Program[]> {
+    if (programsByYear[catalogFile]) return programsByYear[catalogFile];
+    if (loadingPromiseByYear[catalogFile]) return loadingPromiseByYear[catalogFile];
 
-    if (loadingPromise) {
-        return loadingPromise;
-    }
-
-    loadingPromise = (async () => {
+    loadingPromiseByYear[catalogFile] = (async () => {
         const mastersData = await getMastersData();
         const programs: Program[] = [];
 
@@ -68,10 +61,8 @@ async function loadProgramsAsync(): Promise<Program[]> {
                 const masterCode = master.code;
                 const specializationCode = specialization.code;
                 const programId = `${masterCode}-${specializationCode || masterCode}`;
-                
-                const courses = await getCoursesBySpecialization(masterCode, specializationCode);
-                // print mastercode, specializationCode, and number of courses
-                console.log(`Loaded ${courses.length} courses for program ${programId}`);
+
+                const courses = await getCoursesBySpecialization(masterCode, specializationCode, catalogFile);
 
                 const rules = masterCode === 'ICS' ? icsRules : masterCode === 'CE' ? ceRules : defaultRules;
 
@@ -93,22 +84,21 @@ async function loadProgramsAsync(): Promise<Program[]> {
             }
         }
 
-        programsCache = programs;
+        programsByYear[catalogFile] = programs;
         return programs;
     })();
 
-    return loadingPromise;
+    return loadingPromiseByYear[catalogFile];
 }
 
 export let PROGRAMS: Program[] = [];
 
-// Initialize programs asynchronously
-export async function initializePrograms(): Promise<void> {
-    PROGRAMS = await loadProgramsAsync();
+/** Load programs for the given catalogue catalogFile and set them as active. */
+export async function initializePrograms(catalogFile: string): Promise<void> {
+    PROGRAMS = await loadProgramsAsync(catalogFile);
 }
 
 export const getProgramById = (id: string): Program | undefined => {
-    // Support legacy IDs
     const normalizedId = getProgramIdFromLegacy(id);
     return PROGRAMS.find(p => p.id === normalizedId);
 };
@@ -129,7 +119,7 @@ export function getDefaultValidationRules(): ValidationRules {
 
 export const getAllPrograms = async (): Promise<Program[]> => {
     if (PROGRAMS.length === 0) {
-        await initializePrograms();
+        throw new Error('Programs not initialized. Call initializePrograms(catalogFile) first.');
     }
     return PROGRAMS;
 };

@@ -3,6 +3,7 @@ import { MoreVertical, Share2, Upload, Download, RefreshCw, ChevronLeft } from '
 import { GithubIcon } from '../GithubIcon';
 import { cn } from '../../utils/cn';
 import type { StartingSemester } from '../../utils/semesterUtils';
+import type { CourseYearEntry } from '../../data/dataLoader';
 
 type PlanStatus = 'valid' | 'warning' | 'invalid';
 
@@ -16,6 +17,9 @@ interface MobileHeaderProps {
     shareCopied: boolean;
     onImportClick: () => void;
     onExportClick: () => void;
+    catalogFile: string;
+    availableYears: CourseYearEntry[];
+    onSetCatalogFile: (file: string) => void;
     onReset: () => void;
 }
 
@@ -29,6 +33,9 @@ export const MobileHeader: React.FC<MobileHeaderProps> = ({
     shareCopied,
     onImportClick,
     onExportClick,
+    catalogFile,
+    availableYears,
+    onSetCatalogFile,
     onReset,
 }) => {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -114,6 +121,21 @@ export const MobileHeader: React.FC<MobileHeaderProps> = ({
                                     <ChevronLeft size={16} className="text-gray-400" />
                                     Change Program
                                 </button>
+
+                                {availableYears.length > 0 && (
+                                    <div className="px-4 py-3 border-t border-gray-100">
+                                        <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Catalogue</p>
+                                        <select
+                                            value={catalogFile}
+                                            onChange={e => { onSetCatalogFile(e.target.value); setMenuOpen(false); }}
+                                            className="w-full text-sm text-gray-700 bg-gray-100 border-0 rounded-lg px-3 py-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-300"
+                                        >
+                                            {availableYears.map(y => (
+                                                <option key={y.file} value={y.file}>{y.label}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                )}
 
                                 <div className="border-t border-gray-100" />
 
