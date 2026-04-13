@@ -19,16 +19,27 @@ export interface MastersData {
   masters: Master[];
 }
 
-//  Caches 
+export interface CourseYearEntry {
+  file: string;
+  label: string;
+}
+
+export interface CourseIndex {
+  default: string;
+  years: CourseYearEntry[];
+}
+
+//  Caches
 
 let mastersDataCache: MastersData | null = null;
-/** courses.json: module code → course data (without type) */
-let courseRegistryCache: Record<string, Omit<Course, 'module' | 'type'>> | null = null;
+let courseIndexCache: CourseIndex | null = null;
+/** keyed by filename (e.g. "courses_25-26.json") */
+const courseRegistryByFile: Record<string, Record<string, Omit<Course, 'module' | 'type'>>> = {};
 /** per-program manifest cache */
 let manifestCache: Record<string, Array<{ module: string; type: Course['type'] }>> = {};
-/** resolved courses per program */
+/** resolved courses per "year:programId" key */
 let courseDataCache: Record<string, Course[]> = {};
-/** out-of-specialization courses per program */
+/** out-of-specialization courses per "year:programId" key */
 let outOfSpecCache: Record<string, Course[]> = {};
 
 const OUT_OF_SPEC_PREFIXES = ['TSM', 'FTP', 'CM'];
@@ -43,7 +54,7 @@ const legacyIdMap: Record<string, string> = {
   'ics':   'ICS-ICS',
 };
 
-//  Loaders 
+//  Loaders
 
 export async function getMastersData(): Promise<MastersData> {
   if (mastersDataCache) return mastersDataCache;
@@ -53,12 +64,24 @@ export async function getMastersData(): Promise<MastersData> {
   return mastersDataCache;
 }
 
-async function getCourseRegistry(): Promise<Record<string, Omit<Course, 'module' | 'type'>>> {
-  if (courseRegistryCache) return courseRegistryCache;
+export async function getCourseIndex(): Promise<CourseIndex> {
+  if (courseIndexCache) return courseIndexCache;
   const base = import.meta.env.BASE_URL;
-  const res = await fetch(`${base}data/courses.json`);
-  courseRegistryCache = await res.json() as Record<string, Omit<Course, 'module' | 'type'>>;
-  return courseRegistryCache;
+  const res = await fetch(`${base}data/courses_index.json`);
+  courseIndexCache = await res.json() as CourseIndex;
+  return courseIndexCache;
+}
+
+async function getCourseRegistry(
+  catalogFile: string,
+): Promise<Record<string, Omit<Course, 'module' | 'type'>>> {
+  if (courseRegistryByFile[catalogFile]) return courseRegistryByFile[catalogFile];
+  const base = import.meta.env.BASE_URL;
+  const res = await fetch(`${base}${catalogFile}`);
+  if (!res.ok) throw new Error(`Course catalogue not found: ${catalogFile} (HTTP ${res.status})`);
+  const courses = await res.json() as Record<string, Omit<Course, 'module' | 'type'>>;
+  courseRegistryByFile[catalogFile] = courses;
+  return courses;
 }
 
 async function getProgramManifest(
@@ -76,20 +99,22 @@ async function getProgramManifest(
   return manifest;
 }
 
-//  Public API 
+//  Public API
 
 export async function getCoursesBySpecialization(
   masterCode: string,
   specializationCode: string | null,
+  catalogFile: string,
 ): Promise<Course[]> {
   const programId = specializationCode
     ? `${masterCode}-${specializationCode}`
     : `${masterCode}-${masterCode}`;
 
-  if (courseDataCache[programId]) return courseDataCache[programId];
+  const cacheKey = `${catalogFile}:${programId}`;
+  if (courseDataCache[cacheKey]) return courseDataCache[cacheKey];
 
   const [registry, manifest] = await Promise.all([
-    getCourseRegistry(),
+    getCourseRegistry(catalogFile),
     getProgramManifest(programId),
   ]);
 
@@ -97,13 +122,13 @@ export async function getCoursesBySpecialization(
   for (const entry of manifest) {
     const data = registry[entry.module];
     if (!data) {
-      console.warn(`Module ${entry.module} not found in course registry`);
+      console.warn(`Module ${entry.module} not found in course registry (${catalogFile})`);
       continue;
     }
     courses.push({ module: entry.module, type: entry.type, ...data });
   }
 
-  courseDataCache[programId] = courses;
+  courseDataCache[cacheKey] = courses;
   return courses;
 }
 
@@ -111,11 +136,15 @@ export async function getCoursesBySpecialization(
  * Returns all TSM/FTP/CM courses from the registry that are NOT in the given program's manifest.
  * These courses are forced to type 'O' and flagged as out-of-specialization.
  */
-export async function getOutOfSpecializationCourses(programId: string): Promise<Course[]> {
-  if (outOfSpecCache[programId]) return outOfSpecCache[programId];
+export async function getOutOfSpecializationCourses(
+  programId: string,
+  catalogFile: string,
+): Promise<Course[]> {
+  const cacheKey = `${catalogFile}:${programId}`;
+  if (outOfSpecCache[cacheKey]) return outOfSpecCache[cacheKey];
 
   const [registry, manifest] = await Promise.all([
-    getCourseRegistry(),
+    getCourseRegistry(catalogFile),
     getProgramManifest(programId),
   ]);
 
@@ -129,9 +158,10 @@ export async function getOutOfSpecializationCourses(programId: string): Promise<
     }
   }
 
-  outOfSpecCache[programId] = courses;
+  outOfSpecCache[cacheKey] = courses;
   return courses;
 }
+
 
 export function getProgramIdFromLegacy(legacyId: string): string {
   return legacyIdMap[legacyId] || legacyId;

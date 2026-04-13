@@ -7,6 +7,7 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
+import { useCourseStore } from '../store/useCourseStore';
 import { Search, X, ArrowUp, ArrowDown, CheckCircle, AlertTriangle, Copy, ExternalLink, ChevronRight } from 'lucide-react';
 import { initializePrograms, getAllPrograms } from '../data/programs';
 import { getCoursesBySpecialization } from '../data/dataLoader';
@@ -84,11 +85,12 @@ async function runGeneration(
     avoidList: string[],
     startingSemester: StartingSemester,
     maxYears: 1 | 2,
+    catalogFile: string,
 ): Promise<GenerateResult> {
     const program = programs.find(p => p.id === programParam || p.id.toLowerCase() === programParam.toLowerCase());
     if (!program) throw new Error(`Program "${programParam}" not found. Available: ${programs.map(p => p.id).join(', ')}`);
 
-    const courses = await getCoursesBySpecialization(program.masterCode, program.specializationCode);
+    const courses = await getCoursesBySpecialization(program.masterCode, program.specializationCode, catalogFile);
     const avoidSet = new Set(avoidList);
     const prefSet = new Set(preferences);
     const rules = program.validationRules;
@@ -329,6 +331,7 @@ function ResultPanel({ result, onReset }: { result: GenerateResult; onReset: () 
 // Main component 
 
 export function GeneratePage() {
+    const catalogFile = useCourseStore(s => s.catalogFile);
     const [programs, setPrograms] = useState<Program[]>([]);
     const [programCourses, setProgramCourses] = useState<Course[]>([]);
     const [selectedProgram, setSelectedProgram] = useState('');
@@ -344,7 +347,7 @@ export function GeneratePage() {
     // Load programs on mount; also check for URL params
     useEffect(() => {
         const init = async () => {
-            await initializePrograms();
+            await initializePrograms(catalogFile);
             const progs = await getAllPrograms();
             setPrograms(progs);
 
@@ -360,7 +363,7 @@ export function GeneratePage() {
                 const redirect = params.get('redirect') !== '0';
 
                 try {
-                    const res = await runGeneration(progs, programParam, preferences, avoidList, sem as StartingSemester, yrs as 1 | 2);
+                    const res = await runGeneration(progs, programParam, preferences, avoidList, sem as StartingSemester, yrs as 1 | 2, catalogFile);
                     if (redirect) { window.location.href = res.url; return; }
                     setResult(res);
                 } catch (e) { setError(String(e)); }
@@ -373,14 +376,14 @@ export function GeneratePage() {
     useEffect(() => {
         if (!selectedProgram) { setProgramCourses([]); return; }
         const prog = programs.find(p => p.id === selectedProgram);
-        if (prog) getCoursesBySpecialization(prog.masterCode, prog.specializationCode).then(setProgramCourses);
+        if (prog) getCoursesBySpecialization(prog.masterCode, prog.specializationCode, catalogFile).then(setProgramCourses);
     }, [selectedProgram, programs]);
 
     const handleGenerate = async () => {
         if (!selectedProgram) return;
         setLoading(true); setError(null); setResult(null);
         try {
-            const res = await runGeneration(programs, selectedProgram, preferred, avoid, semester, years);
+            const res = await runGeneration(programs, selectedProgram, preferred, avoid, semester, years, catalogFile);
             setResult(res);
         } catch (e) { setError(String(e)); }
         finally { setLoading(false); }

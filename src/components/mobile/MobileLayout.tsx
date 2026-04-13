@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Plus, List, CheckCircle, CalendarDays } from 'lucide-react';
 import { MobileHeader } from './MobileHeader';
 import { MobilePlanView } from './MobilePlanView';
@@ -13,6 +13,8 @@ import { useCourseStore } from '../../store/useCourseStore';
 import type { ScheduleExport } from '../../store/useCourseStore';
 import { validateConstraints, checkCollisions } from '../../utils/validation';
 import { getProgramById, getDefaultValidationRules } from '../../data/programs';
+import { getCourseIndex } from '../../data/dataLoader';
+import type { CourseYearEntry } from '../../data/dataLoader';
 import { cn } from '../../utils/cn';
 
 type MobileTab = 'add' | 'schedule' | 'plan' | 'validate';
@@ -30,7 +32,13 @@ export const MobileLayout: React.FC = () => {
         getSelectedCourses, currentProgramId, setProgram,
         exportSchedule, importSchedule, buildShareURL,
         startingSemester, setStartingSemester,
+        catalogFile, setCatalogFile,
     } = useCourseStore();
+
+    const [availableYears, setAvailableYears] = useState<CourseYearEntry[]>([]);
+    useEffect(() => {
+        getCourseIndex().then(index => setAvailableYears(index.years));
+    }, []);
 
 
 
@@ -109,6 +117,9 @@ export const MobileLayout: React.FC = () => {
                 shareCopied={shareCopied}
                 onImportClick={() => fileInputRef.current?.click()}
                 onExportClick={() => setExportDialogOpen(true)}
+                catalogFile={catalogFile}
+                availableYears={availableYears}
+                onSetCatalogFile={setCatalogFile}
                 onReset={() => {
                     if (confirm('Are you sure you want to reset your plan?')) {
                         localStorage.removeItem('course-planner-storage-v2');

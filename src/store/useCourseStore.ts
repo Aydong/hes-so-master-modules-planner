@@ -3,7 +3,7 @@ import { persist } from 'zustand/middleware';
 import type { Course, SelectedCourse } from '../types';
 import type { StartingSemester } from '../utils/semesterUtils';
 import { courseToAssignedSemester } from '../utils/semesterUtils';
-import { getProgramById } from '../data/programs';
+import { getProgramById, initializePrograms } from '../data/programs';
 import { getProgramIdFromLegacy } from '../data/dataLoader';
 import { extractTimeBlocks } from '../utils/timeBlockUtils';
 import { getBlockTime, formatMinutes } from '../utils/timeBlockData';
@@ -15,6 +15,7 @@ export interface ScheduleExport {
     programId: string;
     programName: string;
     startingSemester?: StartingSemester;
+    catalogFile?: string;
     selectedCourses: SelectedCourse[];
 }
 
@@ -24,11 +25,13 @@ interface CourseStore {
     selectedCoursesByProgram: Record<string, SelectedCourse[]>;
     importVersion: number;
     scopeFilter: 'own' | 'extended';
+    catalogFile: string;
 
     // Actions
     setProgram: (programId: string) => void;
     setStartingSemester: (s: StartingSemester) => void;
     setScopeFilter: (scope: 'own' | 'extended') => void;
+    setCatalogFile: (year: string) => Promise<void>;
     addCourse: (course: Course, assignedSemester: '1' | '2' | '3' | '4') => void;
     removeCourse: (moduleCode: string) => void;
     isCourseSelected: (moduleCode: string) => boolean;
@@ -46,8 +49,7 @@ interface CourseStore {
  * Migrate old program IDs to new format
  */
 const migrateOldProgramId = (oldId: string): string => {
-    const newId = getProgramIdFromLegacy(oldId);
-    return newId;
+    return getProgramIdFromLegacy(oldId);
 };
 
 export const useCourseStore = create<CourseStore>()(
@@ -58,6 +60,7 @@ export const useCourseStore = create<CourseStore>()(
             selectedCoursesByProgram: {},
             importVersion: 0,
             scopeFilter: 'own' as 'own' | 'extended',
+            catalogFile: 'data/courses/courses_25-26.json',
 
             setProgram: (programId) => set({ currentProgramId: programId || null }),
             setScopeFilter: (scope) => set({ scopeFilter: scope }),
@@ -79,6 +82,12 @@ export const useCourseStore = create<CourseStore>()(
                     },
                 };
             }),
+
+            setCatalogFile: async (file: string) => {
+                await initializePrograms(file);
+                set({ catalogFile: file });
+                get().refreshData();
+            },
 
             addCourse: (course, assignedSemester) =>
                 set((state) => {
@@ -174,6 +183,7 @@ export const useCourseStore = create<CourseStore>()(
                     programId,
                     programName: program?.name || programId,
                     startingSemester: state.startingSemester,
+                    catalogFile: state.catalogFile,
                     selectedCourses: enrichedCourses,
                 };
 
@@ -234,11 +244,11 @@ export const useCourseStore = create<CourseStore>()(
 
             buildShareURL: (semesters) => {
                 const state = get();
-                const { currentProgramId, startingSemester, selectedCoursesByProgram } = state;
+                const { currentProgramId, startingSemester, selectedCoursesByProgram, catalogFile } = state;
                 if (!currentProgramId) return null;
                 const all = selectedCoursesByProgram[currentProgramId] || [];
                 const courses = semesters ? all.filter(c => semesters.includes(c.assignedSemester)) : all;
-                const encoded = encodeSharePayload(currentProgramId, startingSemester, courses);
+                const encoded = encodeSharePayload(currentProgramId, startingSemester, courses, catalogFile);
                 return `${window.location.origin}${window.location.pathname}#plan=${encoded}`;
             },
 
@@ -260,15 +270,16 @@ export const useCourseStore = create<CourseStore>()(
                 currentProgramId: state.currentProgramId,
                 startingSemester: state.startingSemester,
                 selectedCoursesByProgram: state.selectedCoursesByProgram,
+                catalogFile: state.catalogFile,
             }),
             onRehydrateStorage: () => (state) => {
                 if (!state) return;
-                
+
                 // Migrate old program IDs to new format
-                const migratedProgramId = state.currentProgramId 
+                const migratedProgramId = state.currentProgramId
                     ? migrateOldProgramId(state.currentProgramId)
                     : null;
-                
+
                 if (migratedProgramId !== state.currentProgramId && migratedProgramId) {
                     state.currentProgramId = migratedProgramId;
                 }

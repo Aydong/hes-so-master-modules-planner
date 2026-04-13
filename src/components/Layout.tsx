@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Sidebar } from './Sidebar';
 import { ScheduleGrid } from './ScheduleGrid';
 import { CourseListView } from './CourseListView';
@@ -10,6 +10,8 @@ import { useCourseStore } from '../store/useCourseStore';
 import type { ScheduleExport } from '../store/useCourseStore';
 import { validateConstraints, checkCollisions, getValidationIssues } from '../utils/validation';
 import { getProgramById, getDefaultValidationRules } from '../data/programs';
+import { getCourseIndex } from '../data/dataLoader';
+import type { CourseYearEntry } from '../data/dataLoader';
 import { useIsMobile } from '../hooks/useIsMobile';
 import { MobileLayout } from './mobile/MobileLayout';
 
@@ -19,7 +21,7 @@ import { cn } from '../utils/cn';
 type View = 'schedule' | 'list';
 
 const DesktopLayout: React.FC = () => {
-    const { getSelectedCourses, currentProgramId, setProgram, exportSchedule, importSchedule, buildShareURL, startingSemester, setStartingSemester } = useCourseStore();
+    const { getSelectedCourses, currentProgramId, setProgram, exportSchedule, importSchedule, buildShareURL, startingSemester, setStartingSemester, catalogFile, setCatalogFile } = useCourseStore();
     const selectedCourses = getSelectedCourses();
     const currentProgram = currentProgramId ? getProgramById(currentProgramId) : null;
 
@@ -29,6 +31,11 @@ const DesktopLayout: React.FC = () => {
     const [importData, setImportData]       = useState<ScheduleExport | null>(null);
     const [exportDialogOpen, setExportDialogOpen] = useState(false);
     const [shareCopied, setShareCopied] = useState(false);
+    const [availableYears, setAvailableYears] = useState<CourseYearEntry[]>([]);
+
+    useEffect(() => {
+        getCourseIndex().then(index => setAvailableYears(index.years));
+    }, []);
 
     const handleShare = () => {
         const url = buildShareURL();
@@ -142,6 +149,24 @@ const DesktopLayout: React.FC = () => {
                             </button>
                         </div>
                     </div>
+
+                    <div className="h-6 w-px bg-gray-200"></div>
+
+                    {/* Catalogue year selector */}
+                    {availableYears.length > 0 && (
+                        <div className="flex flex-col items-center gap-1">
+                            <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Catalogue</span>
+                            <select
+                                value={catalogFile}
+                                onChange={e => setCatalogFile(e.target.value)}
+                                className="text-xs font-bold text-gray-700 bg-gray-100 border-0 rounded-lg px-2 py-1 cursor-pointer hover:bg-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-300"
+                            >
+                                {availableYears.map(y => (
+                                    <option key={y.file} value={y.file}>{y.label}</option>
+                                ))}
+                            </select>
+                        </div>
+                    )}
 
                     <div className="h-6 w-px bg-gray-200"></div>
 

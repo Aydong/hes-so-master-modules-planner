@@ -1,0 +1,1392 @@
+{
+  "FTP_Energy": {
+    "title": "Energy: Production, Consumption and Management",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=FTP_Energy",
+    "Semester": "1",
+    "WeekDay": "Monday",
+    "TimeBlock": "TB3",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MAP_Interac": {
+    "title": "Interaction sol-structure en terrain meuble",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=4924",
+    "Semester": "1",
+    "WeekDay": "Monday",
+    "TimeBlock": "TB2",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "CM_PrivLaw": {
+    "title": "Privacy and Law",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=CM_PrivLaw",
+    "Semester": "1",
+    "WeekDay": "Monday",
+    "TimeBlock": "TB1",
+    "location": "Online",
+    "credits": 3,
+    "description": ""
+  },
+  "MAP_StrBois": {
+    "title": "Structures et constructions avancées 3 (bois et autres matériaux)",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=4923",
+    "Semester": "1",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB2+TB3",
+    "location": "Lausanne",
+    "credits": 6,
+    "description": ""
+  },
+  "MAP_Ponts": {
+    "title": "Conception des ponts",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=4920",
+    "Semester": "1",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB1",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "CM_AcWritPre": {
+    "title": "Academic Writing and Presenting",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=CM_AcWritPre",
+    "Semester": "1",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB1",
+    "location": "Online",
+    "credits": 3,
+    "description": ""
+  },
+  "CM_QRM": {
+    "title": "Quality and Risk Management",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=CM_QRM",
+    "Semester": "1",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB4",
+    "location": "Online",
+    "credits": 3,
+    "description": ""
+  },
+  "FTP_OrdDiff": {
+    "title": "Ordinary Differential Equations and Dynamical Systems",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=FTP_OrdDiff",
+    "Semester": "1",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB1",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_GDPC": {
+    "title": "Gestion et Droit des Projets de la Construction",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=4919",
+    "Semester": "1",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB2",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "FTP_AppStat": {
+    "title": "Applied Statistics and Data Analysis",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=FTP_AppStat",
+    "Semester": "1",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB3",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_CSM": {
+    "title": "Computational Structural Mechanics",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_CSM",
+    "Semester": "1",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB3",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "CM_AdvProjMgmt": {
+    "title": "Advanced project management",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=CM_AdvProjMgmt",
+    "Semester": "1",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB4",
+    "location": "Online",
+    "credits": 3,
+    "description": ""
+  },
+  "CM_InnChang": {
+    "title": "Innovations and change management",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=CM_InnChang",
+    "Semester": "1",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB4",
+    "location": "Online",
+    "credits": 3,
+    "description": ""
+  },
+  "FTP_CompAlg": {
+    "title": "Numerical Analysis and Computer Algebra",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=FTP_CompAlg",
+    "Semester": "1",
+    "WeekDay": "Thursday",
+    "TimeBlock": "TB1",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_MaintStruc": {
+    "title": "Maintenance des structures porteuses",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_MaintStruc",
+    "Semester": "1",
+    "WeekDay": "Thursday",
+    "TimeBlock": "TB1",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_NatHaz": {
+    "title": "Dangers naturels",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_NatHaz",
+    "Semester": "1",
+    "WeekDay": "Thursday",
+    "TimeBlock": "TB2",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_BIM": {
+    "title": "Building Information Modelling",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_BIM",
+    "Semester": "1",
+    "WeekDay": "Thursday",
+    "TimeBlock": "TB3",
+    "location": "Genève",
+    "credits": 3,
+    "description": ""
+  },
+  "MAP_StrBeton": {
+    "title": "Structures et constructions avancées 1 (béton)",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=4921",
+    "Semester": "2",
+    "WeekDay": "Monday",
+    "TimeBlock": "TB3+TB4",
+    "location": "Lausanne",
+    "credits": 6,
+    "description": ""
+  },
+  "MAP_StrMetal": {
+    "title": "Structures et constructions avancées 2 (acier et mixte)",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=4922",
+    "Semester": "2",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB1+TB2",
+    "location": "Lausanne",
+    "credits": 6,
+    "description": ""
+  },
+  "CM_Entrepr": {
+    "title": "Corporate management and entrepreneurship",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=CM_Entrepr",
+    "Semester": "2",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB3",
+    "location": "Online",
+    "credits": 3,
+    "description": ""
+  },
+  "CM_ComplPro_B_ZH": {
+    "title": "Management of Complex Processes (commun avec ZH)",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=CM_ComplPro",
+    "Semester": "2",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB4",
+    "location": "Online",
+    "credits": 3,
+    "description": ""
+  },
+  "FTP_Life_ZH": {
+    "title": "Lifecycle Management of Infrastructures",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=FTP_Life",
+    "Semester": "2",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB2",
+    "location": "Zürich",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_Dynamics": {
+    "title": "Structural Dynamics",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_Dynamics",
+    "Semester": "2",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB3",
+    "location": "Genève",
+    "credits": 3,
+    "description": ""
+  },
+  "CM_SustDev": {
+    "title": "Sustainable developments",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=CM_SustDev",
+    "Semester": "2",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB4",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "FTP_EnviPlan": {
+    "title": "Droit de la construction, de l'aménagement du territoire et de l'environnement",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=FTP_EnviPlan",
+    "Semester": "2",
+    "WeekDay": "Thursday",
+    "TimeBlock": "TB1",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MAP_Parasis": {
+    "title": "Génie parasismique",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=4925",
+    "Semester": "2",
+    "WeekDay": "Thursday",
+    "TimeBlock": "TB2",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MAP_Tunn": {
+    "title": "Tunnels et travaux souterrains",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=4927",
+    "Semester": "1",
+    "WeekDay": "Monday",
+    "TimeBlock": "TB1+TB2",
+    "location": "Lausanne",
+    "credits": 6,
+    "description": ""
+  },
+  "MAP_Barrages": {
+    "title": "Conception des barrages et de leurs ouvrages hydrauliques",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=4930",
+    "Semester": "1",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB1+TB2",
+    "location": "Lausanne",
+    "credits": 6,
+    "description": ""
+  },
+  "MAP_TraGeo": {
+    "title": "Travaux spéciaux et méthodes de suivi en géotechnique",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=4929",
+    "Semester": "1",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB3",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MAP_ModGeo": {
+    "title": "Modélisations numériques et physiques en géomécanique",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=4926",
+    "Semester": "2",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB1+TB2",
+    "location": "Lausanne",
+    "credits": 6,
+    "description": ""
+  },
+  "TSM_WWTreat_ZH": {
+    "title": "Environmental Technologies: Wastewater Treatment (Zürich)",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_WWTreat",
+    "Semester": "1",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB1",
+    "location": "Zürich",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_DataMgmt": {
+    "title": "Data Management",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_DataMgmt",
+    "Semester": "1",
+    "WeekDay": "Thursday",
+    "TimeBlock": "TB1",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MAP_ResAss": {
+    "title": "Réseaux d'assainissement",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=4931",
+    "Semester": "2",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB1+TB2",
+    "location": "Lausanne",
+    "credits": 6,
+    "description": ""
+  },
+  "MAP_Renat": {
+    "title": "Renaturation des cours d'eau, rives lacustres; éco-hydraulique",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=4933",
+    "Semester": "2",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB1+TB2",
+    "location": "Lausanne",
+    "credits": 6,
+    "description": ""
+  },
+  "MAP_SimHydr": {
+    "title": "Simulation numérique en hydraulique",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=4934",
+    "Semester": "2",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB3",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MAP_HydrAv": {
+    "title": "Hydrologie avancée",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=4932",
+    "Semester": "2",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB3+TB4",
+    "location": "Lausanne",
+    "credits": 6,
+    "description": ""
+  },
+  "MAP_EspacPu": {
+    "title": "Conception et aménagement de l'espace public urbain",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=4937",
+    "Semester": "1",
+    "WeekDay": "Monday",
+    "TimeBlock": "TB2+TB3",
+    "location": "Lausanne",
+    "credits": 6,
+    "description": ""
+  },
+  "MAP_MobUrb": {
+    "title": "Organisation et gestion de la mobilité urbaine",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=4935",
+    "Semester": "1",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB1+TB2",
+    "location": "Lausanne",
+    "credits": 6,
+    "description": ""
+  },
+  "MAP_TransPu": {
+    "title": "Systèmes et offre de transport public",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=4936",
+    "Semester": "2",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB1+TB2",
+    "location": "Lausanne",
+    "credits": 6,
+    "description": ""
+  },
+  "MAP_NumMob": {
+    "title": "Outils numériques au service de la mobilité",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=4939",
+    "Semester": "2",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB3",
+    "location": "Genève",
+    "credits": 3,
+    "description": ""
+  },
+  "MAP_Trafic": {
+    "title": "Gestion du trafic et trafic de chantiers",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=4938",
+    "Semester": "2",
+    "WeekDay": "Thursday",
+    "TimeBlock": "TB1+TB2",
+    "location": "Genève",
+    "credits": 6,
+    "description": ""
+  },
+  "MA_PCM": {
+    "title": "Programmation concurrente multicore",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=48",
+    "Semester": "1",
+    "WeekDay": "Monday",
+    "TimeBlock": "TB1",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_MachLeData": {
+    "title": "Machine Learning and Data in Operation",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_MachLeData",
+    "Semester": "1",
+    "WeekDay": "Monday",
+    "TimeBlock": "TB1",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_NTDA": {
+    "title": "New technologies in Data Analysis - Applied ML",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=5779",
+    "Semester": "1",
+    "WeekDay": "Monday",
+    "TimeBlock": "TB2",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_SeS": {
+    "title": "Secure Embedded System",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=2341",
+    "Semester": "1",
+    "WeekDay": "Monday",
+    "TimeBlock": "TB2",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_AdMoApp": {
+    "title": "Advanced Mobile Applications",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=5777",
+    "Semester": "1",
+    "WeekDay": "Monday",
+    "TimeBlock": "TB3",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_CyberSec": {
+    "title": "Cyber Security",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_CyberSec",
+    "Semester": "1",
+    "WeekDay": "Monday",
+    "TimeBlock": "TB3",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_CloudSys": {
+    "title": "Cloud Services; Systems",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_CloudSys",
+    "Semester": "1",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB1",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "FTP_MachLe": {
+    "title": "Machine learning",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=FTP_MachLe",
+    "Semester": "1",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB2",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_AdvEmbSof": {
+    "title": "Advanced Embedded Software",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_AdvEmbSof",
+    "Semester": "1",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB3",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_AnSeqDa": {
+    "title": "Analysis of Sequential Data",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_AnSeqDa",
+    "Semester": "1",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB3",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "FTP_CryptCod": {
+    "title": "Cryptography and Coding Theory",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=FTP_CryptCod",
+    "Semester": "1",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB1",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "FTP_DigImPro": {
+    "title": "Digital image Processing",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=FTP_DigImPro",
+    "Semester": "1",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB2",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_ITProMan": {
+    "title": "Management des projets IT",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=5776",
+    "Semester": "1",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB2",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_MLBD": {
+    "title": "Machine Learning on Big Data",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=1381",
+    "Semester": "1",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB3",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_EmbHardw": {
+    "title": "Design of Embedded Hardware and Firmware",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_EmbHardw",
+    "Semester": "1",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB3",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "FTP_Alg": {
+    "title": "Algorithms",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=FTP_Alg",
+    "Semester": "1",
+    "WeekDay": "Thursday",
+    "TimeBlock": "TB1",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_IPR": {
+    "title": "Design du routage IP avancé",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=150",
+    "Semester": "1",
+    "WeekDay": "Friday",
+    "TimeBlock": "TB1",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_NSA": {
+    "title": "Network Security and Architecture",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=147",
+    "Semester": "1",
+    "WeekDay": "Friday",
+    "TimeBlock": "TB2",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_GPU": {
+    "title": "GPU, IA and Robotics",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=33",
+    "Semester": "1",
+    "WeekDay": "Friday",
+    "TimeBlock": "TB2",
+    "location": "Neuchâtel",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_GT": {
+    "title": "Games Technologies",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=25",
+    "Semester": "1",
+    "WeekDay": "Friday",
+    "TimeBlock": "TB3",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_AUI": {
+    "title": "Advanced User Interface",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=5775",
+    "Semester": "2",
+    "WeekDay": "Monday",
+    "TimeBlock": "TB1",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_AdvProg": {
+    "title": "Advanced Programming Paradigm",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=5771",
+    "Semester": "2",
+    "WeekDay": "Monday",
+    "TimeBlock": "TB2",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_AdvNLP": {
+    "title": "Traitement automatique des langues avancé",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_AdvNLP",
+    "Semester": "2",
+    "WeekDay": "Monday",
+    "TimeBlock": "TB2",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_AdvDaBa": {
+    "title": "Advanced Database",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_AdvDaBa",
+    "Semester": "2",
+    "WeekDay": "Monday",
+    "TimeBlock": "TB4",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_SoftwEng": {
+    "title": "Software Engineering and Architectures",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_SoftwEng",
+    "Semester": "2",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB1",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_EmbReal": {
+    "title": "Embedded real-time software",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=5754",
+    "Semester": "2",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB2",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_NTDE": {
+    "title": "New technologies in Data Engineering",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=5778",
+    "Semester": "2",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB2",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "FTP_DeLearn": {
+    "title": "Deep Learning",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=FTP_DeLearn",
+    "Semester": "2",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB3",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_GesSec": {
+    "title": "Identité et confiance&nbsp;: gestion sécurisée",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=6894",
+    "Semester": "2",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB3",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_LPSC": {
+    "title": "Logiques programmables pour systèmes complexes et performants.",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=1367",
+    "Semester": "2",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB4",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_HPQC": {
+    "title": "High Performance and Quantum Computing",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=7967",
+    "Semester": "2",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB1",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_ICR": {
+    "title": "Industrial Cryptography",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=2356",
+    "Semester": "2",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB1",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_ASAD": {
+    "title": "Advanced Software Architecture and Design",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=3332",
+    "Semester": "2",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB2",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_AdvComArc": {
+    "title": "Advanced Communication Architectures",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_AdvComArc",
+    "Semester": "2",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB3",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "FTP_Optimiz": {
+    "title": "Optimization",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=FTP_Optimiz",
+    "Semester": "2",
+    "WeekDay": "Thursday",
+    "TimeBlock": "TB1",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "PI_x": {
+    "title": "Projet Interdisciplinaire en groupe",
+    "link": "https://www.hes-so.ch/fileadmin/documents/HES-SO/Documents_HES-SO/pdf/ingenierie_architecture/master/Engineering_MSE/MSE_-_Descriptif_de_module_-_Projet_Interdisciplinaire__PI_.pdf",
+    "Semester": "2",
+    "WeekDay": "Thursday",
+    "TimeBlock": "TB3+TB4",
+    "location": "Lausanne",
+    "credits": 6,
+    "description": ""
+  },
+  "MA_SRE": {
+    "title": "Software Reverse Engineering and Protection",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=2878",
+    "Semester": "2",
+    "WeekDay": "Friday",
+    "TimeBlock": "TB1",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_WEM": {
+    "title": "Web Mining",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=702",
+    "Semester": "2",
+    "WeekDay": "Friday",
+    "TimeBlock": "TB1",
+    "location": "Yverdon",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_BDA": {
+    "title": "Big Data Analytics",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=1868",
+    "Semester": "2",
+    "WeekDay": "Friday",
+    "TimeBlock": "TB2",
+    "location": "Yverdon",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_CSEL1": {
+    "title": "Construction de systèmes embarqués sous Linux",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=1324",
+    "Semester": "2",
+    "WeekDay": "Friday",
+    "TimeBlock": "TB3",
+    "location": "Fribourg",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_DeSEm": {
+    "title": "Design of communicative embedded systems",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=81",
+    "Semester": "1",
+    "WeekDay": "Monday",
+    "TimeBlock": "TB1",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_VI": {
+    "title": "Visualisation de l'Information",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=1363",
+    "Semester": "1",
+    "WeekDay": "Friday",
+    "TimeBlock": "TB1",
+    "location": "Neuchâtel",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_SIMI": {
+    "title": "Simulation multiphysique en ingénierie",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=706",
+    "Semester": "2",
+    "WeekDay": "Monday",
+    "TimeBlock": "TB4",
+    "location": "Genève",
+    "credits": 3,
+    "description": ""
+  },
+  "FTP_SmartMach": {
+    "title": "Intelligent and hyperconnected machine",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=FTP_SmartMachine",
+    "Semester": "2",
+    "WeekDay": "Friday",
+    "TimeBlock": "TB3",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_AdvElDes": {
+    "title": "Advanced Electronic Design",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=5766",
+    "Semester": "1",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB1",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "FTP_ModSim": {
+    "title": "Modelling simulation and optimisation",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=FTP_ModSim",
+    "Semester": "1",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB2",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "FTP_Multiphy": {
+    "title": "Multiphysics",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=FTP_Multiphy",
+    "Semester": "1",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB3",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_SignProc": {
+    "title": "Signal Processing and Transmission",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_SignProc",
+    "Semester": "1",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB1",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_SmartSens": {
+    "title": "Smart sensing",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_SmartSens",
+    "Semester": "1",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB2",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "FTP_PartDiff": {
+    "title": "Partial differential equations in engineering applications",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=FTP_PartDiff",
+    "Semester": "1",
+    "WeekDay": "Thursday",
+    "TimeBlock": "TB2",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_StatDig": {
+    "title": "Statistical digital signal processing and modeling",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=5756",
+    "Semester": "2",
+    "WeekDay": "Monday",
+    "TimeBlock": "TB1",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_AdvContr": {
+    "title": "Advanced Control",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_AdvContr",
+    "Semester": "2",
+    "WeekDay": "Thursday",
+    "TimeBlock": "TB1",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_AppElm": {
+    "title": "Applied Electromagnetics",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_AppElm",
+    "Semester": "2",
+    "WeekDay": "Thursday",
+    "TimeBlock": "TB2",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_HYBRD": {
+    "title": "Systèmes hybrides",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=3356",
+    "Semester": "1",
+    "WeekDay": "Monday",
+    "TimeBlock": "TB3",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_FundEnEn": {
+    "title": "Fundamentals of Energy and Environment",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_FundEnEn",
+    "Semester": "1",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB3",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_INTE1": {
+    "title": "Optimisation énergétique",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=2052",
+    "Semester": "1",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB1",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_PowElSys": {
+    "title": "Power Electronics Systems",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=5758",
+    "Semester": "1",
+    "WeekDay": "Thursday",
+    "TimeBlock": "TB1",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_HiVoEn": {
+    "title": "High Voltage Engineering",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=5757",
+    "Semester": "1",
+    "WeekDay": "Friday",
+    "TimeBlock": "TB1",
+    "location": "Fribourg",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_PGE": {
+    "title": "Poly-génération d'Energie",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=1342",
+    "Semester": "2",
+    "WeekDay": "Monday",
+    "TimeBlock": "TB1",
+    "location": "Yverdon",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_STOCK": {
+    "title": "Stockage de l'énergie",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=3333",
+    "Semester": "2",
+    "WeekDay": "Monday",
+    "TimeBlock": "TB2",
+    "location": "Yverdon",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_Nucl": {
+    "title": "Energie nucléaire",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=7184",
+    "Semester": "2",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB1",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_PowGrid": {
+    "title": "Power Grids: Systems and Devices",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_PowGrid",
+    "Semester": "2",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB1",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_REA": {
+    "title": "Réseaux électriques avancés",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=87",
+    "Semester": "2",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB2",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_PLM": {
+    "title": "&nbsp; \n Product Lifecycle Management",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=5765",
+    "Semester": "2",
+    "WeekDay": "Friday",
+    "TimeBlock": "TB2",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_ElPowSys": {
+    "title": "Electric Power Systems : Design and Operation",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=5755",
+    "Semester": "2",
+    "WeekDay": "Friday",
+    "TimeBlock": "TB2",
+    "location": "Sion",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_SMART": {
+    "title": "Smart Grid",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=3335",
+    "Semester": "2",
+    "WeekDay": "Friday",
+    "TimeBlock": "TB3",
+    "location": "Sion",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_AdvTherm": {
+    "title": "Advanced Thermodynamics",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_AdvTherm",
+    "Semester": "1",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB1",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_FMechHeat": {
+    "title": "Fluid Mechanics and Heat Transfer",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_FMechHeat",
+    "Semester": "1",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB2",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_EnReTe": {
+    "title": "Environmental Remediation Technologies: soil, groundwater; atmosphere",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_EnReTe",
+    "Semester": "1",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB3",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_CFD": {
+    "title": "Computational Fluid Dynamics",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=21",
+    "Semester": "1",
+    "WeekDay": "Thursday",
+    "TimeBlock": "TB3",
+    "location": "Genève",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_VERB": {
+    "title": "Valorisation Energétique de la Biomasse: procédés durables et biocombustibles",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=100",
+    "Semester": "2",
+    "WeekDay": "Monday",
+    "TimeBlock": "TB3",
+    "location": "Yverdon",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_SOLTH": {
+    "title": "Solaire thermique",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=3339",
+    "Semester": "2",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB2",
+    "location": "Yverdon",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_HYDR": {
+    "title": "Hydraulique",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=3338",
+    "Semester": "2",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB3",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_SoftwAs_ZH": {
+    "title": "Software Assurance (Zürich)",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_SoftwAs",
+    "Semester": "1",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB1",
+    "location": "Zürich",
+    "credits": 3,
+    "description": ""
+  },
+  "CSI_1": {
+    "title": "Cyber Security Immersion - Part 1",
+    "link": "https://www.hes-so.ch/fileadmin/documents/HES-SO/Documents_HES-SO/pdf/ingenierie_architecture/master/Engineering_MSE/MSE_-_Descriptif_de_module_-CSI_1_EN_FR.pdf",
+    "Semester": "1",
+    "WeekDay": "Thursday",
+    "TimeBlock": "TB2+TB3+TB4",
+    "location": "Lausanne",
+    "credits": 9,
+    "description": ""
+  },
+  "TSM_CyberSecOp_ZH": {
+    "title": "Cyber Security Operations (Zürich)",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_CyberSecOp",
+    "Semester": "2",
+    "WeekDay": "Monday",
+    "TimeBlock": "TB1",
+    "location": "Zürich",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_SecIndOpT_ZH": {
+    "title": "Security of Industrial Operational Technology (Zürich)",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_SecIndOpT",
+    "Semester": "2",
+    "WeekDay": "Monday",
+    "TimeBlock": "TB2",
+    "location": "Zürich",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_AdvNetSec_ZH": {
+    "title": "Advanced Network Security (Zürich)",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_AdvNetSec",
+    "Semester": "2",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB2",
+    "location": "Zürich",
+    "credits": 3,
+    "description": ""
+  },
+  "CSI_2": {
+    "title": "Cyber Security Immersion - Part 2",
+    "link": "https://www.hes-so.ch/fileadmin/documents/HES-SO/Documents_HES-SO/pdf/ingenierie_architecture/master/Engineering_MSE/MSE_-_Descriptif_de_module_-CSI_2_EN_FR.pdf",
+    "Semester": "2",
+    "WeekDay": "Thursday",
+    "TimeBlock": "TB2+TB3+TB4",
+    "location": "Lausanne",
+    "credits": 9,
+    "description": ""
+  },
+  "FTP_Physics": {
+    "title": "The Physics of Materials and Engineering Devices",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=FTP_Physics",
+    "Semester": "1",
+    "WeekDay": "Monday",
+    "TimeBlock": "TB2",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_AppMic": {
+    "title": "Applied MicroNanotechnologies",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=5770",
+    "Semester": "1",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB1",
+    "location": "Genève",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_EcoSysSus": {
+    "title": "Ecodesign of sustainable and efficient mechanical systems",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_EcoSysSus",
+    "Semester": "1",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB2",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_SOCI": {
+    "title": "Systèmes optiques de contrôle industriel",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=1860",
+    "Semester": "1",
+    "WeekDay": "Friday",
+    "TimeBlock": "TB1",
+    "location": "Neuchâtel",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_MSM": {
+    "title": "Méthodologie de sélection des matériaux",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=1314",
+    "Semester": "1",
+    "WeekDay": "Friday",
+    "TimeBlock": "TB2",
+    "location": "Neuchâtel",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_TTS": {
+    "title": "Technologie des Traitements de Surface",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=1056",
+    "Semester": "2",
+    "WeekDay": "Monday",
+    "TimeBlock": "TB1",
+    "location": "Neuchâtel",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_EMR": {
+    "title": "Efficient Mechanical Redesign",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=5773",
+    "Semester": "2",
+    "WeekDay": "Monday",
+    "TimeBlock": "TB2",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_MatSurf": {
+    "title": "Materials and Surfaces",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_MatSurf",
+    "Semester": "2",
+    "WeekDay": "Monday",
+    "TimeBlock": "TB3",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_VibrAcoust": {
+    "title": "Applied Vibration and Acoustics",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=5763",
+    "Semester": "2",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB1",
+    "location": "Genève",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_GPL": {
+    "title": "Gestion de production et logistique",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=1321",
+    "Semester": "2",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB1",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_AMTO": {
+    "title": "Additive Manufacturing; Topology Optimisation",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=5769",
+    "Semester": "2",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB1",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_PAMPA": {
+    "title": "Powder based Advanced Materials Processing and Applications",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=5774",
+    "Semester": "2",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB2",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_AdvMech": {
+    "title": "Advanced Structural Mechanics",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_AdvMech",
+    "Semester": "2",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB3",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_AdvFemNL": {
+    "title": "Advanced and Nonlinear FEM Simulation",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=5764",
+    "Semester": "2",
+    "WeekDay": "Thursday",
+    "TimeBlock": "TB2",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_BioCI": {
+    "title": "Capteurs et instrumentation en bio-ingénierie",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=708",
+    "Semester": "2",
+    "WeekDay": "Friday",
+    "TimeBlock": "TB1",
+    "location": "Genève",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_Qcheck": {
+    "title": "Quality Check and Inspection",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_QCheck",
+    "Semester": "1",
+    "WeekDay": "Thursday",
+    "TimeBlock": "TB3",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_MTProdDes": {
+    "title": "New Design Methodologies for Microengineering Products",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_MTProdDes",
+    "Semester": "2",
+    "WeekDay": "Tuesday",
+    "TimeBlock": "TB3",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "TSM_MicroFab": {
+    "title": "Micromachining and Fabrication Processes in Microengineering",
+    "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_MicroFab",
+    "Semester": "2",
+    "WeekDay": "Wednesday",
+    "TimeBlock": "TB3",
+    "location": "Lausanne",
+    "credits": 3,
+    "description": ""
+  },
+  "MA_AdvRobot": {
+    "title": "Robotique avancée",
+    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=5768",
+    "Semester": "2",
+    "WeekDay": "Friday",
+    "TimeBlock": "TB2",
+    "location": "Genève",
+    "credits": 3,
+    "description": ""
+  }
+}
