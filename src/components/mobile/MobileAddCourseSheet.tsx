@@ -17,7 +17,7 @@ interface Props {
 }
 
 export const MobileAddCourseSheet: React.FC<Props> = ({ dayFull, assignedSem, startingSemester, onClose }) => {
-    const { addCourse, isCourseSelected, getAllCourses, currentProgramId, scopeFilter: storeScopeFilter, setScopeFilter, catalogFile } = useCourseStore();
+    const { addCourse, isCourseSelected, getAllCourses, currentProgramId, scopeFilter: storeScopeFilter, setScopeFilter, catalogFiles } = useCourseStore();
     const allCourses     = getAllCourses();
     const courseSemester = slotToCourseSemester(assignedSem, startingSemester);
     const semLabel       = getSemesterLabels(startingSemester)[assignedSem];
@@ -28,8 +28,8 @@ export const MobileAddCourseSheet: React.FC<Props> = ({ dayFull, assignedSem, st
 
     useEffect(() => {
         if (!currentProgramId) return;
-        getOutOfSpecializationCourses(currentProgramId, catalogFile).then(setOutOfSpecCourses);
-    }, [currentProgramId, catalogFile]);
+        getOutOfSpecializationCourses(currentProgramId, catalogFiles[assignedSem]).then(setOutOfSpecCourses);
+    }, [currentProgramId, catalogFiles, assignedSem]);
 
     useEffect(() => {
         if (scopeFilter === 'own') setCategoryFilter(null);

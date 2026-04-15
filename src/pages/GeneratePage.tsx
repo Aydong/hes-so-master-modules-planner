@@ -331,7 +331,8 @@ function ResultPanel({ result, onReset }: { result: GenerateResult; onReset: () 
 // Main component 
 
 export function GeneratePage() {
-    const catalogFile = useCourseStore(s => s.catalogFile);
+    const catalogFiles = useCourseStore(s => s.catalogFiles);
+    const catalogFile = catalogFiles['1'];
     const [programs, setPrograms] = useState<Program[]>([]);
     const [programCourses, setProgramCourses] = useState<Course[]>([]);
     const [selectedProgram, setSelectedProgram] = useState('');

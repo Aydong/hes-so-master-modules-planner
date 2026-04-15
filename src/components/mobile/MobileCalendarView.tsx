@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
-import { ExternalLink, Trash2, AlertTriangle, Plus } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ExternalLink, Trash2, AlertTriangle, Plus, ChevronDown, ChevronUp } from 'lucide-react';
 import { useCourseStore } from '../../store/useCourseStore';
 import { cn } from '../../utils/cn';
 import { getSemesterLabels } from '../../utils/semesterUtils';
 import { buildCollisionModules } from '../../utils/validation';
 import { extractTimeBlocks, formatCourseTime } from '../../utils/timeBlockUtils';
 import { getCategorySolid, getCategoryBadge, getTypeBadge } from '../../utils/courseColors';
+import { getCourseIndex } from '../../data/dataLoader';
+import type { CourseYearEntry } from '../../data/dataLoader';
 import type { StartingSemester } from '../../utils/semesterUtils';
 import type { SelectedCourse } from '../../types';
 
@@ -58,11 +60,17 @@ interface Props {
 }
 
 export const MobileCalendarView: React.FC<Props> = ({ startingSemester, onAddCourse }) => {
-    const { getSelectedCourses, removeCourse } = useCourseStore();
+    const { getSelectedCourses, removeCourse, catalogFiles, setCatalogFile } = useCourseStore();
     const selectedCourses = getSelectedCourses();
     const SEMESTER_LABELS = getSemesterLabels(startingSemester);
 
     const [selected, setSelected] = useState<{ sem: Sem; day: string } | null>(null);
+    const [catalogOpen, setCatalogOpen] = useState(false);
+    const [availableYears, setAvailableYears] = useState<CourseYearEntry[]>([]);
+
+    useEffect(() => {
+        getCourseIndex().then(index => setAvailableYears(index.years));
+    }, []);
 
     const collisionSet = buildCollisionModules(selectedCourses);
 
@@ -98,6 +106,37 @@ export const MobileCalendarView: React.FC<Props> = ({ startingSemester, onAddCou
 
             {/*  Top: semester X day grid  */}
             <div className="bg-white border-b border-gray-200 px-3 pt-3 pb-2 shrink-0">
+
+                {/* Collapsible catalogue selector */}
+                {availableYears.length > 1 && (
+                    <div className="mb-2">
+                        <button
+                            onClick={() => setCatalogOpen(o => !o)}
+                            className="flex items-center gap-1.5 text-xs font-bold text-gray-500 hover:text-blue-600 transition-colors w-full py-1"
+                        >
+                            {catalogOpen ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
+                            Catalogues
+                        </button>
+                        {catalogOpen && (
+                            <div className="grid grid-cols-2 gap-1.5 mt-1">
+                                {SEMESTERS.map(sem => (
+                                    <div key={sem} className="flex items-center gap-1.5 bg-gray-50 rounded-lg px-2 py-1.5 border border-gray-100">
+                                        <span className="text-[10px] font-bold text-gray-500 shrink-0">S{sem} :</span>
+                                        <select
+                                            value={catalogFiles[sem]}
+                                            onChange={e => setCatalogFile(sem, e.target.value)}
+                                            className="flex-1 min-w-0 text-[10px] font-bold text-gray-700 bg-transparent border-0 cursor-pointer focus:outline-none"
+                                        >
+                                            {availableYears.map(y => (
+                                                <option key={y.file} value={y.file}>{y.label}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                )}
 
                 {/* Day header row */}
                 <div className="flex">

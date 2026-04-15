@@ -9,7 +9,8 @@ import { getProgramById } from '../data/programs';
 import { slotToCourseSemester, getSlotShortLabel } from '../utils/semesterUtils';
 import { getBlockTime, getBlockTimeBounds, getDistinctTimings, formatMinutes, timeBlockDataReady, getNameForCode } from '../utils/timeBlockData';
 import { getCategoryCard, getCategoryBadge, getCategorySolid, getTypeBadge } from '../utils/courseColors';
-import { getOutOfSpecializationCourses } from '../data/dataLoader';
+import { getOutOfSpecializationCourses, getCourseIndex } from '../data/dataLoader';
+import type { CourseYearEntry } from '../data/dataLoader';
 
 //  Timeline constants
 
@@ -183,24 +184,27 @@ const SlotPicker: React.FC<SlotPickerProps> = ({ day, block, semester, ownCourse
 
 export const ScheduleGrid: React.FC = () => {
     const {
-        removeCourse, getSelectedCourses, getAllCourses, addCourse,
+        removeCourse, getSelectedCourses, getAllCoursesForSemester, addCourse,
         isCourseSelected, startingSemester, importVersion, scopeFilter,
+        catalogFiles, setCatalogFile,
     } = useCourseStore();
 
     const selectedCourses = getSelectedCourses();
-    const allCourses      = getAllCourses();
 
-    const programId   = useCourseStore().currentProgramId;
-    const catalogFile = useCourseStore().catalogFile;
+    const programId = useCourseStore().currentProgramId;
     const program   = getProgramById(programId || '');
 
     const [semester, setSemester]         = useState<'1' | '2' | '3' | '4'>('1');
     const [selectedSlot, setSelectedSlot] = useState<{ day: string; block: string } | null>(null);
     const [timeBlockReady, setTimeBlockReady] = useState(false);
     const [outOfSpecCourses, setOutOfSpecCourses] = useState<Course[]>([]);
+    const [availableYears, setAvailableYears] = useState<CourseYearEntry[]>([]);
+
+    const allCourses = getAllCoursesForSemester(semester);
 
     useEffect(() => {
         timeBlockDataReady.then(() => setTimeBlockReady(true));
+        getCourseIndex().then(index => setAvailableYears(index.years));
     }, []);
 
     useEffect(() => {
@@ -210,8 +214,8 @@ export const ScheduleGrid: React.FC = () => {
 
     useEffect(() => {
         if (!programId) return;
-        getOutOfSpecializationCourses(programId, catalogFile).then(setOutOfSpecCourses);
-    }, [programId, catalogFile]);
+        getOutOfSpecializationCourses(programId, catalogFiles[semester]).then(setOutOfSpecCourses);
+    }, [programId, catalogFiles, semester]);
 
     const semesterCourses = selectedCourses.filter(c => c.assignedSemester === semester);
     const travelWarnings  = buildTravelWarningModules(semesterCourses);
@@ -259,20 +263,39 @@ export const ScheduleGrid: React.FC = () => {
             {/*  Toolbar  */}
             <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50/50 shrink-0">
                 <div className="flex items-center gap-4">
-                    <div className="flex bg-gray-200 p-1 rounded-lg">
-                        {(['1', '2', '3', '4'] as const).map(s => (
-                            <button key={s}
-                                className={cn(
-                                    'flex flex-col items-center px-3 py-1 rounded-md text-sm font-bold transition-all leading-tight',
-                                    semester === s ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'
-                                )}
-                                onClick={() => setSemester(s)}>
-                                <span>S{s}</span>
-                                <span className="text-[9px] font-normal opacity-70">
-                                    {getSlotShortLabel(s, startingSemester).split('(')[1]?.replace(')', '') ?? ''}
-                                </span>
-                            </button>
-                        ))}
+                    {/* Semester picker + per-semester catalogue stacked vertically */}
+                    <div className="flex flex-col items-start gap-1">
+                        <div className="flex bg-gray-200 p-1 rounded-lg">
+                            {(['1', '2', '3', '4'] as const).map(s => (
+                                <button key={s}
+                                    className={cn(
+                                        'flex flex-col items-center px-3 py-1 rounded-md text-sm font-bold transition-all leading-tight',
+                                        semester === s ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                                    )}
+                                    onClick={() => setSemester(s)}>
+                                    <span>S{s}</span>
+                                    <span className="text-[9px] font-normal opacity-70">
+                                        {getSlotShortLabel(s, startingSemester).split('(')[1]?.replace(')', '') ?? ''}
+                                    </span>
+                                </button>
+                            ))}
+                        </div>
+
+                        {/* Per-semester catalogue selector */}
+                        {availableYears.length > 1 && (
+                            <div className="flex items-center gap-2">
+                                <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Catalogue S{semester} :</span>
+                                <select
+                                    value={catalogFiles[semester]}
+                                    onChange={e => setCatalogFile(semester, e.target.value)}
+                                    className="text-xs font-bold text-gray-600 bg-white border border-gray-200 rounded-lg px-2 py-1 cursor-pointer hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-300"
+                                >
+                                    {availableYears.map(y => (
+                                        <option key={y.file} value={y.file}>{y.label}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        )}
                     </div>
                     <div className="bg-white border border-gray-200 px-3 py-1.5 rounded-lg shadow-sm flex items-center gap-2">
                         <span className="text-xs font-bold text-gray-500 uppercase">Semester Credits:</span>
