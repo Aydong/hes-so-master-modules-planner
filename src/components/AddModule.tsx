@@ -9,7 +9,7 @@ import { getOutOfSpecializationCourses } from '../data/dataLoader';
 import type { Course } from '../types';
 
 export const AddModule: React.FC = () => {
-    const { addCourse, removeCourse, getSelectedCourses, getAllCourses, startingSemester, currentProgramId, scopeFilter, setScopeFilter, catalogFile } = useCourseStore();
+    const { addCourse, removeCourse, getSelectedCourses, getAllCourses, startingSemester, currentProgramId, scopeFilter, setScopeFilter, catalogFiles } = useCourseStore();
     const allCourses      = getAllCourses();
     const selectedCourses = getSelectedCourses();
     const selectedModules = useMemo(() => new Set(selectedCourses.map(c => c.module)), [selectedCourses]);
@@ -25,8 +25,8 @@ export const AddModule: React.FC = () => {
 
     useEffect(() => {
         if (!currentProgramId) return;
-        getOutOfSpecializationCourses(currentProgramId, catalogFile).then(setOutOfSpecCourses);
-    }, [currentProgramId, catalogFile]);
+        getOutOfSpecializationCourses(currentProgramId, catalogFiles['1']).then(setOutOfSpecCourses);
+    }, [currentProgramId, catalogFiles]);
 
     useEffect(() => {
         if (scopeFilter === 'own') setCategoryFilter(null);
