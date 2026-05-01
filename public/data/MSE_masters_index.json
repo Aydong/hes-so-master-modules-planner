@@ -40,16 +40,12 @@
           "name": "Embedded Systems"
         },
         {
-          "code": "Cy",
-          "name": "Cybersecurity"
-        },
-        {
           "code": "C",
           "name": "Communication Systems"
         }
       ],
       "has_specializations": true,
-      "specialization_count": 4
+      "specialization_count": 3
     },
     {
       "code": "DS",
@@ -123,7 +119,7 @@
     {
       "code": "Mic",
       "name": "Microengineering",
-      "link": "https://www.hes-so.ch/domaines/ia/mse/mic",  
+      "link": "https://www.hes-so.ch/domaines/ia/mse/mic",
       "specializations": [
         {
           "code": "B",

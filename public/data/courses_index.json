@@ -1,13 +1,13 @@
 {
-  "default": "data/courses/courses_25-26.json",
+  "default": "data/courses/courses_26-27.json",
   "years": [
+    {
+      "file": "data/courses/courses_26-27.json",
+      "label": "2026-2027"
+    },
     {
       "file": "data/courses/courses_25-26.json",
       "label": "2025-2026"
-    },
-    {
-      "file": "data/courses/courses_TEST.json",
-      "label": "DONT USE ME !"
     }
   ]
 }
