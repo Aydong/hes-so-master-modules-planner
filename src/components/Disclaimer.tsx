@@ -7,7 +7,7 @@ const Disclaimer: React.FC = () => (
         <Info className="shrink-0 mt-0.5" size={18} />
         <div className="space-y-2">
             <p className="font-medium">
-                Information updated Mars 2026 based on official HES-SO data.
+                Information updated May 2026 based on official HES-SO data.
             </p>
             <p className="text-red-700/80">
                 Brasov modules for the ICS - Information and Cybersecurity program are currently not available in this app.
@@ -17,7 +17,7 @@ const Disclaimer: React.FC = () => (
                 <br />Always double-check with official sources and your academic advisor before making decisions based on this planner. 
                 <br />Verify all details with the official<b>{' '}
                 <a
-                    href="https://www.hes-so.ch/fileadmin/documents/HES-SO/Documents_HES-SO/pdf/ingenierie_architecture/master/Engineering_MSE/MSE_ModuleOfferSchedule_AllProfiles_25-26.pdf"
+                    href="https://www.hes-so.ch/fileadmin/documents/HES-SO/Documents_HES-SO/pdf/ingenierie_architecture/master/Engineering_MSE/MSE_ModuleOfferSchedule_AllProfiles_26-27.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="underline hover:text-red-900 inline-flex items-center gap-1"

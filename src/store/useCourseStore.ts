@@ -11,7 +11,7 @@ import { encodeSharePayload } from '../utils/urlShare';
 
 export type SemesterSlot = '1' | '2' | '3' | '4';
 
-const DEFAULT_CATALOG = 'data/courses/courses_25-26.json';
+const DEFAULT_CATALOG = 'data/courses/courses_26-27.json';
 const DEFAULT_CATALOG_FILES: Record<SemesterSlot, string> = {
     '1': DEFAULT_CATALOG,
     '2': DEFAULT_CATALOG,
