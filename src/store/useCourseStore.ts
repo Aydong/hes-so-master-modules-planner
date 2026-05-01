@@ -3,11 +3,21 @@ import { persist } from 'zustand/middleware';
 import type { Course, SelectedCourse } from '../types';
 import type { StartingSemester } from '../utils/semesterUtils';
 import { courseToAssignedSemester } from '../utils/semesterUtils';
-import { getProgramById, initializePrograms } from '../data/programs';
+import { getProgramById, getProgramByIdAndCatalog, initializePrograms } from '../data/programs';
 import { getProgramIdFromLegacy } from '../data/dataLoader';
 import { extractTimeBlocks } from '../utils/timeBlockUtils';
 import { getBlockTime, formatMinutes } from '../utils/timeBlockData';
 import { encodeSharePayload } from '../utils/urlShare';
+
+export type SemesterSlot = '1' | '2' | '3' | '4';
+
+const DEFAULT_CATALOG = 'data/courses/courses_25-26.json';
+const DEFAULT_CATALOG_FILES: Record<SemesterSlot, string> = {
+    '1': DEFAULT_CATALOG,
+    '2': DEFAULT_CATALOG,
+    '3': DEFAULT_CATALOG,
+    '4': DEFAULT_CATALOG,
+};
 
 export interface ScheduleExport {
     version: string;
@@ -15,7 +25,8 @@ export interface ScheduleExport {
     programId: string;
     programName: string;
     startingSemester?: StartingSemester;
-    catalogFile?: string;
+    catalogFile?: string;  // legacy single-catalogue format
+    catalogFiles?: Record<SemesterSlot, string>;  // per-semester format
     selectedCourses: SelectedCourse[];
 }
 
@@ -25,23 +36,25 @@ interface CourseStore {
     selectedCoursesByProgram: Record<string, SelectedCourse[]>;
     importVersion: number;
     scopeFilter: 'own' | 'extended';
-    catalogFile: string;
+    catalogFiles: Record<SemesterSlot, string>;
 
     // Actions
     setProgram: (programId: string) => void;
     setStartingSemester: (s: StartingSemester) => void;
     setScopeFilter: (scope: 'own' | 'extended') => void;
-    setCatalogFile: (year: string) => Promise<void>;
-    addCourse: (course: Course, assignedSemester: '1' | '2' | '3' | '4') => void;
+    setCatalogFile: (semester: SemesterSlot, file: string) => Promise<void>;
+    setCatalogFiles: (files: Record<SemesterSlot, string>) => Promise<void>;
+    addCourse: (course: Course, assignedSemester: SemesterSlot) => void;
     removeCourse: (moduleCode: string) => void;
     isCourseSelected: (moduleCode: string) => boolean;
     refreshData: () => void;
-    exportSchedule: (semesters?: ('1'|'2'|'3'|'4')[]) => void;
-    importSchedule: (jsonData: string, semesters?: ('1'|'2'|'3'|'4')[]) => { success: boolean; error?: string; data?: ScheduleExport };
-    buildShareURL: (semesters?: ('1'|'2'|'3'|'4')[]) => string | null;
+    exportSchedule: (semesters?: SemesterSlot[]) => void;
+    importSchedule: (jsonData: string, semesters?: SemesterSlot[]) => { success: boolean; error?: string; data?: ScheduleExport };
+    buildShareURL: (semesters?: SemesterSlot[]) => string | null;
 
     // Getters (computed)
     getAllCourses: () => Course[];
+    getAllCoursesForSemester: (semester: SemesterSlot) => Course[];
     getSelectedCourses: () => SelectedCourse[];
 }
 
@@ -60,7 +73,7 @@ export const useCourseStore = create<CourseStore>()(
             selectedCoursesByProgram: {},
             importVersion: 0,
             scopeFilter: 'own' as 'own' | 'extended',
-            catalogFile: 'data/courses/courses_25-26.json',
+            catalogFiles: { ...DEFAULT_CATALOG_FILES },
 
             setProgram: (programId) => set({ currentProgramId: programId || null }),
             setScopeFilter: (scope) => set({ scopeFilter: scope }),
@@ -83,9 +96,16 @@ export const useCourseStore = create<CourseStore>()(
                 };
             }),
 
-            setCatalogFile: async (file: string) => {
+            setCatalogFile: async (semester, file) => {
                 await initializePrograms(file);
-                set({ catalogFile: file });
+                set(state => ({ catalogFiles: { ...state.catalogFiles, [semester]: file } }));
+                get().refreshData();
+            },
+
+            setCatalogFiles: async (files) => {
+                const uniqueFiles = [...new Set(Object.values(files))];
+                await Promise.all(uniqueFiles.map(f => initializePrograms(f)));
+                set({ catalogFiles: files });
                 get().refreshData();
             },
 
@@ -137,12 +157,22 @@ export const useCourseStore = create<CourseStore>()(
                     const newSelectionsByProgram = { ...state.selectedCoursesByProgram };
 
                     Object.keys(newSelectionsByProgram).forEach(programId => {
-                        const program = getProgramById(programId);
-                        if (!program) return;
+                        // Build fresh course maps per catalogue to avoid redundant lookups
+                        const freshMaps = new Map<string, Map<string, Course>>();
 
-                        const freshCoursesMap = new Map(program.courses.map((c) => [c.module, c]));
-                        newSelectionsByProgram[programId] = newSelectionsByProgram[programId].map(selected => {
-                            const freshData = freshCoursesMap.get(selected.module);
+                        newSelectionsByProgram[programId] = (newSelectionsByProgram[programId] || []).map(selected => {
+                            const catalogFile = state.catalogFiles[selected.assignedSemester];
+
+                            if (!freshMaps.has(catalogFile)) {
+                                const program = getProgramByIdAndCatalog(programId, catalogFile)
+                                    ?? getProgramById(programId);
+                                freshMaps.set(
+                                    catalogFile,
+                                    program ? new Map(program.courses.map(c => [c.module, c])) : new Map()
+                                );
+                            }
+
+                            const freshData = freshMaps.get(catalogFile)?.get(selected.module);
                             if (freshData) {
                                 return { ...freshData, assignedSemester: selected.assignedSemester };
                             }
@@ -183,7 +213,7 @@ export const useCourseStore = create<CourseStore>()(
                     programId,
                     programName: program?.name || programId,
                     startingSemester: state.startingSemester,
-                    catalogFile: state.catalogFile,
+                    catalogFiles: state.catalogFiles,
                     selectedCourses: enrichedCourses,
                 };
 
@@ -225,6 +255,19 @@ export const useCourseStore = create<CourseStore>()(
                             .filter(c => !semesters.includes(c.assignedSemester));
                         const merged = [...existing, ...coursesToImport];
 
+                        // Merge catalogFiles from the imported file (only for selected semesters)
+                        const importedCatalogFiles = data.catalogFiles
+                            ?? (data.catalogFile
+                                ? { '1': data.catalogFile, '2': data.catalogFile, '3': data.catalogFile, '4': data.catalogFile }
+                                : null);
+
+                        const mergedCatalogFiles = importedCatalogFiles
+                            ? semesters.reduce(
+                                (acc, s) => ({ ...acc, [s]: importedCatalogFiles[s] ?? acc[s] }),
+                                { ...state.catalogFiles }
+                              )
+                            : state.catalogFiles;
+
                         return {
                             currentProgramId: migratedProgramId,
                             startingSemester: data.startingSemester ?? 'SA',
@@ -232,6 +275,7 @@ export const useCourseStore = create<CourseStore>()(
                                 ...state.selectedCoursesByProgram,
                                 [migratedProgramId]: merged,
                             },
+                            catalogFiles: mergedCatalogFiles,
                             importVersion: state.importVersion + 1,
                         } as CourseStore;
                     });
@@ -244,18 +288,41 @@ export const useCourseStore = create<CourseStore>()(
 
             buildShareURL: (semesters) => {
                 const state = get();
-                const { currentProgramId, startingSemester, selectedCoursesByProgram, catalogFile } = state;
+                const { currentProgramId, startingSemester, selectedCoursesByProgram, catalogFiles } = state;
                 if (!currentProgramId) return null;
                 const all = selectedCoursesByProgram[currentProgramId] || [];
                 const courses = semesters ? all.filter(c => semesters.includes(c.assignedSemester)) : all;
-                const encoded = encodeSharePayload(currentProgramId, startingSemester, courses, catalogFile);
+
+                // If all 4 semesters use the same catalogue, encode compactly as `y`
+                const vals = Object.values(catalogFiles) as string[];
+                const allSame = vals.every(v => v === vals[0]);
+                const encoded = encodeSharePayload(
+                    currentProgramId,
+                    startingSemester,
+                    courses,
+                    allSame ? catalogFiles['1'] : undefined,
+                    allSame ? undefined : catalogFiles,
+                );
                 return `${window.location.origin}${window.location.pathname}#plan=${encoded}`;
             },
 
             getAllCourses: () => {
                 const state = get();
                 if (!state.currentProgramId) return [];
-                return getProgramById(state.currentProgramId)?.courses || [];
+                // Use S1's catalogue as the representative view (e.g. for the sidebar)
+                const catalogFile = state.catalogFiles['1'];
+                return getProgramByIdAndCatalog(state.currentProgramId, catalogFile)?.courses
+                    ?? getProgramById(state.currentProgramId)?.courses
+                    ?? [];
+            },
+
+            getAllCoursesForSemester: (semester) => {
+                const state = get();
+                if (!state.currentProgramId) return [];
+                const catalogFile = state.catalogFiles[semester];
+                return getProgramByIdAndCatalog(state.currentProgramId, catalogFile)?.courses
+                    ?? getProgramById(state.currentProgramId)?.courses
+                    ?? [];
             },
 
             getSelectedCourses: () => {
@@ -270,7 +337,7 @@ export const useCourseStore = create<CourseStore>()(
                 currentProgramId: state.currentProgramId,
                 startingSemester: state.startingSemester,
                 selectedCoursesByProgram: state.selectedCoursesByProgram,
-                catalogFile: state.catalogFile,
+                catalogFiles: state.catalogFiles,
             }),
             onRehydrateStorage: () => (state) => {
                 if (!state) return;
@@ -293,6 +360,16 @@ export const useCourseStore = create<CourseStore>()(
                     }
                 });
                 state.selectedCoursesByProgram = migratedSelections;
+
+                // Migrate old single catalogFile → catalogFiles
+                const anyState = state as unknown as Record<string, unknown>;
+                if (typeof anyState['catalogFile'] === 'string' && !state.catalogFiles) {
+                    const oldFile = anyState['catalogFile'] as string;
+                    state.catalogFiles = { '1': oldFile, '2': oldFile, '3': oldFile, '4': oldFile };
+                }
+                if (!state.catalogFiles) {
+                    state.catalogFiles = { ...DEFAULT_CATALOG_FILES };
+                }
             },
         }
     )

@@ -29,14 +29,18 @@ export interface CourseIndex {
   years: CourseYearEntry[];
 }
 
+interface RawCourseData extends Omit<Course, 'module' | 'type'> {
+  C: string[];
+  O: string[];
+  R: string[];
+}
+
 //  Caches
 
 let mastersDataCache: MastersData | null = null;
 let courseIndexCache: CourseIndex | null = null;
 /** keyed by filename (e.g. "courses_25-26.json") */
-const courseRegistryByFile: Record<string, Record<string, Omit<Course, 'module' | 'type'>>> = {};
-/** per-program manifest cache */
-let manifestCache: Record<string, Array<{ module: string; type: Course['type'] }>> = {};
+const courseRegistryByFile: Record<string, Record<string, RawCourseData>> = {};
 /** resolved courses per "year:programId" key */
 let courseDataCache: Record<string, Course[]> = {};
 /** out-of-specialization courses per "year:programId" key */
@@ -74,29 +78,14 @@ export async function getCourseIndex(): Promise<CourseIndex> {
 
 async function getCourseRegistry(
   catalogFile: string,
-): Promise<Record<string, Omit<Course, 'module' | 'type'>>> {
+): Promise<Record<string, RawCourseData>> {
   if (courseRegistryByFile[catalogFile]) return courseRegistryByFile[catalogFile];
   const base = import.meta.env.BASE_URL;
   const res = await fetch(`${base}${catalogFile}`);
   if (!res.ok) throw new Error(`Course catalogue not found: ${catalogFile} (HTTP ${res.status})`);
-  const courses = await res.json() as Record<string, Omit<Course, 'module' | 'type'>>;
+  const courses = await res.json() as Record<string, RawCourseData>;
   courseRegistryByFile[catalogFile] = courses;
   return courses;
-}
-
-async function getProgramManifest(
-  programId: string,
-): Promise<Array<{ module: string; type: Course['type'] }>> {
-  if (manifestCache[programId]) return manifestCache[programId];
-  const base = import.meta.env.BASE_URL;
-  const res = await fetch(`${base}data/programs/${programId}.json`);
-  if (!res.ok) {
-    console.warn(`No manifest found for program ${programId}`);
-    return [];
-  }
-  const manifest = await res.json() as Array<{ module: string; type: Course['type'] }>;
-  manifestCache[programId] = manifest;
-  return manifest;
 }
 
 //  Public API
@@ -113,19 +102,18 @@ export async function getCoursesBySpecialization(
   const cacheKey = `${catalogFile}:${programId}`;
   if (courseDataCache[cacheKey]) return courseDataCache[cacheKey];
 
-  const [registry, manifest] = await Promise.all([
-    getCourseRegistry(catalogFile),
-    getProgramManifest(programId),
-  ]);
+  const registry = await getCourseRegistry(catalogFile);
 
   const courses: Course[] = [];
-  for (const entry of manifest) {
-    const data = registry[entry.module];
-    if (!data) {
-      console.warn(`Module ${entry.module} not found in course registry (${catalogFile})`);
-      continue;
-    }
-    courses.push({ module: entry.module, type: entry.type, ...data });
+  for (const [module, data] of Object.entries(registry)) {
+    let type: Course['type'] | null = null;
+    if (data.C.includes(programId)) type = 'C';
+    else if (data.O.includes(programId)) type = 'O';
+    else if (data.R.includes(programId)) type = 'R';
+    if (!type) continue;
+
+    const { C: _c, O: _o, R: _r, ...courseData } = data;
+    courses.push({ module, type, ...courseData });
   }
 
   courseDataCache[cacheKey] = courses;
@@ -133,7 +121,7 @@ export async function getCoursesBySpecialization(
 }
 
 /**
- * Returns all TSM/FTP/CM courses from the registry that are NOT in the given program's manifest.
+ * Returns all TSM/FTP/CM courses from the registry that are NOT in the given program.
  * These courses are forced to type 'O' and flagged as out-of-specialization.
  */
 export async function getOutOfSpecializationCourses(
@@ -143,19 +131,17 @@ export async function getOutOfSpecializationCourses(
   const cacheKey = `${catalogFile}:${programId}`;
   if (outOfSpecCache[cacheKey]) return outOfSpecCache[cacheKey];
 
-  const [registry, manifest] = await Promise.all([
-    getCourseRegistry(catalogFile),
-    getProgramManifest(programId),
-  ]);
-
-  const manifestModules = new Set(manifest.map(e => e.module));
+  const registry = await getCourseRegistry(catalogFile);
 
   const courses: Course[] = [];
   for (const [module, data] of Object.entries(registry)) {
     const prefix = module.split('_')[0];
-    if (OUT_OF_SPEC_PREFIXES.includes(prefix) && !manifestModules.has(module)) {
-      courses.push({ module, type: 'O', isOutOfSpecialization: true, ...data });
-    }
+    if (!OUT_OF_SPEC_PREFIXES.includes(prefix)) continue;
+    const inProgram = data.C.includes(programId) || data.O.includes(programId) || data.R.includes(programId);
+    if (inProgram) continue;
+
+    const { C: _c, O: _o, R: _r, ...courseData } = data;
+    courses.push({ module, type: 'O', isOutOfSpecialization: true, ...courseData });
   }
 
   outOfSpecCache[cacheKey] = courses;

@@ -103,6 +103,12 @@ export const getProgramById = (id: string): Program | undefined => {
     return PROGRAMS.find(p => p.id === normalizedId);
 };
 
+/** Look up a program from a specific catalogue's cache (does not require PROGRAMS to be set). */
+export function getProgramByIdAndCatalog(id: string, catalogFile: string): Program | undefined {
+    const normalizedId = getProgramIdFromLegacy(id);
+    return programsByYear[catalogFile]?.find(p => p.id === normalizedId);
+}
+
 /** Fallback rules used when no program is selected. */
 export function getDefaultValidationRules(): ValidationRules {
     return {

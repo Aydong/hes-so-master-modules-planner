@@ -10,7 +10,8 @@ export interface SharePayload {
     v: '1';
     p: string;
     s: 'SA' | 'SP';
-    y?: string;  // catalogue year, e.g. "25-26" (optional for backward compat)
+    y?: string;  // single catalogue for all semesters (backward compat)
+    y4?: Record<'1' | '2' | '3' | '4', string>;  // per-semester catalogues
     c: Array<{ m: string; a: '1' | '2' | '3' | '4' }>;
 }
 
@@ -19,12 +20,14 @@ export function encodeSharePayload(
     startingSemester: 'SA' | 'SP',
     courses: Array<{ module: string; assignedSemester: '1' | '2' | '3' | '4' }>,
     catalogYear?: string,
+    catalogFiles?: Record<'1' | '2' | '3' | '4', string>,
 ): string {
     const payload: SharePayload = {
         v: '1',
         p: programId,
         s: startingSemester,
         ...(catalogYear ? { y: catalogYear } : {}),
+        ...(catalogFiles ? { y4: catalogFiles } : {}),
         c: courses.map(c => ({ m: c.module, a: c.assignedSemester })),
     };
     const json = JSON.stringify(payload);

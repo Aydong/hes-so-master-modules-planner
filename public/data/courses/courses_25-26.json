@@ -7,7 +7,22 @@
     "TimeBlock": "TB1",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CE-G",
+      "CE-H",
+      "CE-S",
+      "CE-T",
+      "ElE-P",
+      "EnEn-EnEn",
+      "ME-ME",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "R": []
   },
   "MAP_Interac": {
     "title": "Interaction sol-structure en terrain meuble",
@@ -17,7 +32,13 @@
     "TimeBlock": "TB3",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "CE-G",
+      "CE-S"
+    ]
   },
   "CM_PrivLaw": {
     "title": "Privacy and Law",
@@ -27,7 +48,30 @@
     "TimeBlock": "TB4",
     "location": "Online",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-C",
+      "CS-Cy",
+      "CS-E",
+      "CS-S",
+      "ElE-P",
+      "ElE-S",
+      "EnEn-EnEn",
+      "ME-ME",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "R": [
+      "CE-G",
+      "CE-H",
+      "CE-S",
+      "CE-T",
+      "DS-DS",
+      "ICS-ICS"
+    ]
   },
   "MAP_StrBois": {
     "title": "Structures et constructions avancées 3 (bois et autres matériaux)",
@@ -37,7 +81,12 @@
     "TimeBlock": "TB1+TB2",
     "location": "Lausanne",
     "credits": 6,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "CE-S"
+    ]
   },
   "MAP_Ponts": {
     "title": "Conception des ponts",
@@ -47,7 +96,12 @@
     "TimeBlock": "TB3",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "CE-S"
+    ]
   },
   "CM_AcWritPre": {
     "title": "Academic Writing and Presenting",
@@ -57,7 +111,30 @@
     "TimeBlock": "TB4",
     "location": "Online",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CE-G",
+      "CE-H",
+      "CE-S",
+      "CE-T",
+      "ElE-P",
+      "ElE-S",
+      "EnEn-EnEn",
+      "ME-ME",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "R": [
+      "CS-C",
+      "CS-Cy",
+      "CS-E",
+      "CS-S",
+      "DS-DS",
+      "ICS-ICS"
+    ]
   },
   "CM_QRM": {
     "title": "Quality and Risk Management",
@@ -67,7 +144,30 @@
     "TimeBlock": "TB4",
     "location": "Online",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CE-G",
+      "CE-H",
+      "CE-S",
+      "CE-T",
+      "CS-C",
+      "CS-Cy",
+      "CS-E",
+      "CS-S",
+      "EnEn-EnEn",
+      "ICS-ICS"
+    ],
+    "R": [
+      "DS-DS",
+      "ElE-P",
+      "ElE-S",
+      "ME-ME",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ]
   },
   "FTP_OrdDiff": {
     "title": "Ordinary Differential Equations and Dynamical Systems",
@@ -77,7 +177,18 @@
     "TimeBlock": "TB1",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CE-G",
+      "CE-H",
+      "CE-S",
+      "ElE-P",
+      "ElE-S"
+    ],
+    "R": [
+      "ME-ME"
+    ]
   },
   "MA_GDPC": {
     "title": "Gestion et Droit des Projets de la Construction",
@@ -87,7 +198,17 @@
     "TimeBlock": "TB2",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "EnEn-EnEn"
+    ],
+    "R": [
+      "CE-G",
+      "CE-H",
+      "CE-S",
+      "CE-T"
+    ]
   },
   "FTP_AppStat": {
     "title": "Applied Statistics and Data Analysis",
@@ -97,7 +218,19 @@
     "TimeBlock": "TB3",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CE-G",
+      "CE-H",
+      "CE-S",
+      "CE-T",
+      "ICS-ICS",
+      "ME-ME"
+    ],
+    "R": [
+      "DS-DS"
+    ]
   },
   "TSM_CSM": {
     "title": "Computational Structural Mechanics",
@@ -107,7 +240,17 @@
     "TimeBlock": "TB3",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CE-G",
+      "CE-H",
+      "CE-S",
+      "CE-T"
+    ],
+    "R": [
+      "ME-ME"
+    ]
   },
   "CM_AdvProjMgmt": {
     "title": "Advanced project management",
@@ -117,7 +260,30 @@
     "TimeBlock": "TB4",
     "location": "Online",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CE-G",
+      "CE-H",
+      "CE-S",
+      "CE-T",
+      "CS-C",
+      "CS-Cy",
+      "CS-E",
+      "CS-S",
+      "DS-DS",
+      "ICS-ICS",
+      "ME-ME"
+    ],
+    "R": [
+      "ElE-P",
+      "ElE-S",
+      "EnEn-EnEn",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ]
   },
   "CM_InnChang": {
     "title": "Innovations and change management",
@@ -127,7 +293,30 @@
     "TimeBlock": "TB4",
     "location": "Online",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-C",
+      "CS-Cy",
+      "CS-E",
+      "CS-S",
+      "EnEn-EnEn",
+      "ICS-ICS",
+      "ME-ME",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "R": [
+      "CE-G",
+      "CE-H",
+      "CE-S",
+      "CE-T",
+      "DS-DS",
+      "ElE-P",
+      "ElE-S"
+    ]
   },
   "FTP_CompAlg": {
     "title": "Numerical Analysis and Computer Algebra",
@@ -137,7 +326,19 @@
     "TimeBlock": "TB1",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CE-G",
+      "CE-H",
+      "CE-S",
+      "ElE-S",
+      "EnEn-EnEn"
+    ],
+    "R": [
+      "DS-DS",
+      "ME-ME"
+    ]
   },
   "TSM_MaintStruc": {
     "title": "Maintenance des structures porteuses",
@@ -147,7 +348,15 @@
     "TimeBlock": "TB1",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "CE-G",
+      "CE-H",
+      "CE-S",
+      "CE-T"
+    ]
   },
   "TSM_NatHaz": {
     "title": "Dangers naturels",
@@ -157,7 +366,15 @@
     "TimeBlock": "TB2",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "CE-G",
+      "CE-H",
+      "CE-S",
+      "CE-T"
+    ]
   },
   "TSM_BIM": {
     "title": "Building Information Modelling",
@@ -167,7 +384,15 @@
     "TimeBlock": "TB3",
     "location": "Genève",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "CE-G",
+      "CE-H",
+      "CE-S",
+      "CE-T"
+    ]
   },
   "MAP_StrBeton": {
     "title": "Structures et constructions avancées 1 (béton)",
@@ -177,7 +402,12 @@
     "TimeBlock": "TB3+TB4",
     "location": "Lausanne",
     "credits": 6,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "CE-S"
+    ]
   },
   "MAP_StrMetal": {
     "title": "Structures et constructions avancées 2 (acier et mixte)",
@@ -187,7 +417,12 @@
     "TimeBlock": "TB1+TB2",
     "location": "Lausanne",
     "credits": 6,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "CE-S"
+    ]
   },
   "CM_Entrepr": {
     "title": "Corporate management and entrepreneurship",
@@ -197,7 +432,30 @@
     "TimeBlock": "TB3",
     "location": "Online",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CE-G",
+      "CE-H",
+      "CE-S",
+      "CE-T",
+      "DS-DS",
+      "ElE-P",
+      "ElE-S",
+      "EnEn-EnEn",
+      "ICS-ICS",
+      "ME-ME",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "R": [
+      "CS-C",
+      "CS-Cy",
+      "CS-E",
+      "CS-S"
+    ]
   },
   "CM_ComplPro_B_ZH": {
     "title": "Management of Complex Processes (commun avec ZH)",
@@ -207,7 +465,30 @@
     "TimeBlock": "TB4",
     "location": "Online",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CE-G",
+      "CE-H",
+      "CE-S",
+      "CE-T",
+      "CS-C",
+      "CS-Cy",
+      "CS-E",
+      "CS-S",
+      "DS-DS",
+      "EnEn-EnEn",
+      "ICS-ICS",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "R": [
+      "ElE-P",
+      "ElE-S",
+      "ME-ME"
+    ]
   },
   "FTP_Life_ZH": {
     "title": "Lifecycle Management of Infrastructures",
@@ -217,7 +498,15 @@
     "TimeBlock": "TB2",
     "location": "Zürich",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CE-G",
+      "CE-H",
+      "CE-S",
+      "CE-T"
+    ],
+    "R": []
   },
   "TSM_Dynamics": {
     "title": "Structural Dynamics",
@@ -227,7 +516,14 @@
     "TimeBlock": "TB3",
     "location": "Genève",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CE-G",
+      "CE-S",
+      "ME-ME"
+    ],
+    "R": []
   },
   "CM_SustDev": {
     "title": "Sustainable developments",
@@ -237,7 +533,30 @@
     "TimeBlock": "TB4",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CE-G",
+      "CE-H",
+      "CE-S",
+      "CE-T",
+      "CS-C",
+      "CS-Cy",
+      "CS-E",
+      "CS-S",
+      "DS-DS",
+      "ICS-ICS",
+      "ME-ME"
+    ],
+    "R": [
+      "ElE-P",
+      "ElE-S",
+      "EnEn-EnEn",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ]
   },
   "FTP_EnviPlan": {
     "title": "Droit de la construction, de l'aménagement du territoire et de l'environnement",
@@ -247,7 +566,16 @@
     "TimeBlock": "TB1",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "CE-G",
+      "CE-H",
+      "CE-S",
+      "CE-T",
+      "EnEn-EnEn"
+    ]
   },
   "MAP_Parasis": {
     "title": "Génie parasismique",
@@ -257,7 +585,13 @@
     "TimeBlock": "TB2",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "CE-G",
+      "CE-S"
+    ]
   },
   "MAP_Tunn": {
     "title": "Tunnels et travaux souterrains",
@@ -267,7 +601,12 @@
     "TimeBlock": "TB1+TB2",
     "location": "Lausanne",
     "credits": 6,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "CE-G"
+    ]
   },
   "MAP_Barrages": {
     "title": "Conception des barrages et de leurs ouvrages hydrauliques",
@@ -277,7 +616,13 @@
     "TimeBlock": "TB1+TB2",
     "location": "Lausanne",
     "credits": 6,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "CE-G",
+      "CE-H"
+    ]
   },
   "MAP_TraGeo": {
     "title": "Travaux spéciaux et méthodes de suivi en géotechnique",
@@ -287,7 +632,12 @@
     "TimeBlock": "TB3",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "CE-G"
+    ]
   },
   "MAP_ModGeo": {
     "title": "Modélisations numériques et physiques en géomécanique",
@@ -297,7 +647,12 @@
     "TimeBlock": "TB1+TB2",
     "location": "Lausanne",
     "credits": 6,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "CE-G"
+    ]
   },
   "TSM_WWTreat_ZH": {
     "title": "Environmental Technologies: Wastewater Treatment (Zürich)",
@@ -307,7 +662,12 @@
     "TimeBlock": "TB1",
     "location": "Zürich",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "CE-H"
+    ]
   },
   "TSM_DataMgmt": {
     "title": "Data Management",
@@ -317,7 +677,20 @@
     "TimeBlock": "TB1",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CE-H",
+      "CE-T",
+      "CS-C",
+      "CS-Cy",
+      "CS-E",
+      "CS-S",
+      "ElE-P"
+    ],
+    "R": [
+      "DS-DS"
+    ]
   },
   "MAP_ResAss": {
     "title": "Réseaux d'assainissement",
@@ -327,7 +700,12 @@
     "TimeBlock": "TB1+TB2",
     "location": "Lausanne",
     "credits": 6,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "CE-H"
+    ]
   },
   "MAP_Renat": {
     "title": "Renaturation des cours d'eau, rives lacustres; éco-hydraulique",
@@ -337,7 +715,12 @@
     "TimeBlock": "TB1+TB2",
     "location": "Lausanne",
     "credits": 6,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "CE-H"
+    ]
   },
   "MAP_SimHydr": {
     "title": "Simulation numérique en hydraulique",
@@ -347,7 +730,12 @@
     "TimeBlock": "TB3",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "CE-H"
+    ]
   },
   "MAP_HydrAv": {
     "title": "Hydrologie avancée",
@@ -357,7 +745,12 @@
     "TimeBlock": "TB3+TB4",
     "location": "Lausanne",
     "credits": 6,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "CE-H"
+    ]
   },
   "MAP_EspacPu": {
     "title": "Conception et aménagement de l'espace public urbain",
@@ -367,7 +760,12 @@
     "TimeBlock": "TB2+TB3",
     "location": "Lausanne",
     "credits": 6,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "CE-T"
+    ]
   },
   "MAP_MobUrb": {
     "title": "Organisation et gestion de la mobilité urbaine",
@@ -377,7 +775,12 @@
     "TimeBlock": "TB1+TB2",
     "location": "Lausanne",
     "credits": 6,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "CE-T"
+    ]
   },
   "MAP_TransPu": {
     "title": "Systèmes et offre de transport public",
@@ -387,7 +790,12 @@
     "TimeBlock": "TB1+TB2",
     "location": "Lausanne",
     "credits": 6,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "CE-T"
+    ]
   },
   "MAP_NumMob": {
     "title": "Outils numériques au service de la mobilité",
@@ -397,7 +805,12 @@
     "TimeBlock": "TB3",
     "location": "Genève",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "CE-T"
+    ]
   },
   "MAP_Trafic": {
     "title": "Gestion du trafic et trafic de chantiers",
@@ -407,7 +820,12 @@
     "TimeBlock": "TB1+TB2",
     "location": "Genève",
     "credits": 6,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "CE-T"
+    ]
   },
   "MA_PCM": {
     "title": "Programmation concurrente multicore",
@@ -417,7 +835,17 @@
     "TimeBlock": "TB1",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-C",
+      "CS-Cy",
+      "ICS-ICS"
+    ],
+    "R": [
+      "CS-E",
+      "CS-S"
+    ]
   },
   "TSM_MachLeData": {
     "title": "Machine Learning and Data in Operation",
@@ -427,7 +855,18 @@
     "TimeBlock": "TB1",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-C",
+      "CS-Cy",
+      "CS-E",
+      "CS-S",
+      "ICS-ICS"
+    ],
+    "R": [
+      "DS-DS"
+    ]
   },
   "MA_NTDA": {
     "title": "New technologies in Data Analysis - Applied ML",
@@ -437,7 +876,17 @@
     "TimeBlock": "TB2",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-C",
+      "CS-Cy",
+      "CS-E",
+      "CS-S"
+    ],
+    "R": [
+      "DS-DS"
+    ]
   },
   "MA_SeS": {
     "title": "Secure Embedded System",
@@ -447,7 +896,18 @@
     "TimeBlock": "TB2",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-C",
+      "CS-S",
+      "ElE-S"
+    ],
+    "R": [
+      "CS-Cy",
+      "CS-E",
+      "ICS-ICS"
+    ]
   },
   "MA_AdMoApp": {
     "title": "Advanced Mobile Applications",
@@ -457,7 +917,18 @@
     "TimeBlock": "TB3",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-C",
+      "CS-Cy",
+      "CS-E",
+      "DS-DS",
+      "ICS-ICS"
+    ],
+    "R": [
+      "CS-S"
+    ]
   },
   "TSM_CyberSec": {
     "title": "Cyber Security",
@@ -467,7 +938,16 @@
     "TimeBlock": "TB3",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "CS-C",
+      "CS-Cy",
+      "CS-E",
+      "CS-S",
+      "ICS-ICS"
+    ]
   },
   "TSM_CloudSys": {
     "title": "Cloud Services; Systems",
@@ -477,7 +957,17 @@
     "TimeBlock": "TB1",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-E",
+      "DS-DS"
+    ],
+    "R": [
+      "CS-C",
+      "CS-Cy",
+      "CS-S"
+    ]
   },
   "FTP_MachLe": {
     "title": "Machine learning",
@@ -487,7 +977,25 @@
     "TimeBlock": "TB2",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-C",
+      "CS-Cy",
+      "CS-E",
+      "CS-S",
+      "ME-ME",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "R": [
+      "DS-DS",
+      "ElE-P",
+      "ElE-S",
+      "ICS-ICS"
+    ]
   },
   "TSM_AdvEmbSof": {
     "title": "Advanced Embedded Software",
@@ -497,7 +1005,18 @@
     "TimeBlock": "TB3",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-C",
+      "CS-Cy",
+      "CS-S",
+      "ElE-S",
+      "ICS-ICS"
+    ],
+    "R": [
+      "CS-E"
+    ]
   },
   "TSM_AnSeqDa": {
     "title": "Analysis of Sequential Data",
@@ -507,7 +1026,17 @@
     "TimeBlock": "TB3",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-C",
+      "CS-Cy",
+      "CS-E",
+      "CS-S"
+    ],
+    "R": [
+      "DS-DS"
+    ]
   },
   "FTP_CryptCod": {
     "title": "Cryptography and Coding Theory",
@@ -517,7 +1046,17 @@
     "TimeBlock": "TB1",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-C",
+      "CS-E",
+      "CS-S"
+    ],
+    "R": [
+      "CS-Cy",
+      "ICS-ICS"
+    ]
   },
   "FTP_DigImPro": {
     "title": "Digital image Processing",
@@ -527,7 +1066,22 @@
     "TimeBlock": "TB2",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-C",
+      "CS-Cy",
+      "CS-E",
+      "CS-S",
+      "DS-DS",
+      "ElE-S"
+    ],
+    "R": [
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ]
   },
   "MA_ITProMan": {
     "title": "Management des projets IT",
@@ -537,7 +1091,17 @@
     "TimeBlock": "TB2",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-C",
+      "CS-Cy",
+      "CS-E",
+      "DS-DS"
+    ],
+    "R": [
+      "CS-S"
+    ]
   },
   "MA_MLBD": {
     "title": "Machine Learning on Big Data",
@@ -547,7 +1111,18 @@
     "TimeBlock": "TB3",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-C",
+      "CS-Cy",
+      "CS-E",
+      "CS-S",
+      "ICS-ICS"
+    ],
+    "R": [
+      "DS-DS"
+    ]
   },
   "TSM_EmbHardw": {
     "title": "Design of Embedded Hardware and Firmware",
@@ -557,7 +1132,19 @@
     "TimeBlock": "TB3",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-C",
+      "CS-Cy",
+      "CS-S",
+      "ICS-ICS"
+    ],
+    "R": [
+      "CS-E",
+      "ElE-P",
+      "ElE-S"
+    ]
   },
   "FTP_Alg": {
     "title": "Algorithms",
@@ -567,7 +1154,18 @@
     "TimeBlock": "TB1",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "DS-DS"
+    ],
+    "R": [
+      "CS-C",
+      "CS-Cy",
+      "CS-E",
+      "CS-S",
+      "ICS-ICS"
+    ]
   },
   "MA_IPR": {
     "title": "Design du routage IP avancé",
@@ -577,7 +1175,16 @@
     "TimeBlock": "TB1",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-Cy",
+      "CS-E",
+      "CS-S"
+    ],
+    "R": [
+      "CS-C"
+    ]
   },
   "MA_NSA": {
     "title": "Network Security and Architecture",
@@ -587,7 +1194,18 @@
     "TimeBlock": "TB2",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-E",
+      "CS-S",
+      "DS-DS"
+    ],
+    "R": [
+      "CS-C",
+      "CS-Cy",
+      "ICS-ICS"
+    ]
   },
   "MA_GPU": {
     "title": "GPU, IA and Robotics",
@@ -597,7 +1215,17 @@
     "TimeBlock": "TB2",
     "location": "Neuchâtel",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-Cy",
+      "CS-S"
+    ],
+    "R": [
+      "CS-C",
+      "CS-E",
+      "DS-DS"
+    ]
   },
   "MA_GT": {
     "title": "Games Technologies",
@@ -607,7 +1235,17 @@
     "TimeBlock": "TB3",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-C",
+      "CS-Cy",
+      "CS-E",
+      "DS-DS"
+    ],
+    "R": [
+      "CS-S"
+    ]
   },
   "MA_AUI": {
     "title": "Advanced User Interface",
@@ -617,7 +1255,17 @@
     "TimeBlock": "TB1",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-C",
+      "CS-Cy",
+      "CS-E",
+      "DS-DS"
+    ],
+    "R": [
+      "CS-S"
+    ]
   },
   "MA_AdvProg": {
     "title": "Advanced Programming Paradigm",
@@ -627,7 +1275,16 @@
     "TimeBlock": "TB2",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-C",
+      "CS-Cy",
+      "CS-E"
+    ],
+    "R": [
+      "CS-S"
+    ]
   },
   "TSM_AdvNLP": {
     "title": "Traitement automatique des langues avancé",
@@ -637,7 +1294,17 @@
     "TimeBlock": "TB2",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-C",
+      "CS-Cy",
+      "CS-E",
+      "CS-S"
+    ],
+    "R": [
+      "DS-DS"
+    ]
   },
   "TSM_AdvDaBa": {
     "title": "Advanced Database",
@@ -647,7 +1314,17 @@
     "TimeBlock": "TB4",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-C",
+      "CS-Cy",
+      "CS-E",
+      "DS-DS"
+    ],
+    "R": [
+      "CS-S"
+    ]
   },
   "TSM_SoftwEng": {
     "title": "Software Engineering and Architectures",
@@ -657,7 +1334,18 @@
     "TimeBlock": "TB1",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "DS-DS",
+      "ICS-ICS"
+    ],
+    "R": [
+      "CS-C",
+      "CS-Cy",
+      "CS-E",
+      "CS-S"
+    ]
   },
   "MA_EmbReal": {
     "title": "Embedded real-time software",
@@ -667,7 +1355,17 @@
     "TimeBlock": "TB2",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-C",
+      "CS-Cy",
+      "CS-S"
+    ],
+    "R": [
+      "CS-E",
+      "ElE-S"
+    ]
   },
   "MA_NTDE": {
     "title": "New technologies in Data Engineering",
@@ -677,7 +1375,17 @@
     "TimeBlock": "TB2",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-C",
+      "CS-Cy",
+      "CS-E",
+      "CS-S"
+    ],
+    "R": [
+      "DS-DS"
+    ]
   },
   "FTP_DeLearn": {
     "title": "Deep Learning",
@@ -687,7 +1395,18 @@
     "TimeBlock": "TB3",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-C",
+      "CS-Cy",
+      "CS-E",
+      "CS-S",
+      "ICS-ICS"
+    ],
+    "R": [
+      "DS-DS"
+    ]
   },
   "MA_GesSec": {
     "title": "Identité et confiance&nbsp;: gestion sécurisée",
@@ -697,7 +1416,17 @@
     "TimeBlock": "TB3",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-C",
+      "CS-E",
+      "CS-S",
+      "DS-DS"
+    ],
+    "R": [
+      "CS-Cy"
+    ]
   },
   "MA_LPSC": {
     "title": "Logiques programmables pour systèmes complexes et performants.",
@@ -707,7 +1436,18 @@
     "TimeBlock": "TB4",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-C",
+      "CS-Cy",
+      "CS-S",
+      "DS-DS"
+    ],
+    "R": [
+      "CS-E",
+      "ElE-S"
+    ]
   },
   "MA_HPQC": {
     "title": "High Performance and Quantum Computing",
@@ -717,7 +1457,17 @@
     "TimeBlock": "TB1",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-Cy",
+      "CS-E",
+      "DS-DS"
+    ],
+    "R": [
+      "CS-C",
+      "CS-S"
+    ]
   },
   "MA_ICR": {
     "title": "Industrial Cryptography",
@@ -727,7 +1477,17 @@
     "TimeBlock": "TB1",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-C",
+      "CS-E",
+      "CS-S"
+    ],
+    "R": [
+      "CS-Cy",
+      "ICS-ICS"
+    ]
   },
   "MA_ASAD": {
     "title": "Advanced Software Architecture and Design",
@@ -737,7 +1497,18 @@
     "TimeBlock": "TB2",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-C",
+      "CS-Cy",
+      "CS-E",
+      "DS-DS",
+      "ICS-ICS"
+    ],
+    "R": [
+      "CS-S"
+    ]
   },
   "TSM_AdvComArc": {
     "title": "Advanced Communication Architectures",
@@ -747,7 +1518,17 @@
     "TimeBlock": "TB3",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-E",
+      "CS-S",
+      "ICS-ICS"
+    ],
+    "R": [
+      "CS-C",
+      "CS-Cy"
+    ]
   },
   "FTP_Optimiz": {
     "title": "Optimization",
@@ -757,7 +1538,21 @@
     "TimeBlock": "TB1",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "ME-ME"
+    ],
+    "R": [
+      "CS-C",
+      "CS-Cy",
+      "CS-E",
+      "CS-S",
+      "DS-DS",
+      "ElE-P",
+      "ElE-S",
+      "ICS-ICS"
+    ]
   },
   "PI_x": {
     "title": "Projet Interdisciplinaire en groupe",
@@ -767,7 +1562,24 @@
     "TimeBlock": "TB3+TB4",
     "location": "Lausanne",
     "credits": 6,
-    "description": ""
+    "description": "",
+    "C": [
+      "CS-C",
+      "CS-Cy",
+      "CS-E",
+      "CS-S",
+      "DS-DS",
+      "ElE-P",
+      "ElE-S",
+      "EnEn-EnEn",
+      "ME-ME",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "O": [],
+    "R": []
   },
   "MA_SRE": {
     "title": "Software Reverse Engineering and Protection",
@@ -777,7 +1589,17 @@
     "TimeBlock": "TB1",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-C",
+      "CS-E"
+    ],
+    "R": [
+      "CS-Cy",
+      "CS-S",
+      "ICS-ICS"
+    ]
   },
   "MA_WEM": {
     "title": "Web Mining",
@@ -787,7 +1609,17 @@
     "TimeBlock": "TB1",
     "location": "Yverdon",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-C",
+      "CS-Cy",
+      "CS-E",
+      "CS-S"
+    ],
+    "R": [
+      "DS-DS"
+    ]
   },
   "MA_BDA": {
     "title": "Big Data Analytics",
@@ -797,7 +1629,18 @@
     "TimeBlock": "TB2",
     "location": "Yverdon",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-Cy",
+      "CS-E",
+      "EnEn-EnEn"
+    ],
+    "R": [
+      "CS-C",
+      "CS-S",
+      "DS-DS"
+    ]
   },
   "MA_CSEL1": {
     "title": "Construction de systèmes embarqués sous Linux",
@@ -807,7 +1650,19 @@
     "TimeBlock": "TB3",
     "location": "Fribourg",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-C",
+      "CS-Cy",
+      "CS-S",
+      "DS-DS",
+      "EnEn-EnEn",
+      "ICS-ICS"
+    ],
+    "R": [
+      "CS-E"
+    ]
   },
   "MA_DeSEm": {
     "title": "Design of communicative embedded systems",
@@ -817,7 +1672,15 @@
     "TimeBlock": "TB1",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "CS-E",
+      "ICS-ICS"
+    ],
+    "R": [
+      "ElE-S"
+    ]
   },
   "MA_VI": {
     "title": "Visualisation de l'Information",
@@ -827,7 +1690,12 @@
     "TimeBlock": "TB1",
     "location": "Neuchâtel",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "DS-DS"
+    ]
   },
   "MA_SIMI": {
     "title": "Simulation multiphysique en ingénierie",
@@ -837,7 +1705,21 @@
     "TimeBlock": "TB4",
     "location": "Genève",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "DS-DS",
+      "ElE-P",
+      "ElE-S",
+      "EnEn-EnEn",
+      "ME-ME",
+      "Mic-H"
+    ],
+    "R": [
+      "Mic-B",
+      "Mic-D",
+      "Mic-P"
+    ]
   },
   "FTP_SmartMach": {
     "title": "Intelligent and hyperconnected machine",
@@ -847,7 +1729,18 @@
     "TimeBlock": "TB3",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "DS-DS"
+    ],
+    "R": [
+      "ME-ME",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ]
   },
   "MA_AdvElDes": {
     "title": "Advanced Electronic Design",
@@ -857,7 +1750,12 @@
     "TimeBlock": "TB1",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "ElE-S"
+    ]
   },
   "FTP_ModSim": {
     "title": "Modelling simulation and optimisation",
@@ -867,7 +1765,16 @@
     "TimeBlock": "TB2",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "ME-ME"
+    ],
+    "R": [
+      "ElE-P",
+      "ElE-S",
+      "EnEn-EnEn"
+    ]
   },
   "FTP_Multiphy": {
     "title": "Multiphysics",
@@ -877,7 +1784,19 @@
     "TimeBlock": "TB3",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "ME-ME"
+    ],
+    "R": [
+      "ElE-P",
+      "ElE-S",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ]
   },
   "TSM_SignProc": {
     "title": "Signal Processing and Transmission",
@@ -887,7 +1806,13 @@
     "TimeBlock": "TB1",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "ElE-P",
+      "ElE-S"
+    ]
   },
   "TSM_SmartSens": {
     "title": "Smart sensing",
@@ -897,7 +1822,17 @@
     "TimeBlock": "TB2",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "ElE-S"
+    ],
+    "R": [
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ]
   },
   "FTP_PartDiff": {
     "title": "Partial differential equations in engineering applications",
@@ -907,7 +1842,16 @@
     "TimeBlock": "TB2",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "ME-ME"
+    ],
+    "R": [
+      "ElE-P",
+      "ElE-S",
+      "EnEn-EnEn"
+    ]
   },
   "MA_StatDig": {
     "title": "Statistical digital signal processing and modeling",
@@ -917,7 +1861,12 @@
     "TimeBlock": "TB1",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "ElE-S"
+    ]
   },
   "TSM_AdvContr": {
     "title": "Advanced Control",
@@ -927,7 +1876,13 @@
     "TimeBlock": "TB1",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "ElE-P",
+      "ElE-S"
+    ]
   },
   "TSM_AppElm": {
     "title": "Applied Electromagnetics",
@@ -937,7 +1892,15 @@
     "TimeBlock": "TB2",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "EnEn-EnEn"
+    ],
+    "R": [
+      "ElE-P",
+      "ElE-S"
+    ]
   },
   "MA_HYBRD": {
     "title": "Systèmes hybrides",
@@ -947,7 +1910,19 @@
     "TimeBlock": "TB3",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "EnEn-EnEn",
+      "ME-ME",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "R": [
+      "ElE-P"
+    ]
   },
   "TSM_FundEnEn": {
     "title": "Fundamentals of Energy and Environment",
@@ -957,7 +1932,19 @@
     "TimeBlock": "TB3",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "ElE-P",
+      "ME-ME",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "R": [
+      "EnEn-EnEn"
+    ]
   },
   "MA_INTE1": {
     "title": "Optimisation énergétique",
@@ -967,7 +1954,19 @@
     "TimeBlock": "TB1",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "ElE-P",
+      "ME-ME",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "R": [
+      "EnEn-EnEn"
+    ]
   },
   "MA_PowElSys": {
     "title": "Power Electronics Systems",
@@ -977,7 +1976,14 @@
     "TimeBlock": "TB1",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "EnEn-EnEn"
+    ],
+    "R": [
+      "ElE-P"
+    ]
   },
   "MA_HiVoEn": {
     "title": "High Voltage Engineering",
@@ -987,7 +1993,14 @@
     "TimeBlock": "TB1",
     "location": "Fribourg",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "EnEn-EnEn"
+    ],
+    "R": [
+      "ElE-P"
+    ]
   },
   "MA_PGE": {
     "title": "Poly-génération d'Energie",
@@ -997,7 +2010,15 @@
     "TimeBlock": "TB1",
     "location": "Yverdon",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "ElE-P",
+      "ME-ME"
+    ],
+    "R": [
+      "EnEn-EnEn"
+    ]
   },
   "MA_STOCK": {
     "title": "Stockage de l'énergie",
@@ -1007,7 +2028,15 @@
     "TimeBlock": "TB2",
     "location": "Yverdon",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "ElE-P",
+      "ME-ME"
+    ],
+    "R": [
+      "EnEn-EnEn"
+    ]
   },
   "MA_Nucl": {
     "title": "Energie nucléaire",
@@ -1017,7 +2046,18 @@
     "TimeBlock": "TB1",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "ElE-P",
+      "EnEn-EnEn",
+      "ME-ME",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "R": []
   },
   "TSM_PowGrid": {
     "title": "Power Grids: Systems and Devices",
@@ -1027,7 +2067,14 @@
     "TimeBlock": "TB1",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "ElE-P"
+    ],
+    "R": [
+      "EnEn-EnEn"
+    ]
   },
   "MA_REA": {
     "title": "Réseaux électriques avancés",
@@ -1037,7 +2084,14 @@
     "TimeBlock": "TB2",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "EnEn-EnEn"
+    ],
+    "R": [
+      "ElE-P"
+    ]
   },
   "MA_PLM": {
     "title": "&nbsp; \n Product Lifecycle Management",
@@ -1047,7 +2101,18 @@
     "TimeBlock": "TB2",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "ElE-P",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "R": [
+      "ME-ME"
+    ]
   },
   "MA_ElPowSys": {
     "title": "Electric Power Systems : Design and Operation",
@@ -1057,7 +2122,14 @@
     "TimeBlock": "TB2",
     "location": "Sion",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "EnEn-EnEn"
+    ],
+    "R": [
+      "ElE-P"
+    ]
   },
   "MA_SMART": {
     "title": "Smart Grid",
@@ -1067,7 +2139,14 @@
     "TimeBlock": "TB3",
     "location": "Sion",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "EnEn-EnEn"
+    ],
+    "R": [
+      "ElE-P"
+    ]
   },
   "TSM_AdvTherm": {
     "title": "Advanced Thermodynamics",
@@ -1077,7 +2156,14 @@
     "TimeBlock": "TB1",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "ME-ME"
+    ],
+    "R": [
+      "EnEn-EnEn"
+    ]
   },
   "TSM_FMechHeat": {
     "title": "Fluid Mechanics and Heat Transfer",
@@ -1087,7 +2173,13 @@
     "TimeBlock": "TB2",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "EnEn-EnEn",
+      "ME-ME"
+    ]
   },
   "TSM_EnReTe": {
     "title": "Environmental Remediation Technologies: soil, groundwater; atmosphere",
@@ -1097,7 +2189,12 @@
     "TimeBlock": "TB3",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "EnEn-EnEn"
+    ]
   },
   "MA_CFD": {
     "title": "Computational Fluid Dynamics",
@@ -1107,7 +2204,14 @@
     "TimeBlock": "TB3",
     "location": "Genève",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "EnEn-EnEn"
+    ],
+    "R": [
+      "ME-ME"
+    ]
   },
   "MA_VERB": {
     "title": "Valorisation Energétique de la Biomasse: procédés durables et biocombustibles",
@@ -1117,7 +2221,14 @@
     "TimeBlock": "TB3",
     "location": "Yverdon",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "ME-ME"
+    ],
+    "R": [
+      "EnEn-EnEn"
+    ]
   },
   "MA_SOLTH": {
     "title": "Solaire thermique",
@@ -1127,7 +2238,14 @@
     "TimeBlock": "TB2",
     "location": "Yverdon",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "ME-ME"
+    ],
+    "R": [
+      "EnEn-EnEn"
+    ]
   },
   "MA_HYDR": {
     "title": "Hydraulique",
@@ -1137,7 +2255,14 @@
     "TimeBlock": "TB3",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "ME-ME"
+    ],
+    "R": [
+      "EnEn-EnEn"
+    ]
   },
   "TSM_SoftwAs_ZH": {
     "title": "Software Assurance (Zürich)",
@@ -1147,7 +2272,12 @@
     "TimeBlock": "TB1",
     "location": "Zürich",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "ICS-ICS"
+    ]
   },
   "CSI_1": {
     "title": "Cyber Security Immersion - Part 1",
@@ -1157,7 +2287,12 @@
     "TimeBlock": "TB2+TB3+TB4",
     "location": "Lausanne",
     "credits": 9,
-    "description": ""
+    "description": "",
+    "C": [
+      "ICS-ICS"
+    ],
+    "O": [],
+    "R": []
   },
   "TSM_CyberSecOp_ZH": {
     "title": "Cyber Security Operations (Zürich)",
@@ -1167,7 +2302,12 @@
     "TimeBlock": "TB1",
     "location": "Zürich",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "ICS-ICS"
+    ]
   },
   "TSM_SecIndOpT_ZH": {
     "title": "Security of Industrial Operational Technology (Zürich)",
@@ -1177,7 +2317,12 @@
     "TimeBlock": "TB2",
     "location": "Zürich",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "ICS-ICS"
+    ]
   },
   "TSM_AdvNetSec_ZH": {
     "title": "Advanced Network Security (Zürich)",
@@ -1187,7 +2332,12 @@
     "TimeBlock": "TB2",
     "location": "Zürich",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "ICS-ICS"
+    ]
   },
   "CSI_2": {
     "title": "Cyber Security Immersion - Part 2",
@@ -1197,7 +2347,12 @@
     "TimeBlock": "TB2+TB3+TB4",
     "location": "Lausanne",
     "credits": 9,
-    "description": ""
+    "description": "",
+    "C": [
+      "ICS-ICS"
+    ],
+    "O": [],
+    "R": []
   },
   "FTP_Physics": {
     "title": "The Physics of Materials and Engineering Devices",
@@ -1207,7 +2362,17 @@
     "TimeBlock": "TB2",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "ME-ME"
+    ],
+    "R": [
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ]
   },
   "MA_AppMic": {
     "title": "Applied MicroNanotechnologies",
@@ -1217,7 +2382,17 @@
     "TimeBlock": "TB1",
     "location": "Genève",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "ME-ME",
+      "Mic-B",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "R": [
+      "Mic-D"
+    ]
   },
   "TSM_EcoSysSus": {
     "title": "Ecodesign of sustainable and efficient mechanical systems",
@@ -1227,7 +2402,17 @@
     "TimeBlock": "TB2",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "R": [
+      "ME-ME"
+    ]
   },
   "MA_SOCI": {
     "title": "Systèmes optiques de contrôle industriel",
@@ -1237,7 +2422,17 @@
     "TimeBlock": "TB1",
     "location": "Neuchâtel",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "ME-ME",
+      "Mic-B",
+      "Mic-D"
+    ],
+    "R": [
+      "Mic-H",
+      "Mic-P"
+    ]
   },
   "MA_MSM": {
     "title": "Méthodologie de sélection des matériaux",
@@ -1247,7 +2442,17 @@
     "TimeBlock": "TB2",
     "location": "Neuchâtel",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "ME-ME"
+    ],
+    "R": [
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ]
   },
   "MA_TTS": {
     "title": "Technologie des Traitements de Surface",
@@ -1257,7 +2462,17 @@
     "TimeBlock": "TB1",
     "location": "Neuchâtel",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "ME-ME",
+      "Mic-B",
+      "Mic-P"
+    ],
+    "R": [
+      "Mic-D",
+      "Mic-H"
+    ]
   },
   "MA_EMR": {
     "title": "Efficient Mechanical Redesign",
@@ -1267,7 +2482,17 @@
     "TimeBlock": "TB2",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "R": [
+      "ME-ME"
+    ]
   },
   "TSM_MatSurf": {
     "title": "Materials and Surfaces",
@@ -1277,7 +2502,17 @@
     "TimeBlock": "TB3",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "R": [
+      "ME-ME"
+    ]
   },
   "MA_VibrAcoust": {
     "title": "Applied Vibration and Acoustics",
@@ -1287,7 +2522,17 @@
     "TimeBlock": "TB1",
     "location": "Genève",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "R": [
+      "ME-ME"
+    ]
   },
   "MA_GPL": {
     "title": "Gestion de production et logistique",
@@ -1297,7 +2542,17 @@
     "TimeBlock": "TB1",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "ME-ME"
+    ],
+    "R": [
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ]
   },
   "MA_AMTO": {
     "title": "Additive Manufacturing; Topology Optimisation",
@@ -1307,7 +2562,16 @@
     "TimeBlock": "TB1",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "ME-ME",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ]
   },
   "MA_PAMPA": {
     "title": "Powder based Advanced Materials Processing and Applications",
@@ -1317,7 +2581,17 @@
     "TimeBlock": "TB2",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "R": [
+      "ME-ME"
+    ]
   },
   "TSM_AdvMech": {
     "title": "Advanced Structural Mechanics",
@@ -1327,7 +2601,12 @@
     "TimeBlock": "TB3",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "ME-ME"
+    ]
   },
   "MA_AdvFemNL": {
     "title": "Advanced and Nonlinear FEM Simulation",
@@ -1337,7 +2616,14 @@
     "TimeBlock": "TB2",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "Mic-H"
+    ],
+    "R": [
+      "ME-ME"
+    ]
   },
   "MA_BioCI": {
     "title": "Capteurs et instrumentation en bio-ingénierie",
@@ -1347,7 +2633,16 @@
     "TimeBlock": "TB1",
     "location": "Genève",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "ME-ME",
+      "Mic-D",
+      "Mic-H"
+    ],
+    "R": [
+      "Mic-B"
+    ]
   },
   "TSM_Qcheck": {
     "title": "Quality Check and Inspection",
@@ -1357,7 +2652,15 @@
     "TimeBlock": "TB3",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ]
   },
   "TSM_MTProdDes": {
     "title": "New Design Methodologies for Microengineering Products",
@@ -1367,7 +2670,15 @@
     "TimeBlock": "TB3",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ]
   },
   "TSM_MicroFab": {
     "title": "Micromachining and Fabrication Processes in Microengineering",
@@ -1377,7 +2688,15 @@
     "TimeBlock": "TB3",
     "location": "Lausanne",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [],
+    "R": [
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ]
   },
   "MA_AdvRobot": {
     "title": "Robotique avancée",
@@ -1387,6 +2706,15 @@
     "TimeBlock": "TB2",
     "location": "Genève",
     "credits": 3,
-    "description": ""
+    "description": "",
+    "C": [],
+    "O": [
+      "Mic-D"
+    ],
+    "R": [
+      "Mic-B",
+      "Mic-H",
+      "Mic-P"
+    ]
   }
 }
