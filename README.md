@@ -27,14 +27,14 @@ This tool is designed for **HES-SO Master's students** in the following majors.
 
 | Master | Specializations |
 |--------|----------------|
-| Civil Engineering (CE) | Structures - Geotechnical - Hydraulics - Transport |
-| Computer Science (CS) | Software Engineering - Embedded Systems - Cybersecurity - Communication Systems |
+| Civil Engineering (CE) | Structures - Geotechnical Engineering - Hydraulics - Transport and Mobility |
+| Computer Science (CS) | Software Engineering - Embedded Systems - Communication Systems |
 | Data Science (DS) | — |
 | Electrical Engineering (ElE) | Signal - Power |
 | Energy and Environment (EnEn) | — |
 | Information and Cyber Security (ICS) | — |
 | Mechanical Engineering (ME) | — |
-| Microengineering (Mic) | Biomedical - Watchmaking - Microsystems - Production |
+| Microengineering (Mic) | Biomedical Engineering - Watchmaking Engineering - Development of Microsystems - Microtechnology Production and Manufacturing |
 
 
 ## What can you do? 🚀

@@ -1,6 +1,7 @@
 import { Layout } from './components/Layout';
 import { MasterSpecializationSelector } from './components/MasterSpecializationSelector';
 import { ImportDialog } from './components/ImportDialog';
+import { NewCatalogNotice } from './components/NewCatalogNotice';
 import { useCourseStore } from './store/useCourseStore';
 import type { ScheduleExport } from './store/useCourseStore';
 import { initializePrograms, getProgramById, getProgramByIdAndCatalog } from './data/programs';
@@ -8,10 +9,13 @@ import { getCourseIndex } from './data/dataLoader';
 import { getShareHashParam, decodeSharePayload, clearShareHash } from './utils/urlShare';
 import { useEffect, useState } from 'react';
 
+const CATALOG_NOTICE_KEY = 'catalog-notice-dismissed';
+
 function App() {
   const { refreshData, currentProgramId, importSchedule, catalogFiles, setCatalogFiles } = useCourseStore();
   const [isInitialized, setIsInitialized] = useState(false);
   const [shareImportData, setShareImportData] = useState<ScheduleExport | null>(null);
+  const [newCatalogNotice, setNewCatalogNotice] = useState<{ defaultFile: string; label: string } | null>(null);
 
   // Serialize catalogFiles for useEffect dependency (avoid object reference instability)
   const catalogFilesKey = JSON.stringify(catalogFiles);
@@ -82,6 +86,15 @@ function App() {
         clearShareHash();
       }
 
+      // Show notice if a newer default catalog exists and user hasn't been told yet
+      const userFiles = Object.values(catalogFiles) as string[];
+      const allOnDefault = userFiles.every(f => f === index.default);
+      const alreadyDismissed = localStorage.getItem(CATALOG_NOTICE_KEY) === index.default;
+      if (!allOnDefault && !alreadyDismissed) {
+        const entry = index.years.find(y => y.file === index.default);
+        if (entry) setNewCatalogNotice({ defaultFile: index.default, label: entry.label });
+      }
+
       setIsInitialized(true);
     };
     init();
@@ -96,6 +109,20 @@ function App() {
       </div>
     </div>;
   }
+
+  const handleCatalogSwitch = async () => {
+    if (!newCatalogNotice) return;
+    localStorage.setItem(CATALOG_NOTICE_KEY, newCatalogNotice.defaultFile);
+    const all = { '1': newCatalogNotice.defaultFile, '2': newCatalogNotice.defaultFile, '3': newCatalogNotice.defaultFile, '4': newCatalogNotice.defaultFile };
+    await setCatalogFiles(all);
+    setNewCatalogNotice(null);
+  };
+
+  const handleCatalogDismiss = () => {
+    if (!newCatalogNotice) return;
+    localStorage.setItem(CATALOG_NOTICE_KEY, newCatalogNotice.defaultFile);
+    setNewCatalogNotice(null);
+  };
 
   const handleShareImportConfirm = (sems: ('1'|'2'|'3'|'4')[]) => {
     if (!shareImportData) return;
@@ -115,6 +142,13 @@ function App() {
             onClose={() => setShareImportData(null)}
           />
         )}
+        {newCatalogNotice && (
+          <NewCatalogNotice
+            newLabel={newCatalogNotice.label}
+            onSwitch={handleCatalogSwitch}
+            onDismiss={handleCatalogDismiss}
+          />
+        )}
       </>
     );
   }
@@ -127,6 +161,13 @@ function App() {
           data={shareImportData}
           onConfirm={handleShareImportConfirm}
           onClose={() => setShareImportData(null)}
+        />
+      )}
+      {newCatalogNotice && (
+        <NewCatalogNotice
+          newLabel={newCatalogNotice.label}
+          onSwitch={handleCatalogSwitch}
+          onDismiss={handleCatalogDismiss}
         />
       )}
     </>
