@@ -23,7 +23,13 @@
       "Mic-H",
       "Mic-P"
     ],
-    "R": ["CS-C", "CS-E", "CS-S", "DS-DS", "ICS-ICS"]
+    "R": [
+      "CS-C",
+      "CS-E",
+      "CS-S",
+      "DS-DS",
+      "ICS-ICS"
+    ]
   },
   "CM_AdvProjMgmt": {
     "title": "Advanced project management",
@@ -47,7 +53,15 @@
       "ICS-ICS",
       "ME-ME"
     ],
-    "R": ["ElE-P", "ElE-S", "EnEn-EnEn", "Mic-B", "Mic-D", "Mic-H", "Mic-P"]
+    "R": [
+      "ElE-P",
+      "ElE-S",
+      "EnEn-EnEn",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ]
   },
   "CM_ComplPro_B_ZH": {
     "title": "Management of Complex Processes (commun avec ZH)",
@@ -75,7 +89,11 @@
       "Mic-H",
       "Mic-P"
     ],
-    "R": ["ElE-P", "ElE-S", "ME-ME"]
+    "R": [
+      "ElE-P",
+      "ElE-S",
+      "ME-ME"
+    ]
   },
   "CM_Entrepr": {
     "title": "Corporate management and entrepreneurship",
@@ -103,7 +121,11 @@
       "Mic-H",
       "Mic-P"
     ],
-    "R": ["CS-C", "CS-E", "CS-S"]
+    "R": [
+      "CS-C",
+      "CS-E",
+      "CS-S"
+    ]
   },
   "CM_InnChang": {
     "title": "Innovations and change management",
@@ -127,7 +149,15 @@
       "Mic-H",
       "Mic-P"
     ],
-    "R": ["CE-G", "CE-H", "CE-S", "CE-T", "DS-DS", "ElE-P", "ElE-S"]
+    "R": [
+      "CE-G",
+      "CE-H",
+      "CE-S",
+      "CE-T",
+      "DS-DS",
+      "ElE-P",
+      "ElE-S"
+    ]
   },
   "CM_PrivLaw": {
     "title": "Privacy and Law",
@@ -152,7 +182,14 @@
       "Mic-H",
       "Mic-P"
     ],
-    "R": ["CE-G", "CE-H", "CE-S", "CE-T", "DS-DS", "ICS-ICS"]
+    "R": [
+      "CE-G",
+      "CE-H",
+      "CE-S",
+      "CE-T",
+      "DS-DS",
+      "ICS-ICS"
+    ]
   },
   "CM_QRM": {
     "title": "Quality and Risk Management",
@@ -208,7 +245,15 @@
       "ICS-ICS",
       "ME-ME"
     ],
-    "R": ["ElE-P", "ElE-S", "EnEn-EnEn", "Mic-B", "Mic-D", "Mic-H", "Mic-P"]
+    "R": [
+      "ElE-P",
+      "ElE-S",
+      "EnEn-EnEn",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ]
   },
   "CSI_1": {
     "title": "Cyber Security Immersion - Part 1",
@@ -219,7 +264,9 @@
     "location": "Lausanne",
     "credits": 9,
     "description": "",
-    "C": ["ICS-ICS"],
+    "C": [
+      "ICS-ICS"
+    ],
     "O": [],
     "R": []
   },
@@ -232,7 +279,9 @@
     "location": "Lausanne",
     "credits": 9,
     "description": "",
-    "C": ["ICS-ICS"],
+    "C": [
+      "ICS-ICS"
+    ],
     "O": [],
     "R": []
   },
@@ -246,8 +295,15 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["DS-DS"],
-    "R": ["CS-C", "CS-E", "CS-S", "ICS-ICS"]
+    "O": [
+      "DS-DS"
+    ],
+    "R": [
+      "CS-C",
+      "CS-E",
+      "CS-S",
+      "ICS-ICS"
+    ]
   },
   "FTP_AppStat": {
     "title": "Applied Statistics and Data Analysis",
@@ -271,7 +327,9 @@
       "Mic-H",
       "Mic-P"
     ],
-    "R": ["DS-DS"]
+    "R": [
+      "DS-DS"
+    ]
   },
   "FTP_CompAlg": {
     "title": "Numerical Analysis and Computer Algebra",
@@ -283,8 +341,17 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CE-G", "CE-H", "CE-S", "ElE-S", "EnEn-EnEn"],
-    "R": ["DS-DS", "ME-ME"]
+    "O": [
+      "CE-G",
+      "CE-H",
+      "CE-S",
+      "ElE-S",
+      "EnEn-EnEn"
+    ],
+    "R": [
+      "DS-DS",
+      "ME-ME"
+    ]
   },
   "FTP_CryptCod": {
     "title": "Cryptography and Coding Theory",
@@ -296,8 +363,14 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-C", "CS-E", "CS-S"],
-    "R": ["ICS-ICS"]
+    "O": [
+      "CS-C",
+      "CS-E",
+      "CS-S"
+    ],
+    "R": [
+      "ICS-ICS"
+    ]
   },
   "FTP_DeLearn": {
     "title": "Deep Learning",
@@ -309,8 +382,15 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-C", "CS-E", "CS-S", "ICS-ICS"],
-    "R": ["DS-DS"]
+    "O": [
+      "CS-C",
+      "CS-E",
+      "CS-S",
+      "ICS-ICS"
+    ],
+    "R": [
+      "DS-DS"
+    ]
   },
   "FTP_DigImPro": {
     "title": "Digital image Processing",
@@ -322,8 +402,19 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-C", "CS-E", "CS-S", "DS-DS", "ElE-S"],
-    "R": ["Mic-B", "Mic-D", "Mic-H", "Mic-P"]
+    "O": [
+      "CS-C",
+      "CS-E",
+      "CS-S",
+      "DS-DS",
+      "ElE-S"
+    ],
+    "R": [
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ]
   },
   "FTP_Energy": {
     "title": "Energy: Production, Consumption and Management",
@@ -361,7 +452,13 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["CE-G", "CE-H", "CE-S", "CE-T", "EnEn-EnEn"]
+    "R": [
+      "CE-G",
+      "CE-H",
+      "CE-S",
+      "CE-T",
+      "EnEn-EnEn"
+    ]
   },
   "FTP_Life_ZH": {
     "title": "Lifecycle Management of Infrastructures",
@@ -373,7 +470,12 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CE-G", "CE-H", "CE-S", "CE-T"],
+    "O": [
+      "CE-G",
+      "CE-H",
+      "CE-S",
+      "CE-T"
+    ],
     "R": []
   },
   "FTP_MachLe": {
@@ -386,8 +488,22 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-C", "CS-E", "CS-S", "ME-ME", "Mic-B", "Mic-D", "Mic-H", "Mic-P"],
-    "R": ["DS-DS", "ElE-P", "ElE-S", "ICS-ICS"]
+    "O": [
+      "CS-C",
+      "CS-E",
+      "CS-S",
+      "ME-ME",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "R": [
+      "DS-DS",
+      "ElE-P",
+      "ElE-S",
+      "ICS-ICS"
+    ]
   },
   "FTP_ModSim": {
     "title": "Modelling simulation and optimisation",
@@ -399,8 +515,14 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["ME-ME"],
-    "R": ["ElE-P", "ElE-S", "EnEn-EnEn"]
+    "O": [
+      "ME-ME"
+    ],
+    "R": [
+      "ElE-P",
+      "ElE-S",
+      "EnEn-EnEn"
+    ]
   },
   "FTP_Multiphy": {
     "title": "Multiphysics",
@@ -412,8 +534,17 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["ME-ME"],
-    "R": ["ElE-P", "ElE-S", "Mic-B", "Mic-D", "Mic-H", "Mic-P"]
+    "O": [
+      "ME-ME"
+    ],
+    "R": [
+      "ElE-P",
+      "ElE-S",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ]
   },
   "FTP_Optimiz": {
     "title": "Optimization",
@@ -425,8 +556,22 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["ME-ME", "Mic-B", "Mic-D", "Mic-H", "Mic-P"],
-    "R": ["CS-C", "CS-E", "CS-S", "DS-DS", "ElE-P", "ElE-S", "ICS-ICS"]
+    "O": [
+      "ME-ME",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "R": [
+      "CS-C",
+      "CS-E",
+      "CS-S",
+      "DS-DS",
+      "ElE-P",
+      "ElE-S",
+      "ICS-ICS"
+    ]
   },
   "FTP_OrdDiff": {
     "title": "Ordinary Differential Equations and Dynamical Systems",
@@ -438,8 +583,16 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CE-G", "CE-H", "CE-S", "ElE-P", "ElE-S"],
-    "R": ["ME-ME"]
+    "O": [
+      "CE-G",
+      "CE-H",
+      "CE-S",
+      "ElE-P",
+      "ElE-S"
+    ],
+    "R": [
+      "ME-ME"
+    ]
   },
   "FTP_PartDiff": {
     "title": "Partial differential equations in engineering applications",
@@ -451,8 +604,14 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["ME-ME"],
-    "R": ["ElE-P", "ElE-S", "EnEn-EnEn"]
+    "O": [
+      "ME-ME"
+    ],
+    "R": [
+      "ElE-P",
+      "ElE-S",
+      "EnEn-EnEn"
+    ]
   },
   "FTP_Physics": {
     "title": "The Physics of Materials and Engineering Devices",
@@ -464,8 +623,15 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["ME-ME"],
-    "R": ["Mic-B", "Mic-D", "Mic-H", "Mic-P"]
+    "O": [
+      "ME-ME"
+    ],
+    "R": [
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ]
   },
   "FTP_SmartMach": {
     "title": "Intelligent and hyperconnected machine",
@@ -477,8 +643,16 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["DS-DS"],
-    "R": ["ME-ME", "Mic-B", "Mic-D", "Mic-H", "Mic-P"]
+    "O": [
+      "DS-DS"
+    ],
+    "R": [
+      "ME-ME",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ]
   },
   "MA_AdMoApp": {
     "title": "Advanced Mobile Applications",
@@ -490,8 +664,15 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-C", "CS-E", "DS-DS", "ICS-ICS"],
-    "R": ["CS-S"]
+    "O": [
+      "CS-C",
+      "CS-E",
+      "DS-DS",
+      "ICS-ICS"
+    ],
+    "R": [
+      "CS-S"
+    ]
   },
   "MA_AdvElDes": {
     "title": "Advanced Electronic Design",
@@ -504,7 +685,9 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["ElE-S"]
+    "R": [
+      "ElE-S"
+    ]
   },
   "MA_AdvFemNL": {
     "title": "Advanced and Nonlinear FEM Simulation",
@@ -516,8 +699,12 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["Mic-H"],
-    "R": ["ME-ME"]
+    "O": [
+      "Mic-H"
+    ],
+    "R": [
+      "ME-ME"
+    ]
   },
   "MA_AdvProg": {
     "title": "Advanced Programming Paradigm",
@@ -529,8 +716,13 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-C", "CS-E"],
-    "R": ["CS-S"]
+    "O": [
+      "CS-C",
+      "CS-E"
+    ],
+    "R": [
+      "CS-S"
+    ]
   },
   "MA_AdvRobot": {
     "title": "Robotique avancée",
@@ -542,11 +734,18 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["ElE-P", "Mic-D"],
-    "R": ["Mic-B", "Mic-H", "Mic-P"]
+    "O": [
+      "ElE-P",
+      "Mic-D"
+    ],
+    "R": [
+      "Mic-B",
+      "Mic-H",
+      "Mic-P"
+    ]
   },
   "MA_AML": {
-    "title": "",
+    "title": "Applied Machine Learning for Real World Sensor Data",
     "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=8526",
     "Semester": "1",
     "WeekDay": "Wednesday",
@@ -555,8 +754,15 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-C", "CS-E", "CS-S", "ICS-ICS"],
-    "R": ["DS-DS"]
+    "O": [
+      "CS-C",
+      "CS-E",
+      "CS-S",
+      "ICS-ICS"
+    ],
+    "R": [
+      "DS-DS"
+    ]
   },
   "MA_AMTO": {
     "title": "Additive Manufacturing; Topology Optimisation",
@@ -569,7 +775,13 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["ME-ME", "Mic-B", "Mic-D", "Mic-H", "Mic-P"]
+    "R": [
+      "ME-ME",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ]
   },
   "MA_AppMic": {
     "title": "Applied MicroNanotechnologies",
@@ -581,8 +793,15 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["ME-ME", "Mic-B", "Mic-H", "Mic-P"],
-    "R": ["Mic-D"]
+    "O": [
+      "ME-ME",
+      "Mic-B",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "R": [
+      "Mic-D"
+    ]
   },
   "MA_ASAD": {
     "title": "Advanced Software Architecture and Design",
@@ -594,8 +813,15 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-C", "CS-E", "DS-DS", "ICS-ICS"],
-    "R": ["CS-S"]
+    "O": [
+      "CS-C",
+      "CS-E",
+      "DS-DS",
+      "ICS-ICS"
+    ],
+    "R": [
+      "CS-S"
+    ]
   },
   "MA_AUI": {
     "title": "Advanced User Interface",
@@ -607,8 +833,14 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-C", "CS-E", "DS-DS"],
-    "R": ["CS-S"]
+    "O": [
+      "CS-C",
+      "CS-E",
+      "DS-DS"
+    ],
+    "R": [
+      "CS-S"
+    ]
   },
   "MA_BDA": {
     "title": "Big Data Analytics",
@@ -620,8 +852,15 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-E", "EnEn-EnEn"],
-    "R": ["CS-C", "CS-S", "DS-DS"]
+    "O": [
+      "CS-E",
+      "EnEn-EnEn"
+    ],
+    "R": [
+      "CS-C",
+      "CS-S",
+      "DS-DS"
+    ]
   },
   "MA_BioCI": {
     "title": "Capteurs et instrumentation en bio-ingénierie",
@@ -633,8 +872,14 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["ME-ME", "Mic-D", "Mic-H"],
-    "R": ["Mic-B"]
+    "O": [
+      "ME-ME",
+      "Mic-D",
+      "Mic-H"
+    ],
+    "R": [
+      "Mic-B"
+    ]
   },
   "MA_CFD": {
     "title": "Computational Fluid Dynamics",
@@ -646,8 +891,12 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["EnEn-EnEn"],
-    "R": ["ME-ME"]
+    "O": [
+      "EnEn-EnEn"
+    ],
+    "R": [
+      "ME-ME"
+    ]
   },
   "MA_CSEL1": {
     "title": "Construction de systèmes embarqués sous Linux",
@@ -659,8 +908,16 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-C", "CS-S", "DS-DS", "EnEn-EnEn", "ICS-ICS"],
-    "R": ["CS-E"]
+    "O": [
+      "CS-C",
+      "CS-S",
+      "DS-DS",
+      "EnEn-EnEn",
+      "ICS-ICS"
+    ],
+    "R": [
+      "CS-E"
+    ]
   },
   "MA_DeSEm": {
     "title": "Design of communicative embedded systems",
@@ -672,8 +929,13 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-E", "ICS-ICS"],
-    "R": ["ElE-S"]
+    "O": [
+      "CS-E",
+      "ICS-ICS"
+    ],
+    "R": [
+      "ElE-S"
+    ]
   },
   "MA_ElPowSys": {
     "title": "Electric Power Systems : Design and Operation",
@@ -685,8 +947,12 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["EnEn-EnEn"],
-    "R": ["ElE-P"]
+    "O": [
+      "EnEn-EnEn"
+    ],
+    "R": [
+      "ElE-P"
+    ]
   },
   "MA_EmbReal": {
     "title": "Embedded real-time software",
@@ -698,8 +964,14 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-C", "CS-S"],
-    "R": ["CS-E", "ElE-S"]
+    "O": [
+      "CS-C",
+      "CS-S"
+    ],
+    "R": [
+      "CS-E",
+      "ElE-S"
+    ]
   },
   "MA_EMR": {
     "title": "Efficient Mechanical Redesign",
@@ -711,8 +983,15 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["Mic-B", "Mic-D", "Mic-H", "Mic-P"],
-    "R": ["ME-ME"]
+    "O": [
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "R": [
+      "ME-ME"
+    ]
   },
   "MA_GDPC": {
     "title": "Gestion et Droit des Projets de la Construction",
@@ -724,8 +1003,15 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["EnEn-EnEn"],
-    "R": ["CE-G", "CE-H", "CE-S", "CE-T"]
+    "O": [
+      "EnEn-EnEn"
+    ],
+    "R": [
+      "CE-G",
+      "CE-H",
+      "CE-S",
+      "CE-T"
+    ]
   },
   "MA_GesSec": {
     "title": "Identité et confiance&nbsp;: gestion sécurisée",
@@ -737,7 +1023,12 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-C", "CS-E", "CS-S", "DS-DS"],
+    "O": [
+      "CS-C",
+      "CS-E",
+      "CS-S",
+      "DS-DS"
+    ],
     "R": []
   },
   "MA_GPL": {
@@ -750,8 +1041,15 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["ME-ME"],
-    "R": ["Mic-B", "Mic-D", "Mic-H", "Mic-P"]
+    "O": [
+      "ME-ME"
+    ],
+    "R": [
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ]
   },
   "MA_GPU": {
     "title": "GPU, IA and Robotics",
@@ -763,8 +1061,14 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-S"],
-    "R": ["CS-C", "CS-E", "DS-DS"]
+    "O": [
+      "CS-S"
+    ],
+    "R": [
+      "CS-C",
+      "CS-E",
+      "DS-DS"
+    ]
   },
   "MA_GT": {
     "title": "Games Technologies",
@@ -776,8 +1080,14 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-C", "CS-E", "DS-DS"],
-    "R": ["CS-S"]
+    "O": [
+      "CS-C",
+      "CS-E",
+      "DS-DS"
+    ],
+    "R": [
+      "CS-S"
+    ]
   },
   "MA_HiVoEn": {
     "title": "High Voltage Engineering",
@@ -789,8 +1099,12 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["EnEn-EnEn"],
-    "R": ["ElE-P"]
+    "O": [
+      "EnEn-EnEn"
+    ],
+    "R": [
+      "ElE-P"
+    ]
   },
   "MA_HPQC": {
     "title": "High Performance and Quantum Computing",
@@ -802,8 +1116,14 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-E", "DS-DS"],
-    "R": ["CS-C", "CS-S"]
+    "O": [
+      "CS-E",
+      "DS-DS"
+    ],
+    "R": [
+      "CS-C",
+      "CS-S"
+    ]
   },
   "MA_HYBRD": {
     "title": "Systèmes hybrides",
@@ -815,8 +1135,17 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["EnEn-EnEn", "ME-ME", "Mic-B", "Mic-D", "Mic-H", "Mic-P"],
-    "R": ["ElE-P"]
+    "O": [
+      "EnEn-EnEn",
+      "ME-ME",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "R": [
+      "ElE-P"
+    ]
   },
   "MA_HYDR": {
     "title": "Hydraulique",
@@ -828,8 +1157,12 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["ME-ME"],
-    "R": ["EnEn-EnEn"]
+    "O": [
+      "ME-ME"
+    ],
+    "R": [
+      "EnEn-EnEn"
+    ]
   },
   "MA_ICR": {
     "title": "Industrial Cryptography",
@@ -841,8 +1174,14 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-C", "CS-E", "CS-S"],
-    "R": ["ICS-ICS"]
+    "O": [
+      "CS-C",
+      "CS-E",
+      "CS-S"
+    ],
+    "R": [
+      "ICS-ICS"
+    ]
   },
   "MA_INTE1": {
     "title": "Optimisation énergétique",
@@ -854,8 +1193,17 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["ElE-P", "ME-ME", "Mic-B", "Mic-D", "Mic-H", "Mic-P"],
-    "R": ["EnEn-EnEn"]
+    "O": [
+      "ElE-P",
+      "ME-ME",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "R": [
+      "EnEn-EnEn"
+    ]
   },
   "MA_IPR": {
     "title": "Design du routage IP avancé",
@@ -867,8 +1215,13 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-E", "CS-S"],
-    "R": ["CS-C"]
+    "O": [
+      "CS-E",
+      "CS-S"
+    ],
+    "R": [
+      "CS-C"
+    ]
   },
   "MA_ITProMan": {
     "title": "Management des projets IT",
@@ -880,8 +1233,14 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-C", "CS-E", "DS-DS"],
-    "R": ["CS-S"]
+    "O": [
+      "CS-C",
+      "CS-E",
+      "DS-DS"
+    ],
+    "R": [
+      "CS-S"
+    ]
   },
   "MA_LPSC": {
     "title": "Logiques programmables pour systèmes complexes et performants.",
@@ -893,21 +1252,15 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-C", "CS-S", "DS-DS"],
-    "R": ["CS-E", "ElE-S"]
-  },
-  "MA_MSM": {
-    "title": "Méthodologie de sélection des matériaux",
-    "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=1314",
-    "Semester": "1",
-    "WeekDay": "Friday",
-    "TimeBlock": "TB2",
-    "location": "Neuchâtel",
-    "credits": 3,
-    "description": "",
-    "C": [],
-    "O": ["ME-ME"],
-    "R": ["Mic-B", "Mic-D", "Mic-H", "Mic-P"]
+    "O": [
+      "CS-C",
+      "CS-S",
+      "DS-DS"
+    ],
+    "R": [
+      "CS-E",
+      "ElE-S"
+    ]
   },
   "MA_NSA": {
     "title": "Network Security and Architecture",
@@ -919,8 +1272,15 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-E", "CS-S", "DS-DS"],
-    "R": ["CS-C", "ICS-ICS"]
+    "O": [
+      "CS-E",
+      "CS-S",
+      "DS-DS"
+    ],
+    "R": [
+      "CS-C",
+      "ICS-ICS"
+    ]
   },
   "MA_NTDA": {
     "title": "New technologies in Data Analysis - Applied ML",
@@ -932,8 +1292,14 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-C", "CS-E", "CS-S"],
-    "R": ["DS-DS"]
+    "O": [
+      "CS-C",
+      "CS-E",
+      "CS-S"
+    ],
+    "R": [
+      "DS-DS"
+    ]
   },
   "MA_NTDE": {
     "title": "New technologies in Data Engineering",
@@ -945,8 +1311,14 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-C", "CS-E", "CS-S"],
-    "R": ["DS-DS"]
+    "O": [
+      "CS-C",
+      "CS-E",
+      "CS-S"
+    ],
+    "R": [
+      "DS-DS"
+    ]
   },
   "MA_Nucl": {
     "title": "Energie nucléaire",
@@ -958,7 +1330,15 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["ElE-P", "EnEn-EnEn", "ME-ME", "Mic-B", "Mic-D", "Mic-H", "Mic-P"],
+    "O": [
+      "ElE-P",
+      "EnEn-EnEn",
+      "ME-ME",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ],
     "R": []
   },
   "MA_PAMPA": {
@@ -971,8 +1351,15 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["Mic-B", "Mic-D", "Mic-H", "Mic-P"],
-    "R": ["ME-ME"]
+    "O": [
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "R": [
+      "ME-ME"
+    ]
   },
   "MA_PCM": {
     "title": "Programmation concurrente multicore",
@@ -984,11 +1371,17 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-C", "ICS-ICS"],
-    "R": ["CS-E", "CS-S"]
+    "O": [
+      "CS-C",
+      "ICS-ICS"
+    ],
+    "R": [
+      "CS-E",
+      "CS-S"
+    ]
   },
   "MA_PEC": {
-    "title": "",
+    "title": "Power Electronics Control",
     "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=8365",
     "Semester": "1",
     "WeekDay": "Friday",
@@ -997,8 +1390,12 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["EnEn-EnEn"],
-    "R": ["ElE-P"]
+    "O": [
+      "EnEn-EnEn"
+    ],
+    "R": [
+      "ElE-P"
+    ]
   },
   "MA_PGE": {
     "title": "Poly-génération d'Energie",
@@ -1010,8 +1407,13 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["ElE-P", "ME-ME"],
-    "R": ["EnEn-EnEn"]
+    "O": [
+      "ElE-P",
+      "ME-ME"
+    ],
+    "R": [
+      "EnEn-EnEn"
+    ]
   },
   "MA_PLM": {
     "title": "&nbsp; \n Product Lifecycle Management",
@@ -1023,8 +1425,16 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["ElE-P", "Mic-B", "Mic-D", "Mic-H", "Mic-P"],
-    "R": ["ME-ME"]
+    "O": [
+      "ElE-P",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "R": [
+      "ME-ME"
+    ]
   },
   "MA_REA": {
     "title": "Réseaux électriques avancés",
@@ -1036,8 +1446,12 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["EnEn-EnEn"],
-    "R": ["ElE-P"]
+    "O": [
+      "EnEn-EnEn"
+    ],
+    "R": [
+      "ElE-P"
+    ]
   },
   "MA_SeS": {
     "title": "Secure Embedded System",
@@ -1049,8 +1463,15 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-C", "CS-S", "ElE-S"],
-    "R": ["CS-E", "ICS-ICS"]
+    "O": [
+      "CS-C",
+      "CS-S",
+      "ElE-S"
+    ],
+    "R": [
+      "CS-E",
+      "ICS-ICS"
+    ]
   },
   "MA_SIMI": {
     "title": "Simulation multiphysique en ingénierie",
@@ -1062,8 +1483,19 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["DS-DS", "ElE-P", "ElE-S", "EnEn-EnEn", "ME-ME", "Mic-H"],
-    "R": ["Mic-B", "Mic-D", "Mic-P"]
+    "O": [
+      "DS-DS",
+      "ElE-P",
+      "ElE-S",
+      "EnEn-EnEn",
+      "ME-ME",
+      "Mic-H"
+    ],
+    "R": [
+      "Mic-B",
+      "Mic-D",
+      "Mic-P"
+    ]
   },
   "MA_SMART": {
     "title": "Smart Grid",
@@ -1075,8 +1507,12 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["EnEn-EnEn"],
-    "R": ["ElE-P"]
+    "O": [
+      "EnEn-EnEn"
+    ],
+    "R": [
+      "ElE-P"
+    ]
   },
   "MA_SOCI": {
     "title": "Systèmes optiques de contrôle industriel",
@@ -1088,8 +1524,15 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["ME-ME", "Mic-B", "Mic-D"],
-    "R": ["Mic-H", "Mic-P"]
+    "O": [
+      "ME-ME",
+      "Mic-B",
+      "Mic-D"
+    ],
+    "R": [
+      "Mic-H",
+      "Mic-P"
+    ]
   },
   "MA_SOLTH": {
     "title": "Solaire thermique",
@@ -1101,8 +1544,12 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["ME-ME"],
-    "R": ["EnEn-EnEn"]
+    "O": [
+      "ME-ME"
+    ],
+    "R": [
+      "EnEn-EnEn"
+    ]
   },
   "MA_SRE": {
     "title": "Software Reverse Engineering and Protection",
@@ -1114,8 +1561,14 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-C", "CS-E"],
-    "R": ["CS-S", "ICS-ICS"]
+    "O": [
+      "CS-C",
+      "CS-E"
+    ],
+    "R": [
+      "CS-S",
+      "ICS-ICS"
+    ]
   },
   "MA_StatDig": {
     "title": "Statistical digital signal processing and modeling",
@@ -1128,7 +1581,9 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["ElE-S"]
+    "R": [
+      "ElE-S"
+    ]
   },
   "MA_STOCK": {
     "title": "Stockage de l'énergie",
@@ -1140,21 +1595,33 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["ElE-P", "ME-ME"],
-    "R": ["EnEn-EnEn"]
+    "O": [
+      "ElE-P",
+      "ME-ME"
+    ],
+    "R": [
+      "EnEn-EnEn"
+    ]
   },
   "MA_TTS": {
     "title": "Technologie des Traitements de Surface",
     "link": "http://mse.hes-so.ch/public/ma/maToPDF.php?id=1056",
-    "Semester": "2",
-    "WeekDay": "Monday",
+    "Semester": "1",
+    "WeekDay": "Thursday",
     "TimeBlock": "TB1",
     "location": "Neuchâtel",
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["ME-ME", "Mic-B", "Mic-P"],
-    "R": ["Mic-D", "Mic-H"]
+    "O": [
+      "ME-ME",
+      "Mic-B",
+      "Mic-P"
+    ],
+    "R": [
+      "Mic-D",
+      "Mic-H"
+    ]
   },
   "MA_VERB": {
     "title": "Valorisation Energétique de la Biomasse: procédés durables et biocombustibles",
@@ -1166,8 +1633,12 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["ME-ME"],
-    "R": ["EnEn-EnEn"]
+    "O": [
+      "ME-ME"
+    ],
+    "R": [
+      "EnEn-EnEn"
+    ]
   },
   "MA_VI": {
     "title": "Visualisation de l'Information",
@@ -1180,7 +1651,9 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["DS-DS"]
+    "R": [
+      "DS-DS"
+    ]
   },
   "MA_VibrAcoust": {
     "title": "Applied Vibration and Acoustics",
@@ -1192,8 +1665,15 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["Mic-B", "Mic-D", "Mic-H", "Mic-P"],
-    "R": ["ME-ME"]
+    "O": [
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "R": [
+      "ME-ME"
+    ]
   },
   "MA_WEM": {
     "title": "Web Mining",
@@ -1205,8 +1685,14 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-C", "CS-E", "CS-S"],
-    "R": ["DS-DS"]
+    "O": [
+      "CS-C",
+      "CS-E",
+      "CS-S"
+    ],
+    "R": [
+      "DS-DS"
+    ]
   },
   "MAP_Barrages": {
     "title": "Conception des barrages et de leurs ouvrages hydrauliques",
@@ -1219,7 +1705,10 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["CE-G", "CE-H"]
+    "R": [
+      "CE-G",
+      "CE-H"
+    ]
   },
   "MAP_EspacPu": {
     "title": "Conception et aménagement de l'espace public urbain",
@@ -1232,7 +1721,9 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["CE-T"]
+    "R": [
+      "CE-T"
+    ]
   },
   "MAP_HydrAv": {
     "title": "Hydrologie avancée",
@@ -1245,7 +1736,9 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["CE-H"]
+    "R": [
+      "CE-H"
+    ]
   },
   "MAP_Interac": {
     "title": "Interaction sol-structure en terrain meuble",
@@ -1258,7 +1751,10 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["CE-G", "CE-S"]
+    "R": [
+      "CE-G",
+      "CE-S"
+    ]
   },
   "MAP_MobUrb": {
     "title": "Organisation et gestion de la mobilité urbaine",
@@ -1271,7 +1767,9 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["CE-T"]
+    "R": [
+      "CE-T"
+    ]
   },
   "MAP_ModGeo": {
     "title": "Modélisations numériques et physiques en géomécanique",
@@ -1284,7 +1782,9 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["CE-G"]
+    "R": [
+      "CE-G"
+    ]
   },
   "MAP_NumMob": {
     "title": "Outils numériques au service de la mobilité",
@@ -1297,7 +1797,9 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["CE-T"]
+    "R": [
+      "CE-T"
+    ]
   },
   "MAP_Parasis": {
     "title": "Génie parasismique",
@@ -1310,7 +1812,10 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["CE-G", "CE-S"]
+    "R": [
+      "CE-G",
+      "CE-S"
+    ]
   },
   "MAP_Ponts": {
     "title": "Conception des ponts",
@@ -1323,7 +1828,9 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["CE-S"]
+    "R": [
+      "CE-S"
+    ]
   },
   "MAP_Renat": {
     "title": "Renaturation des cours d'eau, rives lacustres; éco-hydraulique",
@@ -1336,7 +1843,9 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["CE-H"]
+    "R": [
+      "CE-H"
+    ]
   },
   "MAP_ResAss": {
     "title": "Réseaux d'assainissement",
@@ -1349,7 +1858,9 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["CE-H"]
+    "R": [
+      "CE-H"
+    ]
   },
   "MAP_SimHydr": {
     "title": "Simulation numérique en hydraulique",
@@ -1362,7 +1873,9 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["CE-H"]
+    "R": [
+      "CE-H"
+    ]
   },
   "MAP_StrBeton": {
     "title": "Structures et constructions avancées 1 (béton)",
@@ -1375,7 +1888,9 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["CE-S"]
+    "R": [
+      "CE-S"
+    ]
   },
   "MAP_StrBois": {
     "title": "Structures et constructions avancées 3 (bois et autres matériaux)",
@@ -1388,7 +1903,9 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["CE-S"]
+    "R": [
+      "CE-S"
+    ]
   },
   "MAP_StrMetal": {
     "title": "Structures et constructions avancées 2 (acier et mixte)",
@@ -1401,7 +1918,9 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["CE-S"]
+    "R": [
+      "CE-S"
+    ]
   },
   "MAP_Trafic": {
     "title": "Gestion du trafic et trafic de chantiers",
@@ -1414,7 +1933,9 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["CE-T"]
+    "R": [
+      "CE-T"
+    ]
   },
   "MAP_TraGeo": {
     "title": "Travaux spéciaux et méthodes de suivi en géotechnique",
@@ -1427,7 +1948,9 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["CE-G"]
+    "R": [
+      "CE-G"
+    ]
   },
   "MAP_TransPu": {
     "title": "Systèmes et offre de transport public",
@@ -1440,7 +1963,9 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["CE-T"]
+    "R": [
+      "CE-T"
+    ]
   },
   "MAP_Tunn": {
     "title": "Tunnels et travaux souterrains",
@@ -1453,7 +1978,9 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["CE-G"]
+    "R": [
+      "CE-G"
+    ]
   },
   "PI_x": {
     "title": "Projet Interdisciplinaire en groupe",
@@ -1491,8 +2018,14 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-E", "CS-S", "ICS-ICS"],
-    "R": ["CS-C"]
+    "O": [
+      "CS-E",
+      "CS-S",
+      "ICS-ICS"
+    ],
+    "R": [
+      "CS-C"
+    ]
   },
   "TSM_AdvContr": {
     "title": "Advanced Control",
@@ -1505,7 +2038,10 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["ElE-P", "ElE-S"]
+    "R": [
+      "ElE-P",
+      "ElE-S"
+    ]
   },
   "TSM_AdvDaBa": {
     "title": "Advanced Database",
@@ -1517,8 +2053,14 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-C", "CS-E", "DS-DS"],
-    "R": ["CS-S"]
+    "O": [
+      "CS-C",
+      "CS-E",
+      "DS-DS"
+    ],
+    "R": [
+      "CS-S"
+    ]
   },
   "TSM_AdvEmbSof": {
     "title": "Advanced Embedded Software",
@@ -1530,8 +2072,15 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-C", "CS-S", "ElE-S", "ICS-ICS"],
-    "R": ["CS-E"]
+    "O": [
+      "CS-C",
+      "CS-S",
+      "ElE-S",
+      "ICS-ICS"
+    ],
+    "R": [
+      "CS-E"
+    ]
   },
   "TSM_AdvMech": {
     "title": "Advanced Structural Mechanics",
@@ -1544,7 +2093,9 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["ME-ME"]
+    "R": [
+      "ME-ME"
+    ]
   },
   "TSM_AdvNetSec_ZH": {
     "title": "Advanced Network Security (Zürich)",
@@ -1557,7 +2108,9 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["ICS-ICS"]
+    "R": [
+      "ICS-ICS"
+    ]
   },
   "TSM_AdvNLP": {
     "title": "Traitement automatique des langues avancé",
@@ -1569,8 +2122,14 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-C", "CS-E", "CS-S"],
-    "R": ["DS-DS"]
+    "O": [
+      "CS-C",
+      "CS-E",
+      "CS-S"
+    ],
+    "R": [
+      "DS-DS"
+    ]
   },
   "TSM_AdvTherm": {
     "title": "Advanced Thermodynamics",
@@ -1582,8 +2141,12 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["ME-ME"],
-    "R": ["EnEn-EnEn"]
+    "O": [
+      "ME-ME"
+    ],
+    "R": [
+      "EnEn-EnEn"
+    ]
   },
   "TSM_AnSeqDa": {
     "title": "Analysis of Sequential Data",
@@ -1595,8 +2158,14 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-C", "CS-E", "CS-S"],
-    "R": ["DS-DS"]
+    "O": [
+      "CS-C",
+      "CS-E",
+      "CS-S"
+    ],
+    "R": [
+      "DS-DS"
+    ]
   },
   "TSM_AppElm": {
     "title": "Applied Electromagnetics",
@@ -1608,8 +2177,13 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["EnEn-EnEn"],
-    "R": ["ElE-P", "ElE-S"]
+    "O": [
+      "EnEn-EnEn"
+    ],
+    "R": [
+      "ElE-P",
+      "ElE-S"
+    ]
   },
   "TSM_BIM": {
     "title": "Building Information Modelling",
@@ -1622,10 +2196,15 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["CE-G", "CE-H", "CE-S", "CE-T"]
+    "R": [
+      "CE-G",
+      "CE-H",
+      "CE-S",
+      "CE-T"
+    ]
   },
   "TSM_BioMedEng_ZH": {
-    "title": "",
+    "title": "Biomedical Engineering",
     "link": "https://moodle.msengineering.ch/report/dbextend/?key=TSM_BioMedEng",
     "Semester": "2",
     "WeekDay": "Thursday",
@@ -1635,7 +2214,9 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["Mic-B"]
+    "R": [
+      "Mic-B"
+    ]
   },
   "TSM_CloudSys": {
     "title": "Cloud Services; Systems",
@@ -1647,8 +2228,14 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-E", "DS-DS"],
-    "R": ["CS-C", "CS-S"]
+    "O": [
+      "CS-E",
+      "DS-DS"
+    ],
+    "R": [
+      "CS-C",
+      "CS-S"
+    ]
   },
   "TSM_CSM": {
     "title": "Computational Structural Mechanics",
@@ -1660,8 +2247,15 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CE-G", "CE-H", "CE-S", "CE-T"],
-    "R": ["ME-ME"]
+    "O": [
+      "CE-G",
+      "CE-H",
+      "CE-S",
+      "CE-T"
+    ],
+    "R": [
+      "ME-ME"
+    ]
   },
   "TSM_CyberSec": {
     "title": "Cyber Security",
@@ -1674,7 +2268,12 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["CS-C", "CS-E", "CS-S", "ICS-ICS"]
+    "R": [
+      "CS-C",
+      "CS-E",
+      "CS-S",
+      "ICS-ICS"
+    ]
   },
   "TSM_CyberSecOp_ZH": {
     "title": "Cyber Security Operations (Zürich)",
@@ -1687,7 +2286,9 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["ICS-ICS"]
+    "R": [
+      "ICS-ICS"
+    ]
   },
   "TSM_DataMgmt": {
     "title": "Data Management",
@@ -1699,8 +2300,16 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CE-H", "CE-T", "CS-C", "CS-E", "CS-S"],
-    "R": ["DS-DS"]
+    "O": [
+      "CE-H",
+      "CE-T",
+      "CS-C",
+      "CS-E",
+      "CS-S"
+    ],
+    "R": [
+      "DS-DS"
+    ]
   },
   "TSM_Dynamics": {
     "title": "Structural Dynamics",
@@ -1712,7 +2321,11 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CE-G", "CE-S", "ME-ME"],
+    "O": [
+      "CE-G",
+      "CE-S",
+      "ME-ME"
+    ],
     "R": []
   },
   "TSM_EcoSysSus": {
@@ -1725,8 +2338,15 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["Mic-B", "Mic-D", "Mic-H", "Mic-P"],
-    "R": ["ME-ME"]
+    "O": [
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "R": [
+      "ME-ME"
+    ]
   },
   "TSM_EmbHardw": {
     "title": "Design of Embedded Hardware and Firmware",
@@ -1738,8 +2358,16 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-C", "CS-S", "ICS-ICS"],
-    "R": ["CS-E", "ElE-P", "ElE-S"]
+    "O": [
+      "CS-C",
+      "CS-S",
+      "ICS-ICS"
+    ],
+    "R": [
+      "CS-E",
+      "ElE-P",
+      "ElE-S"
+    ]
   },
   "TSM_EnReTe": {
     "title": "Environmental Remediation Technologies: soil, groundwater; atmosphere",
@@ -1752,7 +2380,9 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["EnEn-EnEn"]
+    "R": [
+      "EnEn-EnEn"
+    ]
   },
   "TSM_FMechHeat": {
     "title": "Fluid Mechanics and Heat Transfer",
@@ -1765,7 +2395,10 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["EnEn-EnEn", "ME-ME"]
+    "R": [
+      "EnEn-EnEn",
+      "ME-ME"
+    ]
   },
   "TSM_FundEnEn": {
     "title": "Fundamentals of Energy and Environment",
@@ -1777,8 +2410,17 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["ElE-P", "ME-ME", "Mic-B", "Mic-D", "Mic-H", "Mic-P"],
-    "R": ["EnEn-EnEn"]
+    "O": [
+      "ElE-P",
+      "ME-ME",
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "R": [
+      "EnEn-EnEn"
+    ]
   },
   "TSM_MachLeData": {
     "title": "Machine Learning and Data in Operation",
@@ -1790,8 +2432,15 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["CS-C", "CS-E", "CS-S", "ICS-ICS"],
-    "R": ["DS-DS"]
+    "O": [
+      "CS-C",
+      "CS-E",
+      "CS-S",
+      "ICS-ICS"
+    ],
+    "R": [
+      "DS-DS"
+    ]
   },
   "TSM_MaintStruc": {
     "title": "Maintenance des structures porteuses",
@@ -1804,7 +2453,12 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["CE-G", "CE-H", "CE-S", "CE-T"]
+    "R": [
+      "CE-G",
+      "CE-H",
+      "CE-S",
+      "CE-T"
+    ]
   },
   "TSM_MatSurf": {
     "title": "Materials and Surfaces",
@@ -1816,8 +2470,15 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["Mic-B", "Mic-D", "Mic-H", "Mic-P"],
-    "R": ["ME-ME"]
+    "O": [
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ],
+    "R": [
+      "ME-ME"
+    ]
   },
   "TSM_MicroFab": {
     "title": "Micromachining and Fabrication Processes in Microengineering",
@@ -1830,7 +2491,12 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["Mic-B", "Mic-D", "Mic-H", "Mic-P"]
+    "R": [
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ]
   },
   "TSM_MTProdDes": {
     "title": "New Design Methodologies for Microengineering Products",
@@ -1843,7 +2509,12 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["Mic-B", "Mic-D", "Mic-H", "Mic-P"]
+    "R": [
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ]
   },
   "TSM_NatHaz": {
     "title": "Dangers naturels",
@@ -1856,7 +2527,12 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["CE-G", "CE-H", "CE-S", "CE-T"]
+    "R": [
+      "CE-G",
+      "CE-H",
+      "CE-S",
+      "CE-T"
+    ]
   },
   "TSM_PowGrid": {
     "title": "Power Grids: Systems and Devices",
@@ -1868,8 +2544,12 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["ElE-P"],
-    "R": ["EnEn-EnEn"]
+    "O": [
+      "ElE-P"
+    ],
+    "R": [
+      "EnEn-EnEn"
+    ]
   },
   "TSM_Qcheck": {
     "title": "Quality Check and Inspection",
@@ -1882,7 +2562,12 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["Mic-B", "Mic-D", "Mic-H", "Mic-P"]
+    "R": [
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ]
   },
   "TSM_SecIndOpT_ZH": {
     "title": "Security of Industrial Operational Technology (Zürich)",
@@ -1895,7 +2580,9 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["ICS-ICS"]
+    "R": [
+      "ICS-ICS"
+    ]
   },
   "TSM_SignProc": {
     "title": "Signal Processing and Transmission",
@@ -1908,7 +2595,10 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["ElE-P", "ElE-S"]
+    "R": [
+      "ElE-P",
+      "ElE-S"
+    ]
   },
   "TSM_SmartSens": {
     "title": "Smart sensing",
@@ -1920,8 +2610,15 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["ElE-S"],
-    "R": ["Mic-B", "Mic-D", "Mic-H", "Mic-P"]
+    "O": [
+      "ElE-S"
+    ],
+    "R": [
+      "Mic-B",
+      "Mic-D",
+      "Mic-H",
+      "Mic-P"
+    ]
   },
   "TSM_SoftwAs_ZH": {
     "title": "Software Assurance (Zürich)",
@@ -1934,7 +2631,9 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["ICS-ICS"]
+    "R": [
+      "ICS-ICS"
+    ]
   },
   "TSM_SoftwEng": {
     "title": "Software Engineering and Architectures",
@@ -1946,8 +2645,15 @@
     "credits": 3,
     "description": "",
     "C": [],
-    "O": ["DS-DS", "ICS-ICS"],
-    "R": ["CS-C", "CS-E", "CS-S"]
+    "O": [
+      "DS-DS",
+      "ICS-ICS"
+    ],
+    "R": [
+      "CS-C",
+      "CS-E",
+      "CS-S"
+    ]
   },
   "TSM_WWTreat_ZH": {
     "title": "Environmental Technologies: Wastewater Treatment (Zürich)",
@@ -1960,6 +2666,8 @@
     "description": "",
     "C": [],
     "O": [],
-    "R": ["CE-H"]
+    "R": [
+      "CE-H"
+    ]
   }
 }

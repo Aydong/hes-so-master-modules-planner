@@ -7,7 +7,8 @@ const Disclaimer: React.FC = () => (
     <Info className="shrink-0 mt-0.5" size={18} />
     <div className="space-y-2">
       <p className="font-medium">
-        Information updated May 2026 (04.06.2026) based on official HES-SO data.
+        Information updated June 2026 (17.06.2026) based on official HES-SO
+        data.
       </p>
       <p className="text-red-700/80">
         Brasov modules for the ICS - Information and Cybersecurity program are
